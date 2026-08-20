@@ -19,6 +19,7 @@
 ## Completed
 
 - Replaced Lovable placeholder assets with WaterWatch brand logos, favicons, manifest, and alert icons
+- Vercel deployment support added (VERCEL=1 gates cloudflare plugin to non-Vercel builds); lovable-sync merged (89bc2be) and pushed.
 
 ## Next up
 

@@ -41,6 +41,16 @@ VITE_SUPABASE_ANON_KEY=...
 
 `.env` is **never committed** — only `.env.example` is tracked.
 
+## Deployment
+
+- **Cloudflare Workers (primary):** `bunx wrangler deploy` — the Cloudflare Vite
+  plugin is active on every build by default, producing a worker bundle in
+  `dist/server/index.js` with `wrangler.json`.
+- **Vercel:** Builds automatically via `VERCEL=1` (set by Vercel CI). This gates
+  the Cloudflare plugin off, so Vite emits a standard Node.js SSR entry
+  (`dist/server/server.js`) that Vercel's builder can serve. No `vercel.json`
+  required — the TanStack Start SSR handler serves all routes.
+
 ## Context
 
 Self-documents in its `context/` directory (six-file methodology + project.yaml).

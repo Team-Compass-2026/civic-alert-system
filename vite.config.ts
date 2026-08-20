@@ -12,6 +12,9 @@ export default defineConfig(({ command, mode }) => {
   // Cloudflare Workers plugin only on build (produces the worker output);
   // the workerd runtime isn't available for the dev server.
   const useCloudflare = command === "build";
+  // Vercel sets VERCEL=1 automatically during builds — skip the Cloudflare
+  // plugin so Vite emits the standard Node.js SSR bundle instead of a worker.
+  const isVercel = process.env.VERCEL === "1";
 
   return {
     server: {
@@ -27,7 +30,9 @@ export default defineConfig(({ command, mode }) => {
       tailwindcss(),
       mockupPreviewPlugin(),
       tsConfigPaths({ projects: ["./tsconfig.json"] }),
-      ...(useCloudflare ? [cloudflare({ viteEnvironment: { name: "ssr" } })] : []),
+      ...(useCloudflare && !isVercel
+        ? [cloudflare({ viteEnvironment: { name: "ssr" } })]
+        : []),
       tanstackStart(),
       viteReact(),
       ...(mode === "development" ? [componentTagger()] : []),
