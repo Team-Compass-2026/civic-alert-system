@@ -1,21 +1,24 @@
-# Custom design system (TanStack Start)
+# WaterWatch — Lovable Prototype
 
-A deliberately bare [TanStack Start](https://tanstack.com/start) + React starter
-for building a design system from scratch. No CSS framework, no component
-library, no theme tokens — just a router, a blank page, and a plain-CSS reset.
-Bring your own styling approach.
+The **Lovable prototype** of WaterWatch: a community-powered WASH early-warning
+platform. Same product as the main app, built with TanStack Start + Supabase.
 
-## What's (intentionally) not here
+## What's in here
 
-- No Tailwind, no PostCSS, no `components.json`
-- No shadcn/ui or Radix primitives
-- No theme tokens or design system — `src/styles.css` is a minimal reset
+- **Citizen app:** Home · Map · Report · Alerts · Profile
+- **Org dashboard:** `/dashboard` (overall risk, indicators, hotspots) + `/dashboard/$slug` (per-area drill-down)
+- **FAQ:** `/faq`
 
 ## Stack
 
-- TanStack Start + TanStack Router (file-based routing under `src/routes/`)
-- React 19 + TypeScript
-- TanStack Query, Zod, Recharts, date-fns
+- TanStack Start + TanStack Router (file routing under `src/routes/`)
+- React 19 + TypeScript (strict)
+- Vite 8 + Tailwind CSS v4
+- TanStack Query + Zod 3
+- Recharts + date-fns
+- Leaflet / react-leaflet + OpenStreetMap (free, no API key)
+- Supabase JS (Auth + Postgres + RLS + Storage)
+- Cloudflare deployment (Vite plugin + wrangler)
 
 ## Develop
 
@@ -23,3 +26,22 @@ Bring your own styling approach.
 bun install
 bun run dev
 ```
+
+## Environment
+
+Create a local `.env` with your Supabase credentials:
+
+```
+SUPABASE_PROJECT_ID=...
+SUPABASE_PUBLISHABLE_KEY=...
+SUPABASE_URL=...
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+```
+
+`.env` is **never committed** — only `.env.example` is tracked.
+
+## Context
+
+Self-documents in its `context/` directory (six-file methodology + project.yaml).
+Org-level product spec: `Team-Compass-2026/.github` → `context/product-spec.md`.
