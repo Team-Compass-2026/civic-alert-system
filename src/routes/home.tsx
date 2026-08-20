@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   Alert,
   buttonVariants,
@@ -18,7 +18,9 @@ import { ReportCard } from "@/components/civic/ReportCard";
 import { AlertList } from "@/components/civic/AlertList";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
 import { DEFAULT_PREFS, getPrefs, savePrefs } from "@/lib/device";
-import { trendLabel, type RiskComponent } from "@/lib/waterwatch";
+import { OG_IMAGE_URL, trendLabel, type RiskComponent } from "@/lib/waterwatch";
+
+
 
 const TITLE = "Your area's water risk — WaterWatch";
 const DESC =
@@ -31,24 +33,30 @@ export const Route = createFileRoute("/home")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: HomePage,
 });
 
 function HomePage() {
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
-  const [slug, setSlug] = useState(DEFAULT_PREFS.areaSlug);
+  const slug = useId();
+  const [selectedSlug, setSelectedSlug] = useState(DEFAULT_PREFS.areaSlug);
   const [showWhy, setShowWhy] = useState(false);
+  const whyId = useId();
+
 
   useEffect(() => {
-    setSlug(getPrefs().areaSlug);
+    setSelectedSlug(getPrefs().areaSlug);
   }, []);
 
-  const area = areas.data?.find((a) => a.slug === slug) ?? areas.data?.[0];
+  const area = areas.data?.find((a) => a.slug === selectedSlug) ?? areas.data?.[0];
   const nearby = (areas.data ?? []).filter((a) => a.area_id !== area?.area_id);
   const areaReports =
     feed.data?.filter((r) => !area || r.area_id === area.area_id).slice(0, 4) ?? [];
@@ -73,16 +81,16 @@ function HomePage() {
 
           <div className="flex flex-col gap-2">
             <label
-              htmlFor="area-select"
+              htmlFor={slug}
               className="text-sm font-medium text-foreground"
             >
               Change neighborhood
             </label>
             <Select
-              id="area-select"
-              value={slug}
+              id={slug}
+              value={selectedSlug}
               onChange={(e) => {
-                setSlug(e.target.value);
+                setSelectedSlug(e.target.value);
                 savePrefs({ ...getPrefs(), areaSlug: e.target.value });
               }}
             >
@@ -93,6 +101,7 @@ function HomePage() {
               ))}
             </Select>
           </div>
+
 
           {areas.isLoading ? (
             <div className="flex justify-center py-12">
@@ -164,19 +173,34 @@ function HomePage() {
                     type="button"
                     onClick={() => setShowWhy((v) => !v)}
                     aria-expanded={showWhy}
-                    className="flex items-center justify-between gap-3 text-left"
+                    aria-controls={whyId}
+                    className="flex items-center justify-between gap-3 text-left focus-visible:rounded-md focus-visible:outline-none focus-visible:ring focus-visible:ring-ring"
                   >
                     <span className="font-display text-lg font-bold text-foreground">
                       Why this score?
                     </span>
-                    <span className="text-sm text-muted-foreground">
+                    <span
+                      className="flex items-center gap-1 text-sm text-muted-foreground"
+                      aria-hidden="true"
+                    >
                       {showWhy ? "Hide" : "See why"}
+                      <svg
+                        viewBox="0 0 24 24"
+                        className={`size-4 transition-transform duration-200 ${showWhy ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
                     </span>
                   </button>
 
                   {showWhy ? (
-                    <>
-                      <Separator />
+                    <div id={whyId}>
+                      <Separator className="mb-4" />
                       <div className="flex flex-col gap-4">
                         {components.map(([key, component]) => (
                           <SeverityBar
@@ -187,15 +211,16 @@ function HomePage() {
                           />
                         ))}
                       </div>
-                      <Alert variant="warning" title="Local recommendation">
+                      <Alert variant="warning" title="Local recommendation" className="mt-4">
                         Multiple water-quality concerns have been reported near
                         you. Consider using treated or boiled drinking water
                         until the situation is clarified.
                       </Alert>
-                    </>
+                    </div>
                   ) : null}
                 </CardBody>
               </Card>
+
             </>
           ) : null}
 

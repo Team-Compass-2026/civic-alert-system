@@ -20,8 +20,10 @@ import {
   RISK_STYLES,
   TREND_ARROW,
   TREND_TEXT,
+  OG_IMAGE_URL,
   trendDirection,
 } from "@/lib/waterwatch";
+
 
 const TITLE = "Current data — Yangon WASH risk map | WaterWatch";
 const DESC =
@@ -41,8 +43,13 @@ export const Route = createFileRoute("/map")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: MapPage,
 });
 

@@ -13,6 +13,7 @@ export type AlertPrefs = {
   highRisk: boolean;
   verifyRequests: boolean;
   neighborhoodUpdates: boolean;
+  theme: "system" | "light" | "dark";
 };
 
 export const DEFAULT_PREFS: AlertPrefs = {
@@ -20,7 +21,9 @@ export const DEFAULT_PREFS: AlertPrefs = {
   highRisk: true,
   verifyRequests: true,
   neighborhoodUpdates: false,
+  theme: "system",
 };
+
 
 export function getAnonToken(): string {
   if (typeof window === "undefined") return "";
