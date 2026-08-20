@@ -81,7 +81,7 @@ function MapPage() {
           areas={visibleAreas}
           reports={visibleReports}
           onSelectReport={setSelected}
-          className="h-[36rem] w-full border border-border"
+          className="h-96 w-full border border-border"
         />
 
         {selected ? (
