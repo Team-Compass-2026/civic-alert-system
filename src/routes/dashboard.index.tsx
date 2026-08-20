@@ -99,9 +99,6 @@ function DashboardPage() {
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Yangon WASH Intelligence Dashboard
               </h1>
-              <p className="text-sm text-muted-foreground">
-                [ORG NAME] · Region: Yangon
-              </p>
             </div>
             <RiskBadge level={overallRisk.level} score={overallRisk.score} size="md" />
           </div>

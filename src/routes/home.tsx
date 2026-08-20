@@ -19,7 +19,7 @@ import { ReportCard } from "@/components/civic/ReportCard";
 import { AlertList } from "@/components/civic/AlertList";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
 import { DEFAULT_PREFS, getPrefs, savePrefs } from "@/lib/device";
-import { OG_IMAGE_URL, trendLabel, type RiskComponent } from "@/lib/waterwatch";
+import { OG_IMAGE_URL, timeAgo, trendLabel, type RiskComponent } from "@/lib/waterwatch";
 
 const TITLE = "Your area's water risk — WaterWatch";
 const DESC =
@@ -119,7 +119,9 @@ function HomePage() {
                           WASH Risk
                         </h2>
                         <p className="text-sm text-muted-foreground">
-                          Updated a few minutes ago
+                          {feed.data && feed.data.length > 0
+                            ? `Updated ${timeAgo(feed.data[0].created_at)}`
+                            : "Updated just now"}
                         </p>
                       </div>
                       <RiskBadge level={area.level} score={area.score} />

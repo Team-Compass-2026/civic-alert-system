@@ -72,6 +72,10 @@ const BENEFITS = [
     title: "Guide the Response",
     body: "Organizations use the signal to prioritize where to investigate first.",
   },
+  {
+    title: "Stay Informed",
+    body: "Get practical guidance and localized alerts to protect your community.",
+  },
 ];
 
 function Landing() {
@@ -179,7 +183,7 @@ function Landing() {
 
         {/* BENEFITS */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2">
             {BENEFITS.map((b) => (
               <Card key={b.title}>
                 <CardBody className="flex flex-col gap-2 ">

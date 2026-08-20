@@ -184,7 +184,7 @@ export const YANGON_CENTER: [number, number] = [16.84, 96.16];
 export const YANGON_ZOOM = 12;
 
 export const DISCLAIMER =
-  "WaterWatch identifies community-level signals that may warrant attention. It does not diagnose disease.";
+  "WaterWatch identifies unusual community-level signals that may warrant attention. It does not diagnose disease.";
 
 /** CSS custom property per report type — category color, never a risk signal. */
 export const REPORT_TYPE_CSS_VAR: Record<ReportType, string> = {
