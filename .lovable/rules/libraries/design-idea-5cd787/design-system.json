@@ -1,0 +1,670 @@
+{
+  "meta": {
+    "name": "Design idea",
+    "package": "@ws-256d2d98125e44b3d2a7/a6ae8b11-d7f3-4ca4-aba7-d5bf255c353c",
+    "version": "1.1.0",
+    "framework": "react",
+    "css_framework": "tailwind",
+    "starter_template": "custom_design_system",
+    "theme_files": [
+      "src/styles/tokens.css"
+    ],
+    "source_type": "local",
+    "source_manifest": {
+      "#enrichment": "1dc9bde0f27a1893a656c02e8da3ea929fe7c5c4035c76fd7d9883145868fb9e",
+      ".dsignore": "50946822115c2e9c239aed0533930b58",
+      ".gitignore": "6059213806e442947666752f3db6bfdc",
+      ".lovable/meta.yaml": "8794970d6049858cc148d2b86f7a2b22",
+      ".lovable/plan/civic-early-warning-design-system-build-plan-2026-08-20.md": "fb8be32736d57465e8b23de2ea163795",
+      ".lovable/sources.yaml": "8d18f9342ea268b03c33187db93db7de",
+      ".lovable/system.md": "80e3f3f612f6924fd6493f797278d1d9",
+      "README.md": "d19675c449605f23c7cfa133c69b398b",
+      "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
+      "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
+      "lovable.toml": "9636c1bf32f9901bfba4eabb92981217",
+      "mockupPreviewPlugin.ts": "e42e31c16e4b3b36f860729f5224edad",
+      "package.json": "deb79fe3408bd140a380cce2252f26bf",
+      "public/favicon.ico": "9f504444f85a5af2eef9264b02ae40be",
+      "src/components/ui/alert.tsx": "465c517b75158200f70345430a5e67d3",
+      "src/components/ui/avatar.tsx": "b9c058999053cb9b9c29e3c0a9fe9b88",
+      "src/components/ui/badge.tsx": "484816c29217ebcc20878722652d7773",
+      "src/components/ui/button.tsx": "982d0a0cdcaaca6d6835a0750f1ca8a0",
+      "src/components/ui/card.tsx": "93a76ef995290715cbb61723c0d34f6c",
+      "src/components/ui/checkbox.tsx": "75a20b59ae049fe082663e973491e088",
+      "src/components/ui/icon-button.tsx": "c4b1bfade735027aeace49e9169326f2",
+      "src/components/ui/input.tsx": "7bca3b2d7c6c19331df4a1c11486378a",
+      "src/components/ui/label.tsx": "9ac65356211ef81dde38afa7ec9761bb",
+      "src/components/ui/select.tsx": "51ab32f8a6ac0556d8c7abbed3a4d276",
+      "src/components/ui/separator.tsx": "1e0b94bc2e687cfe7bd99a53b67c4f95",
+      "src/components/ui/spinner.tsx": "3d7503a88b28d5509f790ae133be98cf",
+      "src/components/ui/switch.tsx": "2dae41bf4e8775c264c02ce02143c507",
+      "src/components/ui/textarea.tsx": "2efe01f844ddf240c19f0058bec6c800",
+      "src/components/ui/tooltip.tsx": "38d3f11ccb6bac3f27ee23082ec9b230",
+      "src/index.ts": "ee5f6d3397f5c59db0ae6da4312a793b",
+      "src/lib/utils.ts": "60a7444b87f4919d30325f6941a3bca3",
+      "src/mockup-preview.d.ts": "38969839f35ce2966e32a9f01a5c09ea",
+      "src/routeTree.gen.ts": "65a7e3f870f373bdb01c9287d08b2761",
+      "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
+      "src/routes/[__component].preview.$.tsx": "06d671f4774ac83355e59ad69a350bab",
+      "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
+      "src/routes/__root.tsx": "607444c6fd5bca294c5ca0ec024bc59b",
+      "src/routes/index.tsx": "7200394c69018aea586e390431845a83",
+      "src/routes/showcase.tsx": "f00f0f9cd173cfcdc036f081271d1654",
+      "src/routes/showcase/_helpers.tsx": "cad8a8e2de5f3396fb24bf561e7970c5",
+      "src/routes/showcase/colors.tsx": "019ee8f08003bfeff97a87a0fcfb835b",
+      "src/routes/showcase/components.tsx": "e96ec390bb8c49ecdaad0b6899e17663",
+      "src/routes/showcase/index.tsx": "f1eebb0048f9b0fd8604fc7cbea04e43",
+      "src/routes/showcase/typography.tsx": "86bec86523be207abf38a9c3d5eac951",
+      "src/styles.css": "76d31856ee8105bb022abecaa451eeca",
+      "src/styles/tokens.css": "e345e26917ff4ea859b5f0aa4c949bf9",
+      "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
+      "vite.config.ts": "ffe5f3f21f5340cc993ebd37a7ed814e",
+      "wrangler.jsonc": "680b897d48e44bcc65fe437c29b38f3b"
+    },
+    "pipeline_version": 8
+  },
+  "tokens": {
+    "color": [
+      {
+        "name": "--brand-50",
+        "raw": "#f0f9ff",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-100",
+        "raw": "#e0f2fe",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-200",
+        "raw": "#bae6fd",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-300",
+        "raw": "#7dd3fc",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-400",
+        "raw": "#38bdf8",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-500",
+        "raw": "#0ea5e9",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-600",
+        "raw": "#0284c7",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-700",
+        "raw": "#0369a1",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-800",
+        "raw": "#075985",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-900",
+        "raw": "#0c4a6e",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--brand-950",
+        "raw": "#082f49",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-50",
+        "raw": "#f8fafc",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-100",
+        "raw": "#f1f5f9",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-200",
+        "raw": "#e2e8f0",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-300",
+        "raw": "#cbd5e1",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-400",
+        "raw": "#94a3b8",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-500",
+        "raw": "#64748b",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-600",
+        "raw": "#475569",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-700",
+        "raw": "#334155",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-800",
+        "raw": "#1e293b",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-900",
+        "raw": "#0f172a",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--slate-950",
+        "raw": "#020617",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-low",
+        "raw": "#16a34a",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-low-tint",
+        "raw": "#dcfce7",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-moderate",
+        "raw": "#d97706",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-moderate-tint",
+        "raw": "#fef3c7",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-high",
+        "raw": "#dc2626",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-high-tint",
+        "raw": "#fee2e2",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-critical",
+        "raw": "#b91c1c",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--risk-critical-tint",
+        "raw": "#fecaca",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--accent-clay",
+        "raw": "#b45309",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--background",
+        "raw": "#ffffff",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--foreground",
+        "raw": "#0f172a",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--card",
+        "raw": "#ffffff",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--card-foreground",
+        "raw": "#0f172a",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--muted",
+        "raw": "#f1f5f9",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--muted-foreground",
+        "raw": "#64748b",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--border",
+        "raw": "#e2e8f0",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--input",
+        "raw": "#e2e8f0",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--ring",
+        "raw": "#0284c7",
+        "source": "src/styles/tokens.css"
+      }
+    ],
+    "typography": [
+      {
+        "name": "--font-display",
+        "raw": "\"Space Grotesk\", system-ui, sans-serif",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--font-sans",
+        "raw": "\"DM Sans\", system-ui, -apple-system, sans-serif",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--font-mono",
+        "raw": "\"Geist Mono\", ui-monospace, \"SFMono-Regular\", monospace",
+        "source": "src/styles/tokens.css"
+      }
+    ],
+    "radius": [
+      {
+        "name": "--radius-xs",
+        "raw": "6px",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--radius-sm",
+        "raw": "8px",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--radius-md",
+        "raw": "12px",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--radius-lg",
+        "raw": "16px",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--radius-pill",
+        "raw": "9999px",
+        "source": "src/styles/tokens.css"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "--shadow-sm",
+        "raw": "0 1px 2px 0 rgb(15 23 42 / 0.04)",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--shadow-card",
+        "raw": "0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.05)",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--shadow-lg",
+        "raw": "0 10px 30px -12px rgb(15 23 42 / 0.12), 0 4px 12px -6px rgb(15 23 42 / 0.08)",
+        "source": "src/styles/tokens.css"
+      },
+      {
+        "name": "--shadow-focus",
+        "raw": "0 0 0 3px rgb(2 132 199 / 0.35)",
+        "source": "src/styles/tokens.css"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "file": "src/components/ui/button",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "primary",
+            "secondary",
+            "outline",
+            "ghost",
+            "destructive"
+          ],
+          "default": "primary"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "name": "IconButton",
+      "file": "src/components/ui/icon-button",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "primary",
+            "secondary",
+            "outline",
+            "ghost",
+            "destructive"
+          ],
+          "default": "ghost"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "file": "src/components/ui/input",
+      "import_path": "",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "state",
+          "type": "enum",
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Label",
+      "file": "src/components/ui/label",
+      "import_path": ""
+    },
+    {
+      "name": "Badge",
+      "file": "src/components/ui/badge",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "neutral",
+            "brand",
+            "outline"
+          ],
+          "default": "neutral"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "file": "src/components/ui/card",
+      "import_path": ""
+    },
+    {
+      "name": "CardHeader",
+      "file": "src/components/ui/card",
+      "import_path": "",
+      "props": [
+        {
+          "name": "title",
+          "type": "any"
+        },
+        {
+          "name": "description",
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "CardBody",
+      "file": "src/components/ui/card",
+      "import_path": ""
+    },
+    {
+      "name": "CardFooter",
+      "file": "src/components/ui/card",
+      "import_path": ""
+    },
+    {
+      "name": "Spinner",
+      "file": "src/components/ui/spinner",
+      "import_path": "",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        }
+      ]
+    },
+    {
+      "name": "Separator",
+      "file": "src/components/ui/separator",
+      "import_path": "",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "enum",
+          "values": [
+            "horizontal",
+            "vertical"
+          ],
+          "default": "horizontal"
+        }
+      ]
+    },
+    {
+      "name": "Textarea",
+      "file": "src/components/ui/textarea",
+      "import_path": "",
+      "props": [
+        {
+          "name": "invalid",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Select",
+      "file": "src/components/ui/select",
+      "import_path": "",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "state",
+          "type": "enum",
+          "values": [
+            "default",
+            "error"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "file": "src/components/ui/checkbox",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "any"
+        },
+        {
+          "name": "description",
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "CheckIcon",
+      "file": "src/components/ui/checkbox",
+      "import_path": ""
+    },
+    {
+      "name": "Switch",
+      "file": "src/components/ui/switch",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "Avatar",
+      "file": "src/components/ui/avatar",
+      "import_path": "",
+      "props": [
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "src",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Alert",
+      "file": "src/components/ui/alert",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "info"
+        },
+        {
+          "name": "title",
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "Tooltip",
+      "file": "src/components/ui/tooltip",
+      "import_path": "",
+      "props": [
+        {
+          "name": "text",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "side",
+          "type": "enum",
+          "values": [
+            "top",
+            "bottom"
+          ],
+          "default": "top"
+        },
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
