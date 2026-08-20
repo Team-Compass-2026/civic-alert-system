@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 
@@ -10,19 +10,32 @@ const NAV = [
   { to: "/profile", label: "Profile", icon: "👤" },
 ] as const;
 
+/**
+ * Mobile-only navigation drawer. Desktop navigation lives in SiteHeader,
+ * so nothing from this component renders at `md` and up.
+ */
 export function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setMobileOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
   return (
-    <>
-      {/* Mobile toggle */}
+    <div className="md:hidden">
+      {/* Hamburger toggle */}
       <button
         type="button"
         onClick={() => setMobileOpen((v) => !v)}
         aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
         aria-expanded={mobileOpen}
         aria-controls="ww-sidebar"
-        className="fixed left-4 top-20 z-40 flex size-10 items-center justify-center rounded-md border border-border bg-card text-foreground shadow-sm md:hidden"
+        className="focus-ring fixed left-4 top-20 z-40 flex size-10 items-center justify-center rounded-md border border-border bg-card text-foreground shadow-sm"
       >
         <span className="sr-only">Menu</span>
         <svg
@@ -36,7 +49,7 @@ export function Sidebar() {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M4 6h16M4 12h16M4 18h16"
+            d={mobileOpen ? "M6 6l12 12M18 6L6 18" : "M4 6h16M4 12h16M4 18h16"}
           />
         </svg>
       </button>
@@ -44,31 +57,33 @@ export function Sidebar() {
       {/* Backdrop */}
       {mobileOpen ? (
         <div
-          className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          className="fixed inset-0 z-30 bg-black/40"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
       ) : null}
 
-      {/* Sidebar */}
+      {/* Drawer */}
       <aside
         id="ww-sidebar"
+        aria-hidden={!mobileOpen}
         className={cn(
-          "fixed bottom-0 left-0 top-16 z-30 w-60 transform border-r border-border bg-card transition-transform duration-200 md:sticky md:top-16 md:translate-x-0",
+          "fixed bottom-0 left-0 top-16 z-30 w-60 transform border-r border-border bg-card transition-transform duration-200",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <nav aria-label="WaterWatch sections" className="flex h-full flex-col">
-          <ul className="flex flex-col gap-1 p-4">
+          <ul className="flex flex-col gap-1 p-4 pt-14">
             {NAV.map((item) => (
               <li key={item.to}>
                 <Link
                   to={item.to}
+                  tabIndex={mobileOpen ? 0 : -1}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  className="focus-ring flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                   activeProps={{
                     className:
-                      "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium bg-muted text-foreground",
+                      "focus-ring flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium bg-muted text-foreground",
                   }}
                 >
                   <span aria-hidden="true">{item.icon}</span>
@@ -79,6 +94,6 @@ export function Sidebar() {
           </ul>
         </nav>
       </aside>
-    </>
+    </div>
   );
 }
