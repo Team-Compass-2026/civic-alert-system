@@ -65,7 +65,7 @@ function MapPage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-8 md:pl-64">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-2">
             <h1 className="font-display text-2xl font-bold text-foreground">
