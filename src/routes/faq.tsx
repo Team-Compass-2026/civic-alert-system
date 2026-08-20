@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Card, CardBody, buttonVariants } from "@/design-system/design-idea-5cd787";
+import { buttonVariants } from "@/design-system/design-idea-5cd787";
+import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TabBar } from "@/components/layout/TabBar";
 import { DISCLAIMER } from "@/lib/waterwatch";
 
 const TITLE = "FAQ — How WaterWatch works";
 const DESC =
-  "Answers about anonymous reporting, community verification, how neighborhood WASH risk scores are calculated, and what WaterWatch is not.";
+  "Answers about anonymous reporting, community verification, how neighborhood WASH risk scores work, and why WaterWatch does not diagnose cholera.";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -24,32 +25,24 @@ export const Route = createFileRoute("/faq")({
 
 const FAQS = [
   {
-    q: "Is reporting anonymous?",
-    a: "Yes. Reports are anonymous by default — no account, no phone number. A random device token is kept on your phone only so you can see your own reports and avoid double-verifying the same one.",
+    q: "What is WaterWatch?",
+    a: "WaterWatch is a community-powered platform that helps people report and monitor local water, sanitation, and flooding problems. By combining community reports, verification, and geographic data, WaterWatch identifies areas that may require attention.",
   },
   {
-    q: "How is a neighborhood risk score calculated?",
-    a: "Each area starts from a baseline. Verified reports raise the score by type — unsafe water and illness signals weigh most, then sewage and flooding, then infrastructure. Reports fade over time, so a score falls when problems stop being reported.",
+    q: "How does WaterWatch identify high-risk areas?",
+    a: "WaterWatch analyzes patterns in community reports, including their location, frequency, timing, and type. Multiple reports from the same area can increase the area's WASH Risk Score, helping highlight emerging hotspots.",
   },
   {
-    q: "What do LOW, MODERATE, HIGH and CRITICAL mean?",
-    a: "LOW 0-33, MODERATE 34-66, HIGH 67-84, CRITICAL 85-100. Every risk is always shown as a colored badge with its label and numeric score, never as color alone.",
+    q: "Can WaterWatch detect or diagnose cholera?",
+    a: "No. WaterWatch does not diagnose diseases or confirm cholera outbreaks. It identifies unusual community-level WASH signals that may indicate a potential risk and help communities and organizations decide where further investigation may be needed.",
   },
   {
-    q: "What happens after I confirm or dispute a report?",
-    a: "Confirmations from nearby neighbors make a report count toward the area score; disputes hold it back. A single mistaken flag never drives an alert on its own.",
+    q: "Is my personal information safe?",
+    a: "Yes. You can submit reports anonymously. WaterWatch is designed to focus on community-level patterns rather than identifying individuals, and sensitive personal information should never be publicly displayed.",
   },
   {
-    q: "When do I get an alert?",
-    a: "When your area crosses a risk threshold, when a report near you needs verification, or when neighbors confirm something on your street. Alerts always carry safe-water advice you can act on.",
-  },
-  {
-    q: "Is this medical advice?",
-    a: DISCLAIMER,
-  },
-  {
-    q: "Who can use the organization dashboard?",
-    a: "Municipal teams, NGOs and clinics use it to see aggregate indicators and ranked areas across Yangon — trends by report type, not individual identities.",
+    q: "Why should I report a problem?",
+    a: "Your report helps build a clearer picture of what is happening in your neighborhood. In return, WaterWatch gives you access to local risk information, alerts, community verification, and practical guidance to help you stay informed and protect your community.",
   },
 ];
 
@@ -58,39 +51,40 @@ function FaqPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-5 py-10">
-        <div className="flex flex-col gap-2">
-          <h1 className="font-display text-3xl font-bold text-foreground">
-            Frequently asked questions
-          </h1>
-          <p className="text-muted-foreground">
-            How reporting, verification and risk scoring work in WaterWatch.
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+        <h1 className="font-display text-2xl font-bold text-foreground">FAQ</h1>
 
-        <div className="flex flex-col gap-4">
+        <div className="mt-6 flex flex-col">
           {FAQS.map((item) => (
-            <Card key={item.q}>
-              <CardBody className="flex flex-col gap-2 p-5">
-                <h2 className="font-display text-base font-semibold text-foreground">
-                  {item.q}
-                </h2>
-                <p className="text-sm text-muted-foreground">{item.a}</p>
-              </CardBody>
-            </Card>
+            <details key={item.q} className="group border-b border-border">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-sm font-medium text-foreground transition-colors hover:text-brand-700">
+                {item.q}
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </summary>
+              <p className="pb-4 text-sm text-muted-foreground">{item.a}</p>
+            </details>
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          <Link to="/report" className={buttonVariants({ size: "lg" })}>
-            Report a Problem
-          </Link>
+        <div className="mt-8 flex flex-col gap-4">
           <Link
-            to="/map"
-            className={buttonVariants({ size: "lg", variant: "outline" })}
+            to="/report"
+            className={cn(buttonVariants({ size: "md" }), "self-start rounded-pill")}
           >
-            See the map
+            Report a problem
           </Link>
+          <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
         </div>
       </main>
 
