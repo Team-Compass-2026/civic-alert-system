@@ -288,8 +288,7 @@ function HomePage() {
           </div>
         </div>
       </main>
-
-      <TabBar />
     </div>
   );
 }
+
