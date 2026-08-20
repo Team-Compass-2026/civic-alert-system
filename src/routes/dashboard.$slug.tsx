@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardBody, CardHeader, Spinner } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
 import { RiskBadge } from "@/components/civic/RiskBadge";
+
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { SeverityBar } from "@/components/civic/SeverityBar";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";

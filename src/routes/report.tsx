@@ -15,6 +15,8 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
+
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { areasQuery } from "@/lib/queries";
 import { submitReport } from "@/lib/actions";

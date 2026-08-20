@@ -12,6 +12,8 @@ import {
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
+
 
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { SeverityBar } from "@/components/civic/SeverityBar";
