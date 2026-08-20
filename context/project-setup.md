@@ -25,6 +25,22 @@ bun run lint       # eslint
 bun run build      # production build gate
 ```
 
+## Environment variables
+
+Create a local `.env` (gitignored) from `.env.example` (tracked):
+
+| Variable | Purpose |
+|----------|---------|
+| `SUPABASE_PROJECT_ID` | Supabase project reference |
+| `SUPABASE_PUBLISHABLE_KEY` | Supabase anon/publishable key (server-side) |
+| `SUPABASE_URL` | Supabase project URL (server-side) |
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project ref (client-side) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key (client-side, exposed in bundle) |
+| `VITE_SUPABASE_URL` | Supabase URL (client-side, exposed in bundle) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Placeholder — service role key for admin/migration ops |
+
+**7 vars total.** `.env` is never committed. `.env.example` is tracked and must stay in sync.
+
 ## Version & lifecycle (project.yaml)
 
 - `version.current` — semver; bump `0.x.0` per feature in dev

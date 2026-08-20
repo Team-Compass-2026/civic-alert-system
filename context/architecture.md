@@ -18,7 +18,7 @@
 | Dates | date-fns | built |
 | Maps | **React Leaflet + Leaflet + OpenStreetMap** (free, no API key) | built |
 | Backend | **Supabase** (Postgres + Auth + RLS + Storage) | built |
-| Deployment | Cloudflare (Vite plugin + wrangler) | configured |
+| Deployment | **Nitro/Vercel** (VERCEL=1 auto-detect, `.vercel/output` Build Output API) + **Cloudflare Workers** fallback (wrangler.jsonc) | deployed |
 
 ## Route map
 
@@ -30,6 +30,9 @@
 | `/report` | Report form (type, location, details, photo, anonymous) |
 | `/alerts` | Localized alerts + verification requests |
 | `/profile` | Reputation, my reports, settings |
+| `/auth` | Login / signup (Supabase Auth) |
+| `/sign-in` | Sign-in page |
+| `/sign-up` | Sign-up page |
 | `/dashboard` | Org dashboard — overall risk, indicators, hotspots |
 | `/dashboard/$slug` | Org drill-down — per-area risk + reports |
 | `/faq` | Frequently asked questions |
@@ -45,6 +48,10 @@ Core tables via Supabase migrations:
 
 RLS policies: reports readable (aggregated) publicly; PII scoped to owner;
 org data scoped to subscription. Anonymous inserts allowed via RLS.
+
+Storage: `report-photos` bucket (public read, anon insert) for report photos.
+
+Views: `v_area_risk` (area risk scores with component breakdown), `v_report_feed` (reports joined with area name and confirm/dispute counts).
 
 ## Risk semantics
 
