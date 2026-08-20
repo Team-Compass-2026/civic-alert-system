@@ -15,14 +15,16 @@ import type { AreaRisk } from "@/lib/waterwatch";
 type Props = {
   areas: AreaRisk[];
   onAuth?: () => void;
+  /** Start the card in sign-in or sign-up mode. Defaults to "login". */
+  initialMode?: "login" | "signup";
 };
 
 /**
  * Email + password login / signup for citizens. The chosen area is stored on
  * the account metadata so the signup trigger can create a profile row.
  */
-export function AuthCard({ areas, onAuth }: Props) {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
+  const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [areaId, setAreaId] = useState<string>(areas[0]?.area_id ?? "");

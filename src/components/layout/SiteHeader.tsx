@@ -73,7 +73,7 @@ export function SiteHeader() {
             </Link>
           ) : (
             <Link
-              to="/auth"
+              to="/sign-in"
               className={buttonVariants({ size: "sm", variant: "outline" })}
             >
               Sign in

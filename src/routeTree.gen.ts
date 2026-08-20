@@ -52,6 +52,16 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AlertsRoute = AlertsRouteImport.update({
   id: '/alerts',
   path: '/alerts',
@@ -89,6 +99,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
@@ -103,6 +115,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
@@ -118,6 +132,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
@@ -134,6 +150,8 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
+    | '/sign-in'
+    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
@@ -148,6 +166,8 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
+    | '/sign-in'
+    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
@@ -162,6 +182,8 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
+    | '/sign-in'
+    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
@@ -177,6 +199,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlertsRoute: typeof AlertsRoute
   AuthRoute: typeof AuthRoute
+  SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
   FaqRoute: typeof FaqRoute
   HomeRoute: typeof HomeRoute
   MapRoute: typeof MapRoute
@@ -232,6 +256,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/alerts': {
       id: '/alerts'
       path: '/alerts'
@@ -281,6 +319,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlertsRoute: AlertsRoute,
   AuthRoute: AuthRoute,
+  SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
   FaqRoute: FaqRoute,
   HomeRoute: HomeRoute,
   MapRoute: MapRoute,
