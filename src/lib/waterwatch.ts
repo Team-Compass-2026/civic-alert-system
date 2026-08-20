@@ -6,7 +6,7 @@
 export const SITE_ORIGIN =
   "https://id-preview--6dc9d0c2-6f9b-489b-b962-7bb1dc27484b.lovable.app";
 export const OG_IMAGE_URL =
-  `${SITE_ORIGIN}/__l5e/assets-v1/f85500f6-ce13-4070-9854-0d0bf3ff22f9/og.png`;
+  `${SITE_ORIGIN}/og.png`;
 
 export type RiskLevel = "LOW" | "MODERATE" | "HIGH" | "CRITICAL";
 

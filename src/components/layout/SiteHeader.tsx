@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/design-system/design-idea-5cd787";
-import logoAsset from "@/assets/logo-transparent.png.asset.json";
 
 export function SiteHeader() {
   return (
@@ -8,7 +7,7 @@ export function SiteHeader() {
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src={logoAsset.url}
+            src="/logo-transparent.png"
             alt="WaterWatch"
             className="h-8 w-auto"
             width={32}

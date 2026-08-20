@@ -22,14 +22,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "author", content: "Team Compass" },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/og.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "64x64" },
+      { rel: "icon", href: "/favicon.ico" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "/__l5e/assets-v1/5918df49-df46-47c2-a49d-c77efd67e662/apple-touch-icon.png", sizes: "180x180" },
-      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
 
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
 

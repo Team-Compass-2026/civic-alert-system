@@ -16,6 +16,10 @@
 - Supabase JS client configured (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
 - TanStack Query provider, Zod validation, Recharts charts, date-fns dates
 
+## Completed
+
+- Replaced Lovable placeholder assets with WaterWatch brand logos, favicons, manifest, and alert icons
+
 ## Next up
 
 - Environment setup: verify Supabase connection, run migrations
