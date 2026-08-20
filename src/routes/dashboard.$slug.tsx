@@ -58,8 +58,10 @@ function AreaDashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+
         <Link to="/dashboard" className="text-sm text-brand-700 underline">
           ← Back to dashboard
         </Link>
