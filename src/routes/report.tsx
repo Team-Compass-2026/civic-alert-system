@@ -85,7 +85,7 @@ function ReportPage() {
         <SiteHeader />
         <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-10">
           <Card>
-            <CardBody className="flex flex-col gap-4 p-6">
+            <CardBody className="flex flex-col gap-4 p-5">
               <h1 className="font-display text-2xl font-bold text-foreground">
                 Thank you — your report was submitted
               </h1>

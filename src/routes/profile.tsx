@@ -61,7 +61,7 @@ function ProfilePage() {
             Alert settings
           </h1>
           <Card>
-            <CardBody className="flex flex-col gap-5 p-6">
+            <CardBody className="flex flex-col gap-5 p-5">
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="pref-area"

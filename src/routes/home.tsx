@@ -82,7 +82,7 @@ function HomePage() {
             </div>
           ) : area ? (
             <Card>
-              <CardBody className="flex flex-col gap-5 p-6">
+              <CardBody className="flex flex-col gap-5 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex flex-col gap-1">
                     <h1 className="font-display text-2xl font-bold text-foreground">
