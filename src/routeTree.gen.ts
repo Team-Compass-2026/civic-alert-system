@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AlertsRouteImport } from './routes/alerts'
@@ -20,6 +21,11 @@ import { Route as Char91__componentChar93PreviewSplatRouteImport } from './route
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapRoute = MapRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/alerts': typeof AlertsRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/alerts': typeof AlertsRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/alerts': typeof AlertsRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/home'
     | '/map'
+    | '/profile'
     | '/report'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/home'
     | '/map'
+    | '/profile'
     | '/report'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/home'
     | '/map'
+    | '/profile'
     | '/report'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   AlertsRoute: typeof AlertsRoute
   HomeRoute: typeof HomeRoute
   MapRoute: typeof MapRoute
+  ProfileRoute: typeof ProfileRoute
   ReportRoute: typeof ReportRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
@@ -130,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/report'
       fullPath: '/report'
       preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map': {
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   AlertsRoute: AlertsRoute,
   HomeRoute: HomeRoute,
   MapRoute: MapRoute,
+  ProfileRoute: ProfileRoute,
   ReportRoute: ReportRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
