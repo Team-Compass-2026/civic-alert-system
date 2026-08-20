@@ -341,6 +341,7 @@ function AlertsPage() {
         <p className="mt-10 text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
 
+      <Footer />
     </div>
   );
 }
@@ -348,3 +349,4 @@ function AlertsPage() {
 function floorScore(level: AlertItem["level"]): number {
   return level === "CRITICAL" ? 85 : level === "HIGH" ? 67 : level === "MODERATE" ? 34 : 0;
 }
+

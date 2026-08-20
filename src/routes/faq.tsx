@@ -95,6 +95,8 @@ function FaqPage() {
         </div>
       </main>
 
+      <Footer />
     </div>
   );
 }
+

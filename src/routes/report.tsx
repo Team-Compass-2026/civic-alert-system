@@ -351,6 +351,8 @@ function ReportPage() {
         </form>
       </main>
 
+      <Footer />
     </div>
   );
 }
+

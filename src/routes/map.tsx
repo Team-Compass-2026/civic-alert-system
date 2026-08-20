@@ -209,7 +209,8 @@ function MapPage() {
         Report a Problem
       </Link>
 
-
+      <Footer />
     </div>
   );
 }
+
