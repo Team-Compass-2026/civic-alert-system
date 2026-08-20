@@ -77,7 +77,7 @@ function Landing() {
           <div className="mt-6 grid gap-6 md:grid-cols-3">
             {STEPS.map((step) => (
               <Card key={step.title}>
-                <CardBody className="flex flex-col gap-3 p-6">
+                <CardBody className="flex flex-col gap-3 p-5">
                   <span aria-hidden="true" className="text-2xl">
                     {step.icon}
                   </span>

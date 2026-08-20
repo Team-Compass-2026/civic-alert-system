@@ -79,7 +79,7 @@ function DashboardPage() {
 
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
-                <CardBody className="flex flex-col gap-4 p-6">
+                <CardBody className="flex flex-col gap-4 p-5">
                   <h2 className="font-display text-lg font-semibold text-foreground">
                     Highest-risk areas
                   </h2>
@@ -100,7 +100,7 @@ function DashboardPage() {
               </Card>
 
               <Card>
-                <CardBody className="flex flex-col gap-4 p-6">
+                <CardBody className="flex flex-col gap-4 p-5">
                   <h2 className="font-display text-lg font-semibold text-foreground">
                     Reports by type
                   </h2>
