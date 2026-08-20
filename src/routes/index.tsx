@@ -7,10 +7,12 @@ import {
   CardBody,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Footer } from "@/components/layout/Footer";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery } from "@/lib/queries";
-import { DISCLAIMER, OG_IMAGE_URL } from "@/lib/waterwatch";
+import { OG_IMAGE_URL } from "@/lib/waterwatch";
+
 
 
 const TITLE = "WaterWatch — Community water & sanitation early warning";
