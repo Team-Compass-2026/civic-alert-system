@@ -78,10 +78,11 @@ function MapPage() {
           </div>
           <Link
             to="/report"
-            className={cn(buttonVariants({ size: "md" }), "rounded-pill")}
+            className={buttonVariants({ size: "md" })}
           >
             + Report a Problem
           </Link>
+
         </div>
 
         <NeighborhoodMap
@@ -196,11 +197,12 @@ function MapPage() {
         to="/report"
         className={cn(
           buttonVariants({ size: "lg" }),
-          "fixed bottom-24 right-5 z-20 rounded-pill shadow-lg md:bottom-8",
+          "fixed bottom-8 right-5 z-20 shadow-lg",
         )}
       >
         Report a Problem
       </Link>
+
 
     </div>
   );

@@ -335,10 +335,11 @@ function ReportPage() {
             type="submit"
             size="lg"
             disabled={!canSubmit}
-            className="w-full rounded-pill"
+            className="w-full"
           >
             {mutation.isPending ? "Submitting…" : "Submit Report"}
           </Button>
+
 
           <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
         </form>
