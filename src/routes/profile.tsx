@@ -112,11 +112,13 @@ function ProfilePage() {
   const [language, setLanguage] = useState("en");
 
   const updateArea = useMutation({
-    mutationFn: updateMyProfileAreaFn,
+    mutationFn: (vars: { areaId: string | null }) =>
+      updateMyProfileAreaFn({ data: vars }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
     },
   });
+
 
 
   useEffect(() => {
