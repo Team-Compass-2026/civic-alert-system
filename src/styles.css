@@ -1,12 +1,4 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import "tailwindcss";
+@import "./design-system/design-idea-5cd787/styles/tokens.css";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-}
+@source "./design-system/design-idea-5cd787";
