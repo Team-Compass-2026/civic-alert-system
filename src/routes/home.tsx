@@ -288,6 +288,7 @@ function HomePage() {
               View Map
             </Link>
           </div>
+          </div>
         </div>
       </main>
 
@@ -295,6 +296,7 @@ function HomePage() {
     </div>
   );
 }
+
 
 
 
