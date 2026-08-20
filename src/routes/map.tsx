@@ -65,24 +65,26 @@ function MapPage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-8">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-display text-2xl font-bold text-foreground">
-              Current Data
-            </h1>
-            <p className="max-w-xl text-sm text-muted-foreground">
-              A live overview of Yangon. Tap an area to see why its risk score
-              changed. Tap a marker to see the report.
-            </p>
-          </div>
-          <Link
-            to="/report"
-            className={buttonVariants({ size: "md" })}
-          >
-            + Report a Problem
-          </Link>
+      <main className="flex w-full flex-1 flex-col gap-6 pb-8">
+        <div className="mx-auto w-full max-w-6xl px-5 pt-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              <h1 className="font-display text-2xl font-bold text-foreground">
+                Current Data
+              </h1>
+              <p className="max-w-xl text-sm text-muted-foreground">
+                A live overview of Yangon. Tap an area to see why its risk score
+                changed. Tap a marker to see the report.
+              </p>
+            </div>
+            <Link
+              to="/report"
+              className={buttonVariants({ size: "md" })}
+            >
+              + Report a Problem
+            </Link>
 
+          </div>
         </div>
 
         <NeighborhoodMap
@@ -92,105 +94,107 @@ function MapPage() {
           className="h-[32rem] w-full border border-border"
         />
 
-        <Card>
-          <CardHeader>
-            <div className="flex flex-col gap-1">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5">
+          <Card>
+            <CardHeader>
+              <div className="flex flex-col gap-1">
+                <h2 className="font-display text-base font-semibold text-foreground">
+                  Recent updates
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Latest trends across Yangon townships
+                </p>
+              </div>
+            </CardHeader>
+            <CardBody className="p-5">
+              <ul className="flex flex-col divide-y divide-border">
+                {areaList.map((area) => {
+                  const dir = trendDirection(area.trend_pct);
+                  return (
+                    <li
+                      key={area.area_id}
+                      className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                    >
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-sm font-medium text-foreground">
+                          {area.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {area.township} ·{" "}
+                          <span className="font-mono">
+                            {area.reports_this_week}
+                          </span>{" "}
+                          reports this week
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={cn("font-mono text-sm", TREND_TEXT[dir])}
+                        >
+                          {TREND_ARROW[dir]}
+                          {Math.abs(area.trend_pct)}%
+                        </span>
+                        <RiskBadge level={area.level} score={area.score} size="sm" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </CardBody>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <h2 className="font-display text-base font-semibold text-foreground">
-                Recent updates
+                Legend
               </h2>
-              <p className="text-sm text-muted-foreground">
-                Latest trends across Yangon townships
-              </p>
-            </div>
-          </CardHeader>
-          <CardBody className="p-5">
-            <ul className="flex flex-col divide-y divide-border">
-              {areaList.map((area) => {
-                const dir = trendDirection(area.trend_pct);
-                return (
-                  <li
-                    key={area.area_id}
-                    className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
-                  >
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-sm font-medium text-foreground">
-                        {area.name}
+            </CardHeader>
+            <CardBody className="flex flex-col gap-5 p-5">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-medium text-foreground">Risk levels</h3>
+                <ul className="flex flex-wrap gap-2">
+                  {RISK_LEGEND.map((item) => (
+                    <li key={item.level} className="flex items-center gap-2">
+                      <RiskBadge
+                        level={item.level}
+                        score={Number(item.range.split("–")[1])}
+                        size="sm"
+                        className={RISK_STYLES[item.level].tint}
+                      />
+                      <span className="font-mono text-xs text-muted-foreground">
+                        {item.range}
                       </span>
-                      <span className="text-xs text-muted-foreground">
-                        {area.township} ·{" "}
-                        <span className="font-mono">
-                          {area.reports_this_week}
-                        </span>{" "}
-                        reports this week
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-medium text-foreground">
+                  Report types
+                </h3>
+                <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {REPORT_TYPE_ORDER.map((type) => (
+                    <li
+                      key={type}
+                      className="flex items-center gap-2 text-sm text-muted-foreground"
+                    >
                       <span
-                        className={cn("font-mono text-sm", TREND_TEXT[dir])}
-                      >
-                        {TREND_ARROW[dir]}
-                        {Math.abs(area.trend_pct)}%
-                      </span>
-                      <RiskBadge level={area.level} score={area.score} size="sm" />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <h2 className="font-display text-base font-semibold text-foreground">
-              Legend
-            </h2>
-          </CardHeader>
-          <CardBody className="flex flex-col gap-5 p-5">
-            <div className="flex flex-col gap-2">
-              <h3 className="text-sm font-medium text-foreground">Risk levels</h3>
-              <ul className="flex flex-wrap gap-2">
-                {RISK_LEGEND.map((item) => (
-                  <li key={item.level} className="flex items-center gap-2">
-                    <RiskBadge
-                      level={item.level}
-                      score={Number(item.range.split("–")[1])}
-                      size="sm"
-                      className={RISK_STYLES[item.level].tint}
-                    />
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {item.range}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h3 className="text-sm font-medium text-foreground">
-                Report types
-              </h3>
-              <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                {REPORT_TYPE_ORDER.map((type) => (
-                  <li
-                    key={type}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="size-2.5 rounded-pill"
-                      style={{
-                        backgroundColor: `var(${REPORT_TYPE_CSS_VAR[type]})`,
-                      }}
-                    />
-                    <span aria-hidden="true">{REPORT_TYPES[type].icon}</span>
-                    <span>{REPORT_TYPES[type].label}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </CardBody>
-        </Card>
+                        aria-hidden="true"
+                        className="size-2.5 rounded-pill"
+                        style={{
+                          backgroundColor: `var(${REPORT_TYPE_CSS_VAR[type]})`,
+                        }}
+                      />
+                      <span aria-hidden="true">{REPORT_TYPES[type].icon}</span>
+                      <span>{REPORT_TYPES[type].label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
       </main>
 
       <Link
