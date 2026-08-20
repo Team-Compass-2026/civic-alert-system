@@ -1,0 +1,32 @@
+version:
+  current: 0.1.0        # semver — bumped on each release
+  channel: dev           # dev → alpha → beta → rc → stable
+  release_name: civic    # codename for the release cycle (civic alert prototype)
+  build_number: 001      # auto-incremented
+
+lifecycle:
+  stage: development     # idea → analysis → requirements → design → planning →
+                         # development → testing → staging → production → maintenance → sunset
+  status: active         # active | paused | archived | sunset
+
+theme:
+  primary: health-and-wellbeing        # DEEP Hackathon 2026 category
+  secondary: community-resilience-and-sustainability
+
+design:
+  visual_energy: clean-and-airy         # generous whitespace, soft shadows, larger radii
+  fonts: space-grotesk + dm-sans + geist-mono   # display/body/data; mono never for headings
+  palette: water-blue #0284c7 + slate neutrals + 4-level risk (never color alone)
+
+repo:
+  github: Team-Compass-2026/civic-alert-system
+  default_branch: main
+  map_stack: react-leaflet + openstreetmap   # no API key; free tiles
+  frontend: tanstack-start + react-19 + vite-8 + tailwind-4
+  backend: supabase                           # SQL + RLS + Auth + Storage
+
+# bump policy (from context/project-setup.md)
+#   initial setup        -> 0.1.0 dev
+#   active development   -> 0.x.0 per feature
+#   feature complete     -> 1.0.0-alpha.1
+#   production release   -> 1.0.0
