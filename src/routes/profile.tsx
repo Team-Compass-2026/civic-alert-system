@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -13,8 +14,12 @@ import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { StatusPill } from "@/components/civic/StatusPill";
+import { AlertCard } from "@/components/civic/AlertCard";
+import { AlertList } from "@/components/civic/AlertList";
+import { AuthCard } from "@/components/auth/AuthCard";
+import { useAuth } from "@/hooks/useAuth";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
-import { areasQuery, reportFeedQuery } from "@/lib/queries";
+import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import {
   DEFAULT_PREFS,
   getMyReportIds,
@@ -78,8 +83,10 @@ function SettingRow({
 }
 
 function ProfilePage() {
+  const auth = useAuth();
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
+  const alerts = useQuery(alertsQuery);
   const [prefs, setPrefs] = useState<AlertPrefs>(DEFAULT_PREFS);
   const [myIds, setMyIds] = useState<string[]>([]);
   const [language, setLanguage] = useState("en");
