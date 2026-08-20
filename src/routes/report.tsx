@@ -145,31 +145,6 @@ function ReportPage() {
       <Sidebar />
 
       <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
-        {done ? (
-          <Alert
-            variant="success"
-            title="Report received. It will appear on the map."
-            className="mb-8"
-          >
-            <p className="text-sm text-muted-foreground">
-              Neighbors nearby will be asked to confirm it. Thank you for
-              looking out for your community.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link to="/map" className={buttonVariants({ size: "md" })}>
-                Help verify nearby reports
-              </Link>
-              <Button
-                variant="outline"
-                size="md"
-                onClick={() => setDone(false)}
-              >
-                Report something else
-              </Button>
-            </div>
-          </Alert>
-        ) : null}
-
         <form
           className="flex flex-col gap-8"
           onSubmit={(e) => {
@@ -178,6 +153,34 @@ function ReportPage() {
             mutation.mutate();
           }}
         >
+          {done ? (
+            <Card>
+              <CardBody>
+                <Alert
+                  variant="success"
+                  title="Report received. It will appear on the map."
+                >
+                  <p className="text-muted-foreground">
+                    Neighbors nearby will be asked to confirm it. Thank you for
+                    looking out for your community.
+                  </p>
+                </Alert>
+              </CardBody>
+              <CardFooter>
+                <Link to="/map" className={buttonVariants({ size: "md" })}>
+                  Help verify nearby reports
+                </Link>
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => setDone(false)}
+                >
+                  Report something else
+                </Button>
+              </CardFooter>
+            </Card>
+          ) : null}
+
           <div className="flex flex-col gap-2">
             <h1 className="font-display text-2xl font-bold text-foreground">
               Report a Problem
