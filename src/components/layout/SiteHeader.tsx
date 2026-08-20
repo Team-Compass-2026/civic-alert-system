@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Button } from "@/design-system/design-idea-5cd787";
+import { buttonVariants } from "@/design-system/design-idea-5cd787";
 
 export function SiteHeader() {
   return (
@@ -18,30 +18,36 @@ export function SiteHeader() {
           <Link
             to="/home"
             className="text-sm text-muted-foreground hover:text-foreground"
+            activeProps={{ className: "text-sm font-medium text-foreground" }}
           >
-            How It Works
+            Your Area
           </Link>
           <Link
             to="/map"
             className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm text-foreground font-medium" }}
+            activeProps={{ className: "text-sm font-medium text-foreground" }}
           >
             Map
           </Link>
           <Link
+            to="/alerts"
+            className="text-sm text-muted-foreground hover:text-foreground"
+            activeProps={{ className: "text-sm font-medium text-foreground" }}
+          >
+            Alerts
+          </Link>
+          <Link
             to="/dashboard"
             className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm text-foreground font-medium" }}
+            activeProps={{ className: "text-sm font-medium text-foreground" }}
           >
             For Organizations
           </Link>
         </nav>
 
-        <Button asChild={false} className="rounded-pill" size="sm" onClick={undefined}>
-          <Link to="/report" className="text-white">
-            Report a Problem
-          </Link>
-        </Button>
+        <Link to="/report" className={buttonVariants({ size: "sm" })}>
+          Report a Problem
+        </Link>
       </div>
     </header>
   );
