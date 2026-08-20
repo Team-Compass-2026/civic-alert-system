@@ -152,7 +152,8 @@ function AreaDashboard() {
         <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
 
-      <TabBar />
+      <Footer />
     </div>
   );
 }
+
