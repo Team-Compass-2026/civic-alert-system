@@ -121,6 +121,7 @@ function DashboardPage() {
                     label={item.label}
                     value={item.count}
                     deltaPct={item.delta}
+                    className="transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                   />
                 ))}
               </div>

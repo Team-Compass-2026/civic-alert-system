@@ -259,7 +259,7 @@ function AlertsPage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-md flex-1 px-5 py-8">
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-2xl font-bold text-foreground">
             Alerts

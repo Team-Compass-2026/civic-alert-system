@@ -90,12 +90,12 @@ function Landing() {
       <main>
         {/* HERO */}
         <section className="bg-gradient-to-b from-brand-50 to-transparent">
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
-            <div className="flex flex-col gap-6">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-16 sm:py-20 md:grid-cols-2 md:py-24">
+            <div className="motion-safe:animate-fade-in-up flex flex-col gap-6">
               <Badge variant="brand" className="w-fit">
                 Yangon · community early warning
               </Badge>
-              <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
+              <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl">
                 Your information is life-saving.
                 <br />
                 <span className="text-brand-600">Protect the community.</span>
@@ -106,7 +106,10 @@ function Landing() {
                 into early warnings for your neighborhood.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link to="/report" className={buttonVariants({ size: "lg" })}>
+                <Link
+                  to="/report"
+                  className={buttonVariants({ size: "lg" })}
+                >
                   Report a Problem
                 </Link>
                 <Link
@@ -129,12 +132,13 @@ function Landing() {
               ) : null}
             </div>
 
+            <div className="overflow-hidden rounded-lg motion-safe:animate-fade-in" style={{ animationDelay: "200ms" }}>
             <Card className="overflow-hidden">
               <CardBody className="relative overflow-hidden p-0">
-                <NeighborhoodMap areas={list} className="isolate h-96 w-full" />
+                <NeighborhoodMap areas={list} className="isolate h-64 w-full sm:h-80 md:h-96" />
 
                 {focus ? (
-                  <Card className="absolute bottom-6 left-6 right-6 z-10 md:right-auto md:max-w-xs">
+                  <Card className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-6 sm:left-6 sm:right-6 md:right-auto md:max-w-xs">
                     <CardBody className="flex flex-col">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
@@ -156,18 +160,21 @@ function Landing() {
                 ) : null}
               </CardBody>
             </Card>
+            </div>
           </div>
         </section>
 
         {/* HOW IT WORKS */}
         <section className="mx-auto w-full max-w-6xl px-5 py-16">
-          <h2 className="font-display text-3xl font-extrabold text-foreground">
-            How things work
-          </h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-4">
+          <div className="motion-safe:animate-fade-in-up">
+            <h2 className="font-display text-3xl font-extrabold text-foreground">
+              How things work
+            </h2>
+          </div>
+          <div className="mt-8 grid gap-6 motion-safe:animate-stagger sm:grid-cols-2 md:grid-cols-4">
             {STEPS.map((step) => (
-              <Card key={step.step}>
-                <CardBody className="flex flex-col gap-3 ">
+              <Card key={step.step} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <CardBody className="flex flex-col gap-3">
                   <span className="font-mono text-sm text-brand-600">
                     {step.step}
                   </span>
@@ -183,10 +190,10 @@ function Landing() {
 
         {/* BENEFITS */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 motion-safe:animate-stagger sm:grid-cols-2">
             {BENEFITS.map((b) => (
-              <Card key={b.title}>
-                <CardBody className="flex flex-col gap-2 ">
+              <Card key={b.title} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <CardBody className="flex flex-col gap-2">
                   <h3 className="font-display text-lg font-bold text-foreground">
                     {b.title}
                   </h3>
@@ -198,8 +205,8 @@ function Landing() {
         </section>
 
         {/* FINAL CTA */}
-        <section className="mx-auto w-full max-w-6xl px-5 pb-20">
-          <Card>
+        <section className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20 sm:pt-20 md:pt-24">
+          <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
             <CardBody className="flex flex-col items-center gap-6 text-center">
               <h2 className="font-display text-3xl font-extrabold text-foreground">
                 Learn what is happening near you?

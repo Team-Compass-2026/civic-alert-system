@@ -22,39 +22,39 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
           <Link
             to="/home"
-            className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm font-medium text-foreground" }}
+            className="relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100"
+            activeProps={{ className: "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600" }}
           >
             Your Area
           </Link>
           <Link
             to="/map"
-            className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm font-medium text-foreground" }}
+            className="relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100"
+            activeProps={{ className: "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600" }}
           >
             Map
           </Link>
           <Link
             to="/alerts"
-            className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm font-medium text-foreground" }}
+            className="relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100"
+            activeProps={{ className: "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600" }}
           >
             Alerts
           </Link>
           <Link
             to="/faq"
-            className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm font-medium text-foreground" }}
+            className="relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100"
+            activeProps={{ className: "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600" }}
           >
             FAQ
           </Link>
           <Link
             to="/dashboard"
-            className="text-sm text-muted-foreground hover:text-foreground"
-            activeProps={{ className: "text-sm font-medium text-foreground" }}
+            className="relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100"
+            activeProps={{ className: "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600" }}
           >
             For Organizations
           </Link>

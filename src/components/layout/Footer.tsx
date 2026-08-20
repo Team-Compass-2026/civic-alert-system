@@ -22,22 +22,22 @@ export function Footer() {
           aria-label="Footer"
           className="flex flex-wrap items-start gap-6 text-sm text-muted-foreground md:justify-end"
         >
-          <Link to="/home" className="hover:text-foreground">
+          <Link to="/home" className="transition-colors duration-200 hover:text-foreground">
             Your Area
           </Link>
-          <Link to="/map" className="hover:text-foreground">
+          <Link to="/map" className="transition-colors duration-200 hover:text-foreground">
             Map
           </Link>
-          <Link to="/report" className="hover:text-foreground">
+          <Link to="/report" className="transition-colors duration-200 hover:text-foreground">
             Report
           </Link>
-          <Link to="/alerts" className="hover:text-foreground">
+          <Link to="/alerts" className="transition-colors duration-200 hover:text-foreground">
             Alerts
           </Link>
-          <Link to="/faq" className="hover:text-foreground">
+          <Link to="/faq" className="transition-colors duration-200 hover:text-foreground">
             FAQ
           </Link>
-          <Link to="/dashboard" className="hover:text-foreground">
+          <Link to="/dashboard" className="transition-colors duration-200 hover:text-foreground">
             For Organizations
           </Link>
         </nav>

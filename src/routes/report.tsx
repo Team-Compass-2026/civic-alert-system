@@ -144,7 +144,7 @@ function ReportPage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-md flex-1 px-5 py-8">
         <form
           className="flex flex-col gap-8"
           onSubmit={(e) => {
@@ -205,7 +205,7 @@ function ReportPage() {
                     aria-pressed={active}
                     onClick={() => setType(key)}
                     className={cn(
-                      "flex items-center gap-2 rounded-md border px-3 py-2.5 text-left transition-colors",
+                      "flex items-center gap-2 rounded-md border px-3 py-3 text-left transition-colors sm:py-2.5",
                       active
                         ? "border-brand-600 bg-brand-50 ring-1 ring-brand-600"
                         : "border-border bg-card hover:bg-muted",

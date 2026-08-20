@@ -62,7 +62,7 @@ function AreaDashboard() {
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
 
-        <Link to="/dashboard" className="text-sm text-brand-700 underline">
+        <Link to="/dashboard" className="text-sm text-brand-700 underline transition-colors duration-200 hover:text-brand-800">
           ← Back to dashboard
         </Link>
 

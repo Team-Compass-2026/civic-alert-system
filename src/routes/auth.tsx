@@ -44,7 +44,7 @@ function AuthPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-12">
+      <main className="mx-auto w-full max-w-md flex-1 px-5 py-12">
         <AuthCard
           areas={areas.data ?? []}
           onAuth={() => navigate({ to: "/profile", replace: true })}
