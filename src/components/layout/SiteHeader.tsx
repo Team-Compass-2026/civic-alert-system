@@ -37,12 +37,20 @@ export function SiteHeader() {
             Alerts
           </Link>
           <Link
+            to="/faq"
+            className="text-sm text-muted-foreground hover:text-foreground"
+            activeProps={{ className: "text-sm font-medium text-foreground" }}
+          >
+            FAQ
+          </Link>
+          <Link
             to="/dashboard"
             className="text-sm text-muted-foreground hover:text-foreground"
             activeProps={{ className: "text-sm font-medium text-foreground" }}
           >
             For Organizations
           </Link>
+
         </nav>
 
         <Link to="/report" className={buttonVariants({ size: "sm" })}>
