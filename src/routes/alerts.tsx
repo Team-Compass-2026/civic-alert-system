@@ -18,6 +18,7 @@ import { verifyReport } from "@/lib/actions";
 import { getPrefs, DEFAULT_PREFS } from "@/lib/device";
 import {
   DISCLAIMER,
+  OG_IMAGE_URL,
   REPORT_TYPES,
   RISK_STYLES,
   timeAgo,
@@ -25,6 +26,7 @@ import {
   type AreaRisk,
   type ReportFeedItem,
 } from "@/lib/waterwatch";
+
 
 const TITLE = "Alerts for your neighborhood — WaterWatch";
 const DESC =
@@ -37,8 +39,13 @@ export const Route = createFileRoute("/alerts")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: AlertsPage,
 });
 

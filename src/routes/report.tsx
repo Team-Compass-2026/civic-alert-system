@@ -19,10 +19,12 @@ import { areasQuery } from "@/lib/queries";
 import { submitReport } from "@/lib/actions";
 import {
   DISCLAIMER,
+  OG_IMAGE_URL,
   REPORT_TYPES,
   REPORT_TYPE_ORDER,
   type ReportType,
 } from "@/lib/waterwatch";
+
 
 const TITLE = "Report a water or sanitation problem — WaterWatch";
 const DESC =
@@ -37,8 +39,13 @@ export const Route = createFileRoute("/report")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: ReportPage,
 });
 

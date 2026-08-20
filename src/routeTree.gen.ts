@@ -14,9 +14,10 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as FaqRouteImport } from './routes/faq'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardSlugRouteImport } from './routes/dashboard.$slug'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 
@@ -45,11 +46,6 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AlertsRoute = AlertsRouteImport.update({
   id: '/alerts',
   path: '/alerts',
@@ -58,6 +54,16 @@ const AlertsRoute = AlertsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardSlugRoute = DashboardSlugRouteImport.update({
+  id: '/dashboard/$slug',
+  path: '/dashboard/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91__mockupChar93PreviewSplatRoute =
@@ -76,24 +82,26 @@ const Char91__componentChar93PreviewSplatRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/dashboard/$slug': typeof DashboardSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/dashboard/$slug': typeof DashboardSlugRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
@@ -101,12 +109,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
-  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/dashboard/$slug': typeof DashboardSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
@@ -115,36 +124,39 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/alerts'
-    | '/dashboard'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/dashboard/$slug'
+    | '/dashboard/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/alerts'
-    | '/dashboard'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/dashboard/$slug'
+    | '/dashboard'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
   id:
     | '__root__'
     | '/'
     | '/alerts'
-    | '/dashboard'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/dashboard/$slug'
+    | '/dashboard/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
   fileRoutesById: FileRoutesById
@@ -152,12 +164,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlertsRoute: typeof AlertsRoute
-  DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
   HomeRoute: typeof HomeRoute
   MapRoute: typeof MapRoute
   ProfileRoute: typeof ProfileRoute
   ReportRoute: typeof ReportRoute
+  DashboardSlugRoute: typeof DashboardSlugRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
 }
@@ -199,13 +212,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/alerts': {
       id: '/alerts'
       path: '/alerts'
@@ -218,6 +224,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/$slug': {
+      id: '/dashboard/$slug'
+      path: '/dashboard/$slug'
+      fullPath: '/dashboard/$slug'
+      preLoaderRoute: typeof DashboardSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__mockup/preview/$': {
@@ -240,12 +260,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlertsRoute: AlertsRoute,
-  DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
   HomeRoute: HomeRoute,
   MapRoute: MapRoute,
   ProfileRoute: ProfileRoute,
   ReportRoute: ReportRoute,
+  DashboardSlugRoute: DashboardSlugRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,

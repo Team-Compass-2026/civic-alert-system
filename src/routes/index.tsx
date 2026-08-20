@@ -10,7 +10,8 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery } from "@/lib/queries";
-import { DISCLAIMER } from "@/lib/waterwatch";
+import { DISCLAIMER, OG_IMAGE_URL } from "@/lib/waterwatch";
+
 
 const TITLE = "WaterWatch — Community water & sanitation early warning";
 const DESC =
@@ -23,10 +24,13 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: Landing,
 });
 

@@ -3,7 +3,8 @@ import { buttonVariants } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TabBar } from "@/components/layout/TabBar";
-import { DISCLAIMER } from "@/lib/waterwatch";
+import { DISCLAIMER, OG_IMAGE_URL } from "@/lib/waterwatch";
+
 
 const TITLE = "FAQ — How WaterWatch works";
 const DESC =
@@ -16,10 +17,13 @@ export const Route = createFileRoute("/faq")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: FaqPage,
 });
 

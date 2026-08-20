@@ -22,7 +22,9 @@ import {
   savePrefs,
   type AlertPrefs,
 } from "@/lib/device";
-import { DISCLAIMER, timeAgo } from "@/lib/waterwatch";
+import { DISCLAIMER, OG_IMAGE_URL, timeAgo } from "@/lib/waterwatch";
+
+
 
 const TITLE = "Your profile & alert settings — WaterWatch";
 const DESC =
@@ -35,8 +37,13 @@ export const Route = createFileRoute("/profile")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+
   component: ProfilePage,
 });
 
@@ -78,15 +85,30 @@ function ProfilePage() {
   const [language, setLanguage] = useState("en");
 
   useEffect(() => {
-    setPrefs(getPrefs());
+    const loaded = getPrefs();
+    setPrefs(loaded);
     setMyIds(getMyReportIds());
   }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (prefs.theme === "dark") {
+      root.classList.remove("light");
+      root.classList.add("dark");
+    } else if (prefs.theme === "light") {
+      root.classList.remove("dark");
+      root.classList.add("light");
+    } else {
+      root.classList.remove("dark", "light");
+    }
+  }, [prefs.theme]);
 
   function update(patch: Partial<AlertPrefs>) {
     const next = { ...prefs, ...patch };
     setPrefs(next);
     savePrefs(next);
   }
+
 
   const all = feed.data ?? [];
   const mine = all.filter((r) => myIds.includes(r.id));
@@ -231,7 +253,10 @@ function ProfilePage() {
               />
             </SettingRow>
 
-            <SettingRow label="Language">
+            <SettingRow
+              label="Language"
+              hint="Translations are experimental in this demo"
+            >
               <Select
                 aria-label="Language"
                 value={language}
@@ -242,12 +267,27 @@ function ProfilePage() {
               </Select>
             </SettingRow>
 
+            <SettingRow label="Theme" hint="Choose light, dark, or follow system">
+              <Select
+                aria-label="Theme"
+                value={prefs.theme}
+                onChange={(e) =>
+                  update({ theme: e.target.value as AlertPrefs["theme"] })
+                }
+              >
+                <option value="system">System</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </Select>
+            </SettingRow>
+
             <SettingRow
               label="Partner rewards"
               hint="Coming soon — earn points for verified contributions"
             >
               <Switch checked={false} disabled aria-label="Partner rewards" />
             </SettingRow>
+
           </CardBody>
         </Card>
 

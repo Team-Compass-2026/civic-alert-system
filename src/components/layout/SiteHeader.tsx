@@ -1,18 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/design-system/design-idea-5cd787";
+import logoAsset from "@/assets/logo-transparent.png.asset.json";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="flex items-center gap-2">
-          <span aria-hidden="true" className="text-xl">
-            💧
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="WaterWatch"
+            className="h-8 w-auto"
+            width={32}
+            height={32}
+          />
           <span className="font-display text-lg font-bold text-foreground">
             WaterWatch
           </span>
         </Link>
+
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
           <Link
