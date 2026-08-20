@@ -46,10 +46,13 @@ VITE_SUPABASE_ANON_KEY=...
 - **Cloudflare Workers (primary):** `bunx wrangler deploy` — the Cloudflare Vite
   plugin is active on every build by default, producing a worker bundle in
   `dist/server/index.js` with `wrangler.json`.
-- **Vercel:** Builds automatically via `VERCEL=1` (set by Vercel CI). This gates
-  the Cloudflare plugin off, so Vite emits a standard Node.js SSR entry
-  (`dist/server/server.js`) that Vercel's builder can serve. No `vercel.json`
-  required — the TanStack Start SSR handler serves all routes.
+- **Vercel:** The Nitro adapter (`nitro/vite`) auto-detects `VERCEL=1` (set
+  automatically by Vercel) and emits `.vercel/output/` (Build Output API),
+  which Vercel serves with zero settings changes. Keep the Framework Preset
+  as **TanStack Start**, build command `vite build`, output `dist`. Set these
+  environment variables in Vercel Project → Settings → Environment Variables:
+  `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_URL`,
+  `VITE_SUPABASE_ANON_KEY`.
 
 ## Context
 
