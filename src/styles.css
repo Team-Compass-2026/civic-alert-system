@@ -3,14 +3,92 @@
 
 @source ".";
 
+/* Project-level palette override: Deep Navy + Water Blue brand over off-white. */
+/* NOTE: This overrides the attached design-system's sky-blue brand scale, because the */
+/* WaterWatch logo and assets use Deep Navy (#123B5D) and Water Blue (#2F80ED). Risk   */
+/* semantics (green/amber/red) are intentionally untouched. */
+:root {
+  color-scheme: light;
+
+  /* Brand — Deep Navy / Water Blue */
+  --brand-50: #eaf4ff;
+  --brand-100: #d5e8ff;
+  --brand-200: #abd1ff;
+  --brand-300: #81baff;
+  --brand-400: #57a3ff;
+  --brand-500: #2f80ed; /* Water Blue */
+  --brand-600: #1d6dd6;
+  --brand-700: #1559b0;
+  --brand-800: #123b5d; /* Deep Navy */
+  --brand-900: #0e2f4a;
+  --brand-950: #081c2a;
+
+  /* Surfaces — off-white light default, never auto-dark */
+  --background: #f7f9fa;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --muted: #edf1f5;
+  --muted-foreground: #5b728b;
+  --border: #d8e0e8;
+  --input: #d8e0e8;
+  --ring: #2f80ed;
+
+  /* Shadows tuned for the lighter palette */
+  --shadow-sm: 0 1px 2px 0 rgb(18 59 93 / 0.04);
+  --shadow-card: 0 1px 3px 0 rgb(18 59 93 / 0.06),
+    0 1px 2px -1px rgb(18 59 93 / 0.05);
+  --shadow-lg: 0 10px 30px -12px rgb(18 59 93 / 0.12),
+    0 4px 12px -6px rgb(18 59 93 / 0.08);
+  --shadow-focus: 0 0 0 3px rgb(47 128 237 / 0.35);
+}
+
+/* No OS dark-mode auto switch; the app is light-by-default. */
+.dark {
+  /* Kept minimal to avoid accidental dark flashes if a class is toggled elsewhere. */
+  --background: #f7f9fa;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --muted: #edf1f5;
+  --muted-foreground: #5b728b;
+  --border: #d8e0e8;
+  --input: #d8e0e8;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  html {
+    color-scheme: light;
+  }
+}
 
 @keyframes ww-area-pulse {
-  0% { stroke-width: 2; stroke-opacity: 1; fill-opacity: 0.18; }
-  50% { stroke-width: 8; stroke-opacity: 0.45; fill-opacity: 0.34; }
-  100% { stroke-width: 2; stroke-opacity: 1; fill-opacity: 0.18; }
+  0% {
+    stroke-width: 2;
+    stroke-opacity: 1;
+    fill-opacity: 0.18;
+  }
+  50% {
+    stroke-width: 8;
+    stroke-opacity: 0.45;
+    fill-opacity: 0.34;
+  }
+  100% {
+    stroke-width: 2;
+    stroke-opacity: 1;
+    fill-opacity: 0.18;
+  }
 }
 
 .ww-area-pulse {
   animation: ww-area-pulse 1.2s ease-out 1;
 }
-

@@ -1,10 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/design-system/design-idea-5cd787";
+import { useAuth } from "@/hooks/useAuth";
 import logoAsset from "@/assets/logo-transparent.png.asset.json";
 
 export function SiteHeader() {
+  const auth = useAuth();
+  const isSignedIn = Boolean(auth.user);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background">
+    <header className="sticky top-0 z-50 border-b border-border bg-card">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="flex items-center gap-2">
           <img
@@ -18,7 +22,6 @@ export function SiteHeader() {
             WaterWatch
           </span>
         </Link>
-
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
           <Link
@@ -56,13 +59,30 @@ export function SiteHeader() {
           >
             For Organizations
           </Link>
-
         </nav>
 
-        <Link to="/report" className={buttonVariants({ size: "sm" })}>
-          Report a Problem
-        </Link>
+        <div className="flex items-center gap-3">
+          {isSignedIn ? (
+            <Link
+              to="/profile"
+              className={buttonVariants({ size: "sm", variant: "outline" })}
+            >
+              Profile
+            </Link>
+          ) : (
+            <Link
+              to="/auth"
+              className={buttonVariants({ size: "sm", variant: "outline" })}
+            >
+              Sign in
+            </Link>
+          )}
+          <Link to="/report" className={buttonVariants({ size: "sm" })}>
+            Report a Problem
+          </Link>
+        </div>
       </div>
     </header>
   );
 }
+

@@ -14,18 +14,18 @@ import type { AreaRisk } from "@/lib/waterwatch";
 
 type Props = {
   areas: AreaRisk[];
-  areaSlug: string;
-  onAreaChange: (slug: string) => void;
+  onAuth?: () => void;
 };
 
 /**
  * Email + password login / signup for citizens. The chosen area is stored on
- * the account metadata so alerts and reports can be localized after sign-in.
+ * the account metadata so the signup trigger can create a profile row.
  */
-export function AuthCard({ areas, areaSlug, onAreaChange }: Props) {
+export function AuthCard({ areas, onAuth }: Props) {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [areaId, setAreaId] = useState<string>(areas[0]?.area_id ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -42,18 +42,26 @@ export function AuthCard({ areas, areaSlug, onAreaChange }: Props) {
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/profile`,
-          data: { area_slug: areaSlug },
+          data: { area_id: areaId },
         },
       });
-      if (err) setError(err.message);
-      else if (!data.session)
+      if (err) {
+        setError(err.message);
+      } else if (data.session) {
+        onAuth?.();
+      } else {
         setNotice("Check your inbox to confirm your email, then sign in.");
+      }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      if (err) setError(err.message);
+      if (err) {
+        setError(err.message);
+      } else {
+        onAuth?.();
+      }
     }
     setBusy(false);
   }
@@ -108,15 +116,18 @@ export function AuthCard({ areas, areaSlug, onAreaChange }: Props) {
               <Label htmlFor="ww-area">Your area</Label>
               <Select
                 id="ww-area"
-                value={areaSlug}
-                onChange={(e) => onAreaChange(e.target.value)}
+                value={areaId}
+                onChange={(e) => setAreaId(e.target.value)}
               >
                 {areas.map((a) => (
-                  <option key={a.area_id} value={a.slug}>
+                  <option key={a.area_id} value={a.area_id}>
                     {a.name}
                   </option>
                 ))}
               </Select>
+              <p className="text-xs text-muted-foreground">
+                We use this to localize your alerts and reports.
+              </p>
             </div>
           ) : null}
 
@@ -147,3 +158,4 @@ export function AuthCard({ areas, areaSlug, onAreaChange }: Props) {
     </Card>
   );
 }
+

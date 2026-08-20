@@ -21,8 +21,9 @@ export const DEFAULT_PREFS: AlertPrefs = {
   highRisk: true,
   verifyRequests: true,
   neighborhoodUpdates: false,
-  theme: "system",
+  theme: "light",
 };
+
 
 
 export function getAnonToken(): string {
