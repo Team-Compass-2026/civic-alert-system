@@ -120,9 +120,9 @@ function Landing() {
 
             <Card className="overflow-hidden">
               <CardBody className="relative p-3">
-                <NeighborhoodMap areas={list} className="h-80 w-full" />
+                <NeighborhoodMap areas={list} className="isolate h-80 w-full" />
                 {focus ? (
-                  <Card className="absolute bottom-6 left-6 right-6 md:right-auto md:max-w-xs">
+                  <Card className="absolute bottom-6 left-6 right-6 z-10 md:right-auto md:max-w-xs">
                     <CardBody className="flex flex-col gap-2 p-4">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
