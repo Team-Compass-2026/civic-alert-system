@@ -12,6 +12,8 @@ import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
+
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { verifyReport } from "@/lib/actions";
@@ -339,6 +341,7 @@ function AlertsPage() {
         <p className="mt-10 text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
 
+      <Footer />
     </div>
   );
 }
@@ -346,3 +349,4 @@ function AlertsPage() {
 function floorScore(level: AlertItem["level"]): number {
   return level === "CRITICAL" ? 85 : level === "HIGH" ? 67 : level === "MODERATE" ? 34 : 0;
 }
+

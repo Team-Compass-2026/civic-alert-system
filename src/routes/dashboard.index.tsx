@@ -10,8 +10,10 @@ import {
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
 import { StatTile } from "@/components/civic/StatTile";
+
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -84,8 +86,10 @@ function DashboardPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+
         <header className="flex flex-col gap-2 border-b border-border pb-6">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             WaterWatch Intelligence
@@ -243,7 +247,7 @@ function DashboardPage() {
               </Card>
             </section>
 
-            <footer className="flex flex-col gap-4 border-t border-border pt-6">
+            <section className="flex flex-col gap-4 border-t border-border pt-6">
               <div className="flex flex-wrap gap-3">
                 <Button variant="outline" disabled>
                   Export CSV (coming soon)
@@ -255,12 +259,13 @@ function DashboardPage() {
               <p className="text-xs text-muted-foreground">
                 {DISCLAIMER} · Team Compass 🧭 · DEEP 2026
               </p>
-            </footer>
+            </section>
           </>
         )}
       </main>
 
-      <TabBar />
+      <Footer />
     </div>
   );
 }
+

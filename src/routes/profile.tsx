@@ -1,6 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, redirect, Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+
 import {
   Button,
   Card,
@@ -8,18 +10,22 @@ import {
   CardHeader,
   Select,
   Switch,
+  Spinner,
+  Alert,
   buttonVariants,
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
 import { StatusPill } from "@/components/civic/StatusPill";
 import { AlertCard } from "@/components/civic/AlertCard";
 import { AlertList } from "@/components/civic/AlertList";
-import { AuthCard } from "@/components/auth/AuthCard";
 import { useAuth } from "@/hooks/useAuth";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
+import { getMyProfile, updateMyProfileArea } from "@/lib/profile.functions";
 import {
   DEFAULT_PREFS,
   getMyReportIds,
@@ -29,13 +35,18 @@ import {
 } from "@/lib/device";
 import { DISCLAIMER, OG_IMAGE_URL, timeAgo } from "@/lib/waterwatch";
 
-
-
 const TITLE = "Your profile & alert settings — WaterWatch";
 const DESC =
   "Your community reputation, the reports you filed, and the settings that decide which localized WaterWatch alerts you receive.";
 
 export const Route = createFileRoute("/profile")({
+  ssr: false,
+  beforeLoad: async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+      throw redirect({ to: "/auth" });
+    }
+  },
   head: () => ({
     meta: [
       { title: TITLE },
@@ -84,12 +95,31 @@ function SettingRow({
 
 function ProfilePage() {
   const auth = useAuth();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const getMyProfileFn = useServerFn(getMyProfile);
+  const updateMyProfileAreaFn = useServerFn(updateMyProfileArea);
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
   const alerts = useQuery(alertsQuery);
+  const profile = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => getMyProfileFn(),
+  });
+
   const [prefs, setPrefs] = useState<AlertPrefs>(DEFAULT_PREFS);
   const [myIds, setMyIds] = useState<string[]>([]);
   const [language, setLanguage] = useState("en");
+
+  const updateArea = useMutation({
+    mutationFn: (vars: { areaId: string | null }) =>
+      updateMyProfileAreaFn({ data: vars }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
+    },
+  });
+
+
 
   useEffect(() => {
     const loaded = getPrefs();
@@ -110,10 +140,18 @@ function ProfilePage() {
     }
   }, [prefs.theme]);
 
+
   function update(patch: Partial<AlertPrefs>) {
     const next = { ...prefs, ...patch };
     setPrefs(next);
     savePrefs(next);
+  }
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
   }
 
   const all = feed.data ?? [];
@@ -121,7 +159,11 @@ function ProfilePage() {
   const myReports = mine.length > 0 ? mine : all.slice(0, 3);
   const confirmations = myReports.reduce((sum, r) => sum + r.confirms, 0);
 
-  const myArea = (areas.data ?? []).find((a) => a.slug === prefs.areaSlug);
+  const activeAreaId = profile.data?.area_id ?? null;
+  const myArea = activeAreaId
+    ? (areas.data ?? []).find((a) => a.area_id === activeAreaId)
+    : (areas.data ?? []).find((a) => a.slug === prefs.areaSlug);
+
   const myAreaAlerts = (alerts.data ?? []).filter(
     (a) => myArea && a.area_id === myArea.area_id,
   );
@@ -136,67 +178,86 @@ function ProfilePage() {
           Profile
         </h1>
 
-        {!auth.loading && !auth.user ? (
-          <AuthCard
-            areas={areas.data ?? []}
-            areaSlug={prefs.areaSlug}
-            onAreaChange={(slug) => update({ areaSlug: slug })}
-          />
+        {auth.user ? (
+          <Card>
+            <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-sm font-medium text-foreground">
+                  Signed in as {auth.user.email}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Home area: {myArea?.name ?? "Not set"}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link to="/report" className={buttonVariants({ size: "sm" })}>
+                  Report a problem
+                </Link>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void handleSignOut()}
+                >
+                  Sign out
+                </Button>
+              </div>
+            </CardBody>
+          </Card>
         ) : null}
 
-        {auth.user ? (
-          <>
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-display text-base font-semibold text-foreground">
+              Alerts for {myArea?.name ?? "your area"}
+            </h2>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => void alerts.refetch()}
+              disabled={alerts.isFetching}
+            >
+              Refresh
+            </Button>
+          </div>
+
+          {alerts.isLoading || profile.isLoading ? (
             <Card>
-              <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium text-foreground">
-                    Signed in as {auth.user.email}
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    Home area: {myArea?.name ?? prefs.areaSlug}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link
-                    to="/report"
-                    className={buttonVariants({ size: "sm" })}
-                  >
-                    Report a problem
-                  </Link>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => auth.signOut()}
-                  >
-                    Sign out
-                  </Button>
-                </div>
+              <CardBody className="flex items-center justify-center gap-2 p-5">
+                <Spinner />
+                <span className="text-sm text-muted-foreground">
+                  Loading alerts…
+                </span>
               </CardBody>
             </Card>
-
-            <section className="flex flex-col gap-4">
-              <h2 className="font-display text-base font-semibold text-foreground">
-                Alerts for {myArea?.name ?? "your area"}
-              </h2>
-              {myAreaAlerts.length > 0 ? (
-                <AlertList>
-                  {myAreaAlerts.map((alert) => (
-                    <AlertCard key={alert.id} alert={alert} />
-                  ))}
-                </AlertList>
-              ) : (
-                <Card>
-                  <CardBody className="p-5">
-                    <p className="text-sm text-muted-foreground">
-                      No active alerts for your area right now.
-                    </p>
-                  </CardBody>
-                </Card>
-              )}
-            </section>
-          </>
-        ) : null}
-
+          ) : alerts.isError ? (
+            <Alert variant="danger" title="Could not load alerts">
+              <div className="flex flex-col gap-3">
+                <p className="text-sm">{(alerts.error as Error).message}</p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void alerts.refetch()}
+                >
+                  Try again
+                </Button>
+              </div>
+            </Alert>
+          ) : myAreaAlerts.length > 0 ? (
+            <AlertList>
+              {myAreaAlerts.map((alert) => (
+                <AlertCard key={alert.id} alert={alert} />
+              ))}
+            </AlertList>
+          ) : (
+            <Card>
+              <CardBody className="p-5">
+                <p className="text-sm text-muted-foreground">
+                  No active alerts for your area right now.
+                </p>
+              </CardBody>
+            </Card>
+          )}
+        </section>
 
         <Card>
           <CardBody className="flex flex-col gap-4 p-5">
@@ -300,8 +361,15 @@ function ProfilePage() {
             >
               <Select
                 aria-label="Home area"
-                value={prefs.areaSlug}
-                onChange={(e) => update({ areaSlug: e.target.value })}
+                value={myArea?.slug ?? prefs.areaSlug}
+                onChange={(e) => {
+                  const slug = e.target.value;
+                  const area = (areas.data ?? []).find((a) => a.slug === slug);
+                  update({ areaSlug: slug });
+                  if (area && auth.user) {
+                    void updateArea.mutate({ areaId: area.area_id });
+                  }
+                }}
               >
                 {(areas.data ?? []).map((a) => (
                   <option key={a.area_id} value={a.slug}>
@@ -361,7 +429,6 @@ function ProfilePage() {
             >
               <Switch checked={false} disabled aria-label="Partner rewards" />
             </SettingRow>
-
           </CardBody>
         </Card>
 
@@ -370,14 +437,15 @@ function ProfilePage() {
             About Team Compass
           </h2>
           <p className="text-xs text-muted-foreground">
-            WaterWatch is built by Team Compass 🧭 for DEEP Hackathon 2026 —
-            a community-first approach to water, sanitation and hygiene risk in
+            WaterWatch is built by Team Compass 🧭 for DEEP Hackathon 2026 — a
+            community-first approach to water, sanitation and hygiene risk in
             Yangon.
           </p>
           <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
         </section>
       </main>
 
+      <Footer />
     </div>
   );
 }

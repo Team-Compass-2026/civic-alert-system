@@ -7,10 +7,12 @@ import {
   CardBody,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Footer } from "@/components/layout/Footer";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery } from "@/lib/queries";
-import { DISCLAIMER, OG_IMAGE_URL } from "@/lib/waterwatch";
+import { OG_IMAGE_URL } from "@/lib/waterwatch";
+
 
 
 const TITLE = "WaterWatch — Community water & sanitation early warning";
@@ -89,11 +91,12 @@ function Landing() {
               <Badge variant="brand" className="w-fit">
                 Yangon · community early warning
               </Badge>
-              <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl">
+              <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
                 Your information is life-saving.
                 <br />
                 <span className="text-brand-600">Protect the community.</span>
               </h1>
+
               <p className="text-lg text-muted-foreground">
                 WaterWatch turns local observations about water and sanitation
                 into early warnings for your neighborhood.
@@ -211,39 +214,8 @@ function Landing() {
         </section>
       </main>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto grid w-full max-w-6xl gap-6 px-5 py-10 md:grid-cols-2">
-          <div className="flex flex-col gap-1">
-            <span className="font-display text-lg font-bold text-foreground">
-              WaterWatch
-            </span>
-            <span className="text-sm text-muted-foreground">
-              Community WASH early warning for Yangon
-            </span>
-            <span className="text-xs text-muted-foreground">Team Compass</span>
-          </div>
-          <nav
-            aria-label="Footer"
-            className="flex flex-wrap items-start gap-6 text-sm text-muted-foreground md:justify-end"
-          >
-            <Link to="/map" className="hover:text-foreground">
-              Map
-            </Link>
-            <Link to="/report" className="hover:text-foreground">
-              Report
-            </Link>
-            <Link to="/faq" className="hover:text-foreground">
-              FAQ
-            </Link>
-            <Link to="/dashboard" className="hover:text-foreground">
-              For Organizations
-            </Link>
-          </nav>
-          <p className="text-xs text-muted-foreground md:col-span-2">
-            {DISCLAIMER}
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
+
