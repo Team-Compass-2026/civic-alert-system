@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignUpRouteImport } from './routes/sign-up'
+import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
@@ -22,6 +24,16 @@ import { Route as DashboardSlugRouteImport } from './routes/dashboard.$slug'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
@@ -50,16 +62,6 @@ const FaqRoute = FaqRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignUpRoute = SignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AlertsRoute = AlertsRouteImport.update({
@@ -99,13 +101,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
@@ -115,13 +117,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/dashboard': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
@@ -132,13 +134,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/alerts': typeof AlertsRoute
   '/auth': typeof AuthRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/faq': typeof FaqRoute
   '/home': typeof HomeRoute
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
@@ -150,13 +152,13 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
-    | '/sign-in'
-    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/sign-in'
+    | '/sign-up'
     | '/dashboard/$slug'
     | '/dashboard/'
     | '/__component/preview/$'
@@ -166,13 +168,13 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
-    | '/sign-in'
-    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/sign-in'
+    | '/sign-up'
     | '/dashboard/$slug'
     | '/dashboard'
     | '/__component/preview/$'
@@ -182,13 +184,13 @@ export interface FileRouteTypes {
     | '/'
     | '/alerts'
     | '/auth'
-    | '/sign-in'
-    | '/sign-up'
     | '/faq'
     | '/home'
     | '/map'
     | '/profile'
     | '/report'
+    | '/sign-in'
+    | '/sign-up'
     | '/dashboard/$slug'
     | '/dashboard/'
     | '/__component/preview/$'
@@ -199,13 +201,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlertsRoute: typeof AlertsRoute
   AuthRoute: typeof AuthRoute
-  SignInRoute: typeof SignInRoute
-  SignUpRoute: typeof SignUpRoute
   FaqRoute: typeof FaqRoute
   HomeRoute: typeof HomeRoute
   MapRoute: typeof MapRoute
   ProfileRoute: typeof ProfileRoute
   ReportRoute: typeof ReportRoute
+  SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
   DashboardSlugRoute: typeof DashboardSlugRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
@@ -214,6 +216,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/report': {
       id: '/report'
       path: '/report'
@@ -254,20 +270,6 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/alerts': {
@@ -319,13 +321,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlertsRoute: AlertsRoute,
   AuthRoute: AuthRoute,
-  SignInRoute: SignInRoute,
-  SignUpRoute: SignUpRoute,
   FaqRoute: FaqRoute,
   HomeRoute: HomeRoute,
   MapRoute: MapRoute,
   ProfileRoute: ProfileRoute,
   ReportRoute: ReportRoute,
+  SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
   DashboardSlugRoute: DashboardSlugRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   Char91__componentChar93PreviewSplatRoute:
