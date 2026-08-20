@@ -70,7 +70,7 @@ export function AuthCard({ areas, areaSlug, onAreaChange }: Props) {
         </p>
       </CardHeader>
       <CardBody className="flex flex-col gap-4 p-5">
-        {error ? <Alert variant="critical">{error}</Alert> : null}
+        {error ? <Alert variant="danger">{error}</Alert> : null}
         {notice ? <Alert variant="info">{notice}</Alert> : null}
 
         <form className="flex flex-col gap-4" onSubmit={onSubmit}>
