@@ -290,10 +290,12 @@ function HomePage() {
           </div>
         </div>
       </main>
-    </div>
+
+      <Footer />
     </div>
   );
 }
+
 
 
 
