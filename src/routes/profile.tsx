@@ -138,12 +138,6 @@ function ProfilePage() {
     }
   }, [prefs.theme]);
 
-  const updateArea = useMutation({
-    mutationFn: updateMyProfileArea,
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
-    },
-  });
 
   function update(patch: Partial<AlertPrefs>) {
     const next = { ...prefs, ...patch };
