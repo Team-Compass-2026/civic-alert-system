@@ -2,11 +2,11 @@
  * Civic Early-Warning Design System — public barrel.
  *
  * Consumers import components from here:
- *   import { Button, RiskBadge } from "@/design-system/design-idea-5cd787/design-system/civic-ew";
+ *   import { Button } from "@/design-system/design-idea-5cd787";
  *
  * To receive the theme tokens + Tailwind v4 utility mappings, import the
  * canonical stylesheet once in your app root:
- *   import "@/design-system/design-idea-5cd787/design-system/civic-ew/styles/tokens.css";
+ *   import "@/design-system/design-idea-5cd787/styles/tokens.css";
  *
  * Showcase-only helpers are NOT re-exported here (kept preview-only).
  */

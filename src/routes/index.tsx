@@ -126,7 +126,7 @@ function Landing() {
             </div>
 
             <Card className="overflow-hidden">
-              <CardBody className="relative p-0">
+              <CardBody className="relative overflow-hidden p-0">
                 <NeighborhoodMap areas={list} className="isolate h-96 w-full" />
 
                 {focus ? (

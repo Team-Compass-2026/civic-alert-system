@@ -3,10 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Badge,
   Button,
-  Card,
-  CardBody,
   Checkbox,
   Label,
   Textarea,
@@ -146,37 +143,28 @@ function ReportPage() {
 
       <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
         {done ? (
-          <Card className="mb-8">
-            <CardBody className="flex flex-col items-start gap-4 p-5">
-              <Badge
-                variant="neutral"
-                className="size-10 rounded-pill bg-risk-low-tint text-risk-low text-lg"
+          <Alert
+            variant="success"
+            title="Report received. It will appear on the map."
+            className="mb-8"
+          >
+            <p className="text-sm text-muted-foreground">
+              Neighbors nearby will be asked to confirm it. Thank you for
+              looking out for your community.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link to="/map" className={buttonVariants({ size: "md" })}>
+                Help verify nearby reports
+              </Link>
+              <Button
+                variant="outline"
+                size="md"
+                onClick={() => setDone(false)}
               >
-                ✓
-              </Badge>
-              <div className="flex flex-col gap-1">
-                <h2 className="font-display text-lg font-semibold text-foreground">
-                  Report received. It will appear on the map.
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Neighbors nearby will be asked to confirm it. Thank you for
-                  looking out for your community.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Link to="/map" className={buttonVariants({ size: "md" })}>
-                  Help verify nearby reports
-                </Link>
-                <Button
-                  variant="outline"
-                  size="md"
-                  onClick={() => setDone(false)}
-                >
-                  Report something else
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
+                Report something else
+              </Button>
+            </div>
+          </Alert>
         ) : null}
 
         <form
