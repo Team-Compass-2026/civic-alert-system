@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button, Card, CardBody } from "@/design-system/design-idea-5cd787";
+import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TabBar } from "@/components/layout/TabBar";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/map")({
 });
 
 function MapPage() {
+  useWaterwatchRealtime();
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
   const [levels, setLevels] = useState<RiskLevel[]>([]);

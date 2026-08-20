@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button, Spinner } from "@/design-system/design-idea-5cd787";
+import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { TabBar } from "@/components/layout/TabBar";
 import { AlertList } from "@/components/civic/AlertList";
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/alerts")({
 type Tab = "alerts" | "verify";
 
 function AlertsPage() {
+  useWaterwatchRealtime();
   const alerts = useQuery(alertsQuery);
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
