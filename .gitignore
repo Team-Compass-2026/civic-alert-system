@@ -36,3 +36,7 @@ src/.generated/
 
 # Lovable sandbox workspace directory
 .workspace/
+
+# Sensitive data
+.env*
+!.env.example
