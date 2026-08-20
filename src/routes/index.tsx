@@ -1,6 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Badge, buttonVariants, Card, CardBody } from "@/design-system/design-idea-5cd787";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Badge,
+  buttonVariants,
+  Card,
+  CardBody,
+} from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
+import { RiskBadge } from "@/components/civic/RiskBadge";
+import { areasQuery } from "@/lib/queries";
 import { DISCLAIMER } from "@/lib/waterwatch";
 
 const TITLE = "WaterWatch — Community water & sanitation early warning";
@@ -14,6 +23,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: DESC },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Landing,
@@ -21,67 +32,137 @@ export const Route = createFileRoute("/")({
 
 const STEPS = [
   {
-    icon: "📝",
-    title: "Neighbors report",
-    body: "Anyone can flag unsafe water, sewage, flooding or broken pipes in under a minute — anonymously if they prefer.",
+    step: "01",
+    title: "Observe",
+    body: "Dirty water, sewage, flooding or broken infrastructure in your street.",
   },
   {
-    icon: "✅",
-    title: "The community verifies",
-    body: "Nearby residents confirm or dispute each report, so a single mistaken flag never drives an alert.",
+    step: "02",
+    title: "Report",
+    body: "What, where, when — add a photo. Under a minute, anonymously if you prefer.",
   },
   {
-    icon: "📈",
-    title: "Risk rises early",
-    body: "Verified reports raise an area's WASH risk score. Crossing a threshold sends an alert with safe-water advice.",
+    step: "03",
+    title: "Verify",
+    body: "Nearby residents confirm or dispute, so one mistaken flag never drives an alert.",
+  },
+  {
+    step: "04",
+    title: "Alert",
+    body: "Localized warnings and a neighborhood risk score with safe-water advice.",
+  },
+];
+
+const BENEFITS = [
+  {
+    title: "Know Your Neighborhood",
+    body: "See the current WASH risk where you live — and exactly why it changed this week.",
+  },
+  {
+    title: "Warn Your Neighbors",
+    body: "Your report helps the people living nearby stay safe before a problem spreads.",
+  },
+  {
+    title: "Guide the Response",
+    body: "Organizations use the signal to prioritize where to investigate first.",
   },
 ];
 
 function Landing() {
+  const areas = useQuery(areasQuery);
+  const list = areas.data ?? [];
+  const focus = list.find((a) => a.slug === "hlaing-tharyar") ?? list[0];
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
       <main>
-        <section className="mx-auto w-full max-w-6xl px-5 py-16 md:py-24">
-          <div className="flex max-w-2xl flex-col gap-6">
-            <Badge variant="brand" className="w-fit">
-              Yangon · community early warning
-            </Badge>
-            <h1 className="font-display text-4xl font-bold leading-tight text-foreground md:text-5xl">
-              Spot water and sanitation problems before they spread
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              WaterWatch collects reports from residents, verifies them with the
-              people who live nearby, and turns them into a clear risk signal for
-              each neighborhood.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/report" className={buttonVariants({ size: "lg" })}>
-                Report a Problem
-              </Link>
-              <Link
-                to="/home"
-                className={buttonVariants({ size: "lg", variant: "outline" })}
-              >
-                See Your Area
-              </Link>
+        {/* HERO */}
+        <section className="bg-gradient-to-b from-brand-50 to-transparent">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
+            <div className="flex flex-col gap-6">
+              <Badge variant="brand" className="w-fit">
+                Yangon · community early warning
+              </Badge>
+              <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl">
+                Your information is life-saving.
+                <br />
+                <span className="text-brand-600">Protect the community.</span>
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                WaterWatch turns local observations about water and sanitation
+                into early warnings for your neighborhood.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link to="/report" className={buttonVariants({ size: "lg" })}>
+                  Report a Problem
+                </Link>
+                <Link
+                  to="/map"
+                  className={buttonVariants({ size: "lg", variant: "outline" })}
+                >
+                  Current Data
+                </Link>
+              </div>
+              {focus ? (
+                <p className="text-sm text-muted-foreground">
+                  Your area · {focus.name} —{" "}
+                  <span className="font-mono">
+                    {focus.level} {focus.score}/100
+                  </span>{" "}
+                  ·{" "}
+                  <span className="font-mono">{focus.reports_this_week}</span>{" "}
+                  reports this week
+                </p>
+              ) : null}
             </div>
+
+            <Card className="overflow-hidden">
+              <CardBody className="relative p-3">
+                <NeighborhoodMap areas={list} className="h-80 w-full" />
+                {focus ? (
+                  <Card className="absolute bottom-6 left-6 right-6 md:right-auto md:max-w-xs">
+                    <CardBody className="flex flex-col gap-2 p-4">
+                      <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
+                        Your area · {focus.name}
+                      </span>
+                      <RiskBadge
+                        level={focus.level}
+                        score={focus.score}
+                        size="sm"
+                        className="w-fit"
+                      />
+                      <span className="text-xs text-muted-foreground">
+                        <span className="font-mono">
+                          {focus.reports_this_week}
+                        </span>{" "}
+                        reports this week
+                      </span>
+                    </CardBody>
+                  </Card>
+                ) : null}
+              </CardBody>
+            </Card>
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <h2 className="font-display text-2xl font-semibold text-foreground">
-            How it works
+        {/* HOW IT WORKS */}
+        <section className="mx-auto w-full max-w-6xl px-5 py-16">
+          <h2 className="font-display text-3xl font-extrabold text-foreground">
+            How things work
           </h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <div className="mt-8 grid gap-6 md:grid-cols-4">
             {STEPS.map((step) => (
-              <Card key={step.title}>
+              <Card
+                key={step.step}
+                className="transition-transform duration-200 hover:-translate-y-1"
+              >
                 <CardBody className="flex flex-col gap-3 p-5">
-                  <span aria-hidden="true" className="text-2xl">
-                    {step.icon}
+                  <span className="font-mono text-sm text-brand-600">
+                    {step.step}
                   </span>
-                  <h3 className="font-display text-lg font-semibold text-foreground">
+                  <h3 className="font-display text-lg font-bold text-foreground">
                     {step.title}
                   </h3>
                   <p className="text-sm text-muted-foreground">{step.body}</p>
@@ -91,21 +172,71 @@ function Landing() {
           </div>
         </section>
 
+        {/* BENEFITS */}
+        <section className="mx-auto w-full max-w-6xl px-5 pb-16">
+          <div className="grid gap-6 md:grid-cols-3">
+            {BENEFITS.map((b) => (
+              <Card
+                key={b.title}
+                className="transition-transform duration-200 hover:-translate-y-1"
+              >
+                <CardBody className="flex flex-col gap-2 p-5">
+                  <h3 className="font-display text-lg font-bold text-foreground">
+                    {b.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{b.body}</p>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-20">
-          <Card>
-            <CardBody className="flex flex-col gap-2 p-5">
-              <h2 className="font-display text-lg font-semibold text-foreground">
-                What WaterWatch is not
+          <Card className="bg-brand-50">
+            <CardBody className="flex flex-col items-center gap-5 p-10 text-center">
+              <h2 className="font-display text-3xl font-extrabold text-foreground">
+                Learn what is happening near you?
               </h2>
-              <p className="text-sm text-muted-foreground">{DISCLAIMER}</p>
+              <Link to="/home" className={buttonVariants({ size: "lg" })}>
+                Check Your Neighborhood →
+              </Link>
             </CardBody>
           </Card>
         </section>
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto w-full max-w-6xl px-5 py-8 text-sm text-muted-foreground">
-          WaterWatch · community WASH early warning for Yangon
+        <div className="mx-auto grid w-full max-w-6xl gap-6 px-5 py-10 md:grid-cols-2">
+          <div className="flex flex-col gap-1">
+            <span className="font-display text-lg font-bold text-foreground">
+              WaterWatch
+            </span>
+            <span className="text-sm text-muted-foreground">
+              Community WASH early warning for Yangon
+            </span>
+            <span className="text-xs text-muted-foreground">Team Compass</span>
+          </div>
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-start gap-5 text-sm text-muted-foreground md:justify-end"
+          >
+            <Link to="/map" className="hover:text-foreground">
+              Map
+            </Link>
+            <Link to="/report" className="hover:text-foreground">
+              Report
+            </Link>
+            <Link to="/faq" className="hover:text-foreground">
+              FAQ
+            </Link>
+            <Link to="/dashboard" className="hover:text-foreground">
+              For Organizations
+            </Link>
+          </nav>
+          <p className="text-xs text-muted-foreground md:col-span-2">
+            {DISCLAIMER}
+          </p>
         </div>
       </footer>
     </div>
