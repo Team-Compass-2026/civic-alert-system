@@ -14,16 +14,272 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alerts: {
+        Row: {
+          advice: string | null
+          area_id: string | null
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          level: Database["public"]["Enums"]["risk_level"]
+          status: string
+          title: string
+        }
+        Insert: {
+          advice?: string | null
+          area_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          kind?: string
+          level: Database["public"]["Enums"]["risk_level"]
+          status?: string
+          title: string
+        }
+        Update: {
+          advice?: string | null
+          area_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          level?: Database["public"]["Enums"]["risk_level"]
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "v_area_risk"
+            referencedColumns: ["area_id"]
+          },
+        ]
+      }
+      areas: {
+        Row: {
+          base_score: number
+          baseline_at: string
+          baseline_reports: number
+          components: Json
+          created_at: string
+          id: string
+          lat: number
+          lng: number
+          name: string
+          radius_m: number
+          slug: string
+          township: string
+          trend_pct: number
+        }
+        Insert: {
+          base_score?: number
+          baseline_at?: string
+          baseline_reports?: number
+          components?: Json
+          created_at?: string
+          id?: string
+          lat: number
+          lng: number
+          name: string
+          radius_m?: number
+          slug: string
+          township: string
+          trend_pct?: number
+        }
+        Update: {
+          base_score?: number
+          baseline_at?: string
+          baseline_reports?: number
+          components?: Json
+          created_at?: string
+          id?: string
+          lat?: number
+          lng?: number
+          name?: string
+          radius_m?: number
+          slug?: string
+          township?: string
+          trend_pct?: number
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          anon_token: string | null
+          area_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_anonymous: boolean
+          lat: number
+          lng: number
+          photo_url: string | null
+          status: string
+          type: Database["public"]["Enums"]["report_type"]
+          when_happened: string | null
+        }
+        Insert: {
+          anon_token?: string | null
+          area_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_anonymous?: boolean
+          lat: number
+          lng: number
+          photo_url?: string | null
+          status?: string
+          type: Database["public"]["Enums"]["report_type"]
+          when_happened?: string | null
+        }
+        Update: {
+          anon_token?: string | null
+          area_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_anonymous?: boolean
+          lat?: number
+          lng?: number
+          photo_url?: string | null
+          status?: string
+          type?: Database["public"]["Enums"]["report_type"]
+          when_happened?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "v_area_risk"
+            referencedColumns: ["area_id"]
+          },
+        ]
+      }
+      verifications: {
+        Row: {
+          anon_token: string
+          created_at: string
+          id: string
+          report_id: string
+          value: Database["public"]["Enums"]["verification_value"]
+        }
+        Insert: {
+          anon_token: string
+          created_at?: string
+          id?: string
+          report_id: string
+          value: Database["public"]["Enums"]["verification_value"]
+        }
+        Update: {
+          anon_token?: string
+          created_at?: string
+          id?: string
+          report_id?: string
+          value?: Database["public"]["Enums"]["verification_value"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verifications_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verifications_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "v_report_feed"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      v_area_risk: {
+        Row: {
+          area_id: string | null
+          components: Json | null
+          lat: number | null
+          level: Database["public"]["Enums"]["risk_level"] | null
+          lng: number | null
+          name: string | null
+          radius_m: number | null
+          reports_this_week: number | null
+          score: number | null
+          slug: string | null
+          township: string | null
+          trend_pct: number | null
+        }
+        Relationships: []
+      }
+      v_report_feed: {
+        Row: {
+          area_id: string | null
+          area_name: string | null
+          confirms: number | null
+          created_at: string | null
+          description: string | null
+          disputes: number | null
+          id: string | null
+          is_anonymous: boolean | null
+          lat: number | null
+          lng: number | null
+          photo_url: string | null
+          status: string | null
+          type: Database["public"]["Enums"]["report_type"] | null
+          when_happened: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "v_area_risk"
+            referencedColumns: ["area_id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      report_type:
+        | "unsafe_water"
+        | "sewage"
+        | "flooding"
+        | "broken_infrastructure"
+        | "sanitation"
+        | "illness_cluster"
+        | "other"
+      risk_level: "LOW" | "MODERATE" | "HIGH" | "CRITICAL"
+      verification_value: "confirm" | "dispute"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +406,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      report_type: [
+        "unsafe_water",
+        "sewage",
+        "flooding",
+        "broken_infrastructure",
+        "sanitation",
+        "illness_cluster",
+        "other",
+      ],
+      risk_level: ["LOW", "MODERATE", "HIGH", "CRITICAL"],
+      verification_value: ["confirm", "dispute"],
+    },
   },
 } as const
