@@ -131,7 +131,7 @@ function Landing() {
 
                 {focus ? (
                   <Card className="absolute bottom-6 left-6 right-6 z-10 md:right-auto md:max-w-xs">
-                    <CardBody className="flex flex-col gap-2 ">
+                    <CardBody className="flex flex-col">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
                       </span>
@@ -162,10 +162,7 @@ function Landing() {
           </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-4">
             {STEPS.map((step) => (
-              <Card
-                key={step.step}
-                className="transition-transform duration-200 hover:-translate-y-1"
-              >
+              <Card key={step.step}>
                 <CardBody className="flex flex-col gap-3 ">
                   <span className="font-mono text-sm text-brand-600">
                     {step.step}
@@ -184,10 +181,7 @@ function Landing() {
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
           <div className="grid gap-6 md:grid-cols-3">
             {BENEFITS.map((b) => (
-              <Card
-                key={b.title}
-                className="transition-transform duration-200 hover:-translate-y-1"
-              >
+              <Card key={b.title}>
                 <CardBody className="flex flex-col gap-2 ">
                   <h3 className="font-display text-lg font-bold text-foreground">
                     {b.title}
@@ -201,7 +195,7 @@ function Landing() {
 
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-20">
-          <Card className="bg-brand-50">
+          <Card>
             <CardBody className="flex flex-col items-center gap-6 text-center">
               <h2 className="font-display text-3xl font-extrabold text-foreground">
                 Learn what is happening near you?
