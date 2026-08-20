@@ -179,3 +179,34 @@ export const YANGON_ZOOM = 12;
 
 export const DISCLAIMER =
   "WaterWatch identifies community-level signals that may warrant attention. It does not diagnose disease.";
+
+/** CSS custom property per report type — category color, never a risk signal. */
+export const REPORT_TYPE_CSS_VAR: Record<ReportType, string> = {
+  unsafe_water: "--brand-600",
+  sewage: "--brand-950",
+  flooding: "--brand-800",
+  broken_infrastructure: "--muted-foreground",
+  sanitation: "--brand-400",
+  illness_cluster: "--risk-high",
+  other: "--brand-300",
+};
+
+export type TrendDirection = "up" | "down" | "flat";
+
+export function trendDirection(pct: number): TrendDirection {
+  if (pct > 0) return "up";
+  if (pct < 0) return "down";
+  return "flat";
+}
+
+export const TREND_ARROW: Record<TrendDirection, string> = {
+  up: "↑",
+  down: "↓",
+  flat: "→",
+};
+
+export const TREND_TEXT: Record<TrendDirection, string> = {
+  up: "text-risk-high",
+  down: "text-risk-low",
+  flat: "text-muted-foreground",
+};
