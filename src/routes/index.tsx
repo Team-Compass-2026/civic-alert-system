@@ -91,11 +91,12 @@ function Landing() {
               <Badge variant="brand" className="w-fit">
                 Yangon · community early warning
               </Badge>
-              <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-6xl">
+              <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
                 Your information is life-saving.
                 <br />
                 <span className="text-brand-600">Protect the community.</span>
               </h1>
+
               <p className="text-lg text-muted-foreground">
                 WaterWatch turns local observations about water and sanitation
                 into early warnings for your neighborhood.
