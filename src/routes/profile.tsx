@@ -97,17 +97,27 @@ function ProfilePage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const getMyProfileFn = useServerFn(getMyProfile);
+  const updateMyProfileAreaFn = useServerFn(updateMyProfileArea);
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
   const alerts = useQuery(alertsQuery);
   const profile = useQuery({
     queryKey: ["my-profile"],
-    queryFn: () => getMyProfile(),
+    queryFn: () => getMyProfileFn(),
   });
 
   const [prefs, setPrefs] = useState<AlertPrefs>(DEFAULT_PREFS);
   const [myIds, setMyIds] = useState<string[]>([]);
   const [language, setLanguage] = useState("en");
+
+  const updateArea = useMutation({
+    mutationFn: updateMyProfileAreaFn,
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
+    },
+  });
+
 
   useEffect(() => {
     const loaded = getPrefs();
