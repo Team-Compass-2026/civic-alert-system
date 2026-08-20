@@ -10,6 +10,8 @@ import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
+
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -207,7 +209,8 @@ function MapPage() {
         Report a Problem
       </Link>
 
-
+      <Footer />
     </div>
   );
 }
+

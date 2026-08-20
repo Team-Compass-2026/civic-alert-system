@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardBody, CardHeader, Spinner } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Footer } from "@/components/layout/Footer";
 import { RiskBadge } from "@/components/civic/RiskBadge";
+
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { SeverityBar } from "@/components/civic/SeverityBar";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -38,15 +40,17 @@ function AreaDashboard() {
     return (
       <div className="flex min-h-screen flex-col bg-background">
         <SiteHeader />
+        <Sidebar />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-8">
           <Link to="/dashboard" className="text-sm text-brand-700 underline">
             ← Back to dashboard
           </Link>
           <p className="text-foreground">Area not found.</p>
         </main>
-        <TabBar />
+        <Footer />
       </div>
     );
+
   }
 
   const components = Object.values(area.components ?? {}) as RiskComponent[];
@@ -54,8 +58,10 @@ function AreaDashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+
         <Link to="/dashboard" className="text-sm text-brand-700 underline">
           ← Back to dashboard
         </Link>
@@ -146,7 +152,8 @@ function AreaDashboard() {
         <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
 
-      <TabBar />
+      <Footer />
     </div>
   );
 }
+
