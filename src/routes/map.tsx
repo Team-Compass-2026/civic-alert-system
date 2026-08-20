@@ -9,7 +9,7 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -63,6 +63,7 @@ function MapPage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-28">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -201,7 +202,6 @@ function MapPage() {
         Report a Problem
       </Link>
 
-      <TabBar />
     </div>
   );
 }

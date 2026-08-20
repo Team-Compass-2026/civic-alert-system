@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { DISCLAIMER, OG_IMAGE_URL } from "@/lib/waterwatch";
 
 
@@ -54,6 +54,7 @@ function FaqPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
         <h1 className="font-display text-2xl font-bold text-foreground">FAQ</h1>
@@ -92,7 +93,6 @@ function FaqPage() {
         </div>
       </main>
 
-      <TabBar />
     </div>
   );
 }

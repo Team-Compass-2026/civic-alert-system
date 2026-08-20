@@ -13,7 +13,7 @@ import {
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { areasQuery } from "@/lib/queries";
 import { submitReport } from "@/lib/actions";
@@ -139,6 +139,7 @@ function ReportPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
         {done ? (
@@ -343,7 +344,6 @@ function ReportPage() {
         </form>
       </main>
 
-      <TabBar />
     </div>
   );
 }
