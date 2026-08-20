@@ -22,7 +22,7 @@ export type NeighborhoodMapProps = {
 };
 
 function cssColor(name: string): string {
-  if (typeof document === "undefined") return "#000";
+  if (typeof document === "undefined") return "";
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 

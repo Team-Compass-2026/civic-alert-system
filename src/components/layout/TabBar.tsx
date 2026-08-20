@@ -12,7 +12,7 @@ export function TabBar() {
   return (
     <nav
       aria-label="WaterWatch sections"
-      className="sticky bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur"
+      className="sticky bottom-0 z-50 border-t border-border bg-background"
     >
       <ul className="mx-auto flex w-full max-w-6xl items-stretch">
         {TABS.map((tab) => (
