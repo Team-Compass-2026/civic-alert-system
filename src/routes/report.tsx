@@ -145,9 +145,12 @@ function ReportPage() {
         {done ? (
           <Card className="mb-8">
             <CardBody className="flex flex-col items-start gap-4 p-5">
-              <span className="inline-flex size-10 items-center justify-center rounded-pill bg-risk-low-tint font-display text-lg text-risk-low">
+              <Badge
+                variant="neutral"
+                className="size-10 rounded-pill bg-risk-low-tint text-risk-low text-lg"
+              >
                 ✓
-              </span>
+              </Badge>
               <div className="flex flex-col gap-1">
                 <h2 className="font-display text-lg font-semibold text-foreground">
                   Report received. It will appear on the map.
@@ -207,7 +210,7 @@ function ReportPage() {
                     className={cn(
                       "flex items-center gap-2 rounded-md border px-3 py-2.5 text-left transition-colors",
                       active
-                        ? "border-brand-600 bg-brand-50"
+                        ? "border-brand-600 bg-brand-50 ring-1 ring-brand-600"
                         : "border-border bg-card hover:bg-muted",
                     )}
                   >

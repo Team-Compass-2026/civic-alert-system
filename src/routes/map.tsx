@@ -197,7 +197,7 @@ function MapPage() {
         to="/report"
         className={cn(
           buttonVariants({ size: "lg" }),
-          "fixed bottom-8 right-5 z-20 shadow-lg",
+          "fixed bottom-8 right-5 z-20",
         )}
       >
         Report a Problem

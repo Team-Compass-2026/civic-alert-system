@@ -84,7 +84,7 @@ function Landing() {
       <main>
         {/* HERO */}
         <section className="bg-gradient-to-b from-brand-50 to-transparent">
-          <div className="mx-auto grid w-full max-w-6xl items-center ga px-5 py-16 md:grid-cols-2 md:py-24">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
             <div className="flex flex-col gap-6">
               <Badge variant="brand" className="w-fit">
                 Yangon · community early warning
@@ -199,7 +199,7 @@ function Landing() {
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-20">
           <Card className="bg-brand-50">
-            <CardBody className="flex flex-col items-center ga  text-center">
+            <CardBody className="flex flex-col items-center gap-6 text-center">
               <h2 className="font-display text-3xl font-extrabold text-foreground">
                 Learn what is happening near you?
               </h2>
@@ -224,7 +224,7 @@ function Landing() {
           </div>
           <nav
             aria-label="Footer"
-            className="flex flex-wrap items-start ga text-sm text-muted-foreground md:justify-end"
+            className="flex flex-wrap items-start gap-6 text-sm text-muted-foreground md:justify-end"
           >
             <Link to="/map" className="hover:text-foreground">
               Map
