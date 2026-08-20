@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Card, CardBody } from "@/design-system/design-idea-5cd787";
+import { Alert, Card, CardBody } from "@/design-system/design-idea-5cd787";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { StatusPill } from "@/components/civic/StatusPill";
 import { timeAgo, type AlertItem, type AreaRisk } from "@/lib/waterwatch";
@@ -40,9 +40,9 @@ export const AlertCard = React.forwardRef<HTMLDivElement, AlertCardProps>(
           ) : null}
 
           {alert.advice ? (
-            <p className="rounded-md bg-brand-50 p-3 text-sm text-brand-800">
-              Safe-water advice: {alert.advice}
-            </p>
+            <Alert variant="info" title="Safe-water advice">
+              {alert.advice}
+            </Alert>
           ) : null}
 
           {actions ? <div className="flex flex-wrap gap-2 pt-1">{actions}</div> : null}

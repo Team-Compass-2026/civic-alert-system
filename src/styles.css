@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @import "./design-system/design-idea-5cd787/styles/tokens.css";
 
-@source "./design-system/design-idea-5cd787";
+@source ".";

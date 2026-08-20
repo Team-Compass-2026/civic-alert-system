@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { buttonVariants, Card, CardBody } from "@/design-system/design-idea-5cd787";
+import { Badge, buttonVariants, Card, CardBody } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { DISCLAIMER } from "@/lib/waterwatch";
 
@@ -45,9 +45,9 @@ function Landing() {
       <main>
         <section className="mx-auto w-full max-w-6xl px-5 py-16 md:py-24">
           <div className="flex max-w-2xl flex-col gap-6">
-            <span className="w-fit rounded-pill bg-brand-50 px-3 py-1 text-sm font-medium text-brand-700">
+            <Badge variant="brand" className="w-fit">
               Yangon · community early warning
-            </span>
+            </Badge>
             <h1 className="font-display text-4xl font-bold leading-tight text-foreground md:text-5xl">
               Spot water and sanitation problems before they spread
             </h1>
