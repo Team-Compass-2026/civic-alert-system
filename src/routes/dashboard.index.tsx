@@ -86,8 +86,10 @@ function DashboardPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+
         <header className="flex flex-col gap-2 border-b border-border pb-6">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             WaterWatch Intelligence
@@ -245,7 +247,7 @@ function DashboardPage() {
               </Card>
             </section>
 
-            <footer className="flex flex-col gap-4 border-t border-border pt-6">
+            <section className="flex flex-col gap-4 border-t border-border pt-6">
               <div className="flex flex-wrap gap-3">
                 <Button variant="outline" disabled>
                   Export CSV (coming soon)
@@ -257,12 +259,13 @@ function DashboardPage() {
               <p className="text-xs text-muted-foreground">
                 {DISCLAIMER} · Team Compass 🧭 · DEEP 2026
               </p>
-            </footer>
+            </section>
           </>
         )}
       </main>
 
-      <TabBar />
+      <Footer />
     </div>
   );
 }
+
