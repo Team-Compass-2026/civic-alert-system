@@ -84,7 +84,7 @@ function Landing() {
       <main>
         {/* HERO */}
         <section className="bg-gradient-to-b from-brand-50 to-transparent">
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-5 py-16 md:grid-cols-2 md:py-24">
             <div className="flex flex-col gap-6">
               <Badge variant="brand" className="w-fit">
                 Yangon · community early warning
@@ -123,11 +123,12 @@ function Landing() {
             </div>
 
             <Card className="overflow-hidden">
-              <CardBody className="relative p-3">
-                <NeighborhoodMap areas={list} className="isolate h-80 w-full" />
+              <CardBody className="relative">
+                <NeighborhoodMap areas={list} className="isolate h-96 w-full" />
+
                 {focus ? (
                   <Card className="absolute bottom-6 left-6 right-6 z-10 md:right-auto md:max-w-xs">
-                    <CardBody className="flex flex-col gap-2 p-4">
+                    <CardBody className="flex flex-col gap-2 ">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
                       </span>
@@ -162,7 +163,7 @@ function Landing() {
                 key={step.step}
                 className="transition-transform duration-200 hover:-translate-y-1"
               >
-                <CardBody className="flex flex-col gap-3 p-5">
+                <CardBody className="flex flex-col gap-3 ">
                   <span className="font-mono text-sm text-brand-600">
                     {step.step}
                   </span>
@@ -184,7 +185,7 @@ function Landing() {
                 key={b.title}
                 className="transition-transform duration-200 hover:-translate-y-1"
               >
-                <CardBody className="flex flex-col gap-2 p-5">
+                <CardBody className="flex flex-col gap-2 ">
                   <h3 className="font-display text-lg font-bold text-foreground">
                     {b.title}
                   </h3>
@@ -198,7 +199,7 @@ function Landing() {
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-20">
           <Card className="bg-brand-50">
-            <CardBody className="flex flex-col items-center gap-5 p-10 text-center">
+            <CardBody className="flex flex-col items-center gap-6 text-center">
               <h2 className="font-display text-3xl font-extrabold text-foreground">
                 Learn what is happening near you?
               </h2>
@@ -223,7 +224,7 @@ function Landing() {
           </div>
           <nav
             aria-label="Footer"
-            className="flex flex-wrap items-start gap-5 text-sm text-muted-foreground md:justify-end"
+            className="flex flex-wrap items-start gap-6 text-sm text-muted-foreground md:justify-end"
           >
             <Link to="/map" className="hover:text-foreground">
               Map

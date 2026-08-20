@@ -3,24 +3,6 @@
 
 @source ".";
 
-/* Dark mode for system preference when no explicit theme class is set. */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not(.dark) {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --card: #1e293b;
-    --card-foreground: #f1f5f9;
-    --muted: #334155;
-    --muted-foreground: #94a3b8;
-    --border: #334155;
-    --input: #334155;
-    --ring: #38bdf8;
-
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 30px -12px rgb(0 0 0 / 0.5), 0 4px 12px -6px rgb(0 0 0 / 0.4);
-  }
-}
 
 @keyframes ww-area-pulse {
   0% { stroke-width: 2; stroke-opacity: 1; fill-opacity: 0.18; }

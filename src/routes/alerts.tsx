@@ -11,7 +11,7 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { verifyReport } from "@/lib/actions";
@@ -255,8 +255,9 @@ function AlertsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8 md:pl-64">
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-2xl font-bold text-foreground">
             Alerts
@@ -338,7 +339,6 @@ function AlertsPage() {
         <p className="mt-10 text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
 
-      <TabBar />
     </div>
   );
 }

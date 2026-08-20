@@ -11,7 +11,7 @@ import {
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { StatusPill } from "@/components/civic/StatusPill";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -118,8 +118,9 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
-      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8">
+      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8 md:pl-64">
         <h1 className="font-display text-2xl font-bold text-foreground">
           Profile
         </h1>
@@ -304,7 +305,6 @@ function ProfilePage() {
         </section>
       </main>
 
-      <TabBar />
     </div>
   );
 }

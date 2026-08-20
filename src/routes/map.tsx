@@ -9,7 +9,7 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { areasQuery, reportFeedQuery } from "@/lib/queries";
@@ -63,8 +63,9 @@ function MapPage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-28">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-6 pb-8 md:pl-64">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-2">
             <h1 className="font-display text-2xl font-bold text-foreground">
@@ -77,10 +78,11 @@ function MapPage() {
           </div>
           <Link
             to="/report"
-            className={cn(buttonVariants({ size: "md" }), "rounded-pill")}
+            className={buttonVariants({ size: "md" })}
           >
             + Report a Problem
           </Link>
+
         </div>
 
         <NeighborhoodMap
@@ -195,13 +197,13 @@ function MapPage() {
         to="/report"
         className={cn(
           buttonVariants({ size: "lg" }),
-          "fixed bottom-24 right-5 z-20 rounded-pill shadow-lg md:bottom-8",
+          "fixed bottom-8 right-5 z-20",
         )}
       >
         Report a Problem
       </Link>
 
-      <TabBar />
+
     </div>
   );
 }

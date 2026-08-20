@@ -11,7 +11,8 @@ import {
   Spinner,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
+
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { SeverityBar } from "@/components/civic/SeverityBar";
 import { ReportCard } from "@/components/civic/ReportCard";
@@ -67,9 +68,11 @@ function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <div className="mx-auto flex w-full max-w-6xl flex-1">
+        <Sidebar />
+        <main className="flex-1 px-5 py-8 md:px-8">
+          <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
 
-      <main className="mx-auto w-full max-w-lg flex-1 px-5 py-8">
-        <div className="flex flex-col gap-6">
           <header className="flex flex-col gap-1">
             <h1 className="font-display text-3xl font-extrabold text-foreground">
               Your Area
@@ -111,7 +114,7 @@ function HomePage() {
             <>
               {/* YOUR AREA CARD */}
               <Card>
-                <CardBody className="flex flex-col gap-5 p-5">
+                <CardBody className="flex flex-col gap-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="flex flex-col gap-1">
                       <h2 className="font-display text-xl font-bold text-foreground">
@@ -168,7 +171,7 @@ function HomePage() {
 
               {/* WHY THIS SCORE */}
               <Card>
-                <CardBody className="flex flex-col gap-4 p-5">
+                <CardBody className="flex flex-col gap-4">
                   <button
                     type="button"
                     onClick={() => setShowWhy((v) => !v)}
@@ -285,8 +288,11 @@ function HomePage() {
           </div>
         </div>
       </main>
-
-      <TabBar />
+    </div>
     </div>
   );
 }
+
+
+
+

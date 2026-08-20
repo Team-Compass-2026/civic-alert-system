@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  Badge,
   Button,
   Card,
   CardBody,
@@ -13,7 +14,7 @@ import {
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { TabBar } from "@/components/layout/TabBar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { areasQuery } from "@/lib/queries";
 import { submitReport } from "@/lib/actions";
@@ -139,14 +140,18 @@ function ReportPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      <Sidebar />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8 md:pl-64">
         {done ? (
           <Card className="mb-8">
             <CardBody className="flex flex-col items-start gap-4 p-5">
-              <span className="inline-flex size-10 items-center justify-center rounded-pill bg-risk-low-tint font-display text-lg text-risk-low">
+              <Badge
+                variant="neutral"
+                className="size-10 rounded-pill bg-risk-low-tint text-risk-low text-lg"
+              >
                 ✓
-              </span>
+              </Badge>
               <div className="flex flex-col gap-1">
                 <h2 className="font-display text-lg font-semibold text-foreground">
                   Report received. It will appear on the map.
@@ -206,7 +211,7 @@ function ReportPage() {
                     className={cn(
                       "flex items-center gap-2 rounded-md border px-3 py-2.5 text-left transition-colors",
                       active
-                        ? "border-brand-600 bg-brand-50"
+                        ? "border-brand-600 bg-brand-50 ring-1 ring-brand-600"
                         : "border-border bg-card hover:bg-muted",
                     )}
                   >
@@ -334,16 +339,16 @@ function ReportPage() {
             type="submit"
             size="lg"
             disabled={!canSubmit}
-            className="w-full rounded-pill"
+            className="w-full"
           >
             {mutation.isPending ? "Submitting…" : "Submit Report"}
           </Button>
+
 
           <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
         </form>
       </main>
 
-      <TabBar />
     </div>
   );
 }
