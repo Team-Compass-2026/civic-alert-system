@@ -109,11 +109,15 @@ function ProfilePage() {
     savePrefs(next);
   }
 
-
   const all = feed.data ?? [];
   const mine = all.filter((r) => myIds.includes(r.id));
   const myReports = mine.length > 0 ? mine : all.slice(0, 3);
   const confirmations = myReports.reduce((sum, r) => sum + r.confirms, 0);
+
+  const myArea = (areas.data ?? []).find((a) => a.slug === prefs.areaSlug);
+  const myAreaAlerts = (alerts.data ?? []).filter(
+    (a) => myArea && a.area_id === myArea.area_id,
+  );
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -124,6 +128,68 @@ function ProfilePage() {
         <h1 className="font-display text-2xl font-bold text-foreground">
           Profile
         </h1>
+
+        {!auth.loading && !auth.user ? (
+          <AuthCard
+            areas={areas.data ?? []}
+            areaSlug={prefs.areaSlug}
+            onAreaChange={(slug) => update({ areaSlug: slug })}
+          />
+        ) : null}
+
+        {auth.user ? (
+          <>
+            <Card>
+              <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-sm font-medium text-foreground">
+                    Signed in as {auth.user.email}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    Home area: {myArea?.name ?? prefs.areaSlug}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/report"
+                    className={buttonVariants({ size: "sm" })}
+                  >
+                    Report a problem
+                  </Link>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => auth.signOut()}
+                  >
+                    Sign out
+                  </Button>
+                </div>
+              </CardBody>
+            </Card>
+
+            <section className="flex flex-col gap-4">
+              <h2 className="font-display text-base font-semibold text-foreground">
+                Alerts for {myArea?.name ?? "your area"}
+              </h2>
+              {myAreaAlerts.length > 0 ? (
+                <AlertList>
+                  {myAreaAlerts.map((alert) => (
+                    <AlertCard key={alert.id} alert={alert} />
+                  ))}
+                </AlertList>
+              ) : (
+                <Card>
+                  <CardBody className="p-5">
+                    <p className="text-sm text-muted-foreground">
+                      No active alerts for your area right now.
+                    </p>
+                  </CardBody>
+                </Card>
+              )}
+            </section>
+          </>
+        ) : null}
+
 
         <Card>
           <CardBody className="flex flex-col gap-4 p-5">
