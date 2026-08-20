@@ -120,7 +120,7 @@ function DashboardPage() {
             <NeighborhoodMap
               areas={areas.data ?? []}
               reports={reports}
-              className="h-[55vh] w-full border border-border"
+              className="h-[32rem] w-full border border-border"
             />
 
             <p className="text-sm text-muted-foreground">{DISCLAIMER}</p>

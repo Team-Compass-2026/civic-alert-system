@@ -45,6 +45,7 @@ export default function NeighborhoodMapClient({
   onSelectReport,
 }: NeighborhoodMapProps) {
   const brand = useMemo(() => cssColor("--brand-600"), []);
+  const surface = useMemo(() => cssColor("--card"), []);
 
   return (
     <MapContainer
@@ -91,7 +92,7 @@ export default function NeighborhoodMapClient({
             key={report.id}
             center={[report.lat, report.lng]}
             radius={7}
-            pathOptions={{ color: "#ffffff", weight: 2, fillColor: color, fillOpacity: 1 }}
+            pathOptions={{ color: surface, weight: 2, fillColor: color, fillOpacity: 1 }}
             eventHandlers={
               onSelectReport ? { click: () => onSelectReport(report) } : undefined
             }
@@ -115,7 +116,7 @@ export default function NeighborhoodMapClient({
         <CircleMarker
           center={pickedPoint}
           radius={9}
-          pathOptions={{ color: "#ffffff", weight: 3, fillColor: brand, fillOpacity: 1 }}
+          pathOptions={{ color: surface, weight: 3, fillColor: brand, fillOpacity: 1 }}
         />
       ) : null}
     </MapContainer>

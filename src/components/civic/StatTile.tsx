@@ -23,7 +23,7 @@ export const StatTile = React.forwardRef<HTMLDivElement, StatTileProps>(
             <span
               className={cn(
                 "font-mono text-sm",
-                deltaPct > 0 ? "text-accent-clay" : "text-muted-foreground",
+                deltaPct > 0 ? "text-foreground" : "text-muted-foreground",
               )}
             >
               {deltaPct > 0 ? "↑" : deltaPct < 0 ? "↓" : "→"}
