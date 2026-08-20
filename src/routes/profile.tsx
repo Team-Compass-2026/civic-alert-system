@@ -120,7 +120,7 @@ function ProfilePage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8">
+      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8 md:pl-64">
         <h1 className="font-display text-2xl font-bold text-foreground">
           Profile
         </h1>

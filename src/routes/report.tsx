@@ -141,7 +141,7 @@ function ReportPage() {
       <SiteHeader />
       <Sidebar />
 
-      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-[30rem] flex-1 px-5 py-8 md:pl-64">
         {done ? (
           <Card className="mb-8">
             <CardBody className="flex flex-col items-start gap-4 p-5">
