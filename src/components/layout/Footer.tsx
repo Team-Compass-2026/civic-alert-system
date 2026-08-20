@@ -10,7 +10,11 @@ export function Footer() {
             WaterWatch
           </span>
           <span className="text-sm text-muted-foreground">
-            Community WASH early warning for Yangon
+            See the risk. Share the signal. Protect the community.
+          </span>
+          <span className="text-xs text-muted-foreground">
+            Turning community observations into early warnings for
+            waterborne-disease risk
           </span>
           <span className="text-xs text-muted-foreground">Team Compass</span>
         </div>

@@ -60,13 +60,16 @@ export function SiteHeader() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           {isSignedIn ? (
             <Link
               to="/profile"
               className={buttonVariants({ size: "sm", variant: "outline" })}
             >
-              Profile
+              <span className="hidden sm:inline">Profile</span>
+              <span className="sm:hidden" aria-label="Profile">
+                <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </span>
             </Link>
           ) : (
             <Link
@@ -77,7 +80,8 @@ export function SiteHeader() {
             </Link>
           )}
           <Link to="/report" className={buttonVariants({ size: "sm" })}>
-            Report a Problem
+            <span className="hidden sm:inline">Report a Problem</span>
+            <span className="sm:hidden">Report</span>
           </Link>
         </div>
       </div>

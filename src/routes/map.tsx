@@ -93,7 +93,7 @@ function MapPage() {
           areas={areaList}
           reports={feed.data ?? []}
           showAreaDetails
-          className="h-[32rem] w-full border border-border"
+          className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
         />
 
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5">
