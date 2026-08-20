@@ -40,7 +40,7 @@ export async function submitReport(input: NewReport): Promise<string> {
       area_id: input.areaId,
       is_anonymous: input.isAnonymous,
       photo_url: photoPath,
-      device_token: getAnonToken(),
+      anon_token: getAnonToken(),
     })
     .select("id")
     .single();
@@ -57,10 +57,10 @@ export async function verifyReport(
   const { error } = await supabase.from("verifications").upsert(
     {
       report_id: reportId,
-      device_token: getAnonToken(),
+      anon_token: getAnonToken(),
       value,
     },
-    { onConflict: "report_id,device_token" },
+    { onConflict: "report_id,anon_token" },
   );
   if (error) throw error;
 }
