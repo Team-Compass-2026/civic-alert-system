@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { buttonVariants, cn, IconButton } from "@/design-system/design-idea-5cd787";
+import { buttonVariants, cn, IconButton, Separator } from "@/design-system/design-idea-5cd787";
 import { useAuth } from "@/hooks/useAuth";
 
 const NAV = [
@@ -13,14 +13,14 @@ const NAV = [
 ] as const;
 
 const linkBase =
-  "focus-ring rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
+  "focus-ring px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
 const linkActive =
-  "focus-ring rounded-md px-3 py-2 text-sm font-medium bg-brand-50 text-brand-700";
+  "focus-ring px-3 py-2 text-sm font-medium bg-muted text-foreground";
 
 const mobileLinkBase =
-  "focus-ring block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
+  "focus-ring block px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
 const mobileLinkActive =
-  "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-brand-50 text-brand-700";
+  "focus-ring block px-3 py-2.5 text-sm font-medium bg-muted text-foreground";
 
 function MobileNavLink({
   to,
@@ -146,20 +146,25 @@ export function SiteHeader() {
         className={cn("bg-card md:hidden")}
       >
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
-          <ul className="flex flex-col gap-3">
-            {NAV.map((item) => (
-              <MobileNavLink
-                key={item.to}
-                to={item.to}
-                label={item.label}
-                onNavigate={() => setOpen(false)}
-              />
+          <ul className="flex flex-col">
+            {[
+              ...NAV,
+              {
+                to: isSignedIn ? "/profile" : "/sign-in",
+                label: isSignedIn ? "Profile" : "Sign in",
+              },
+            ].map((item, i, arr) => (
+              <li key={item.to} className="flex flex-col">
+                <MobileNavLink
+                  to={item.to}
+                  label={item.label}
+                  onNavigate={() => setOpen(false)}
+                />
+                {i < arr.length - 1 && (
+                  <Separator className="my-3 bg-border" />
+                )}
+              </li>
             ))}
-            <MobileNavLink
-              to={isSignedIn ? "/profile" : "/sign-in"}
-              label={isSignedIn ? "Profile" : "Sign in"}
-              onNavigate={() => setOpen(false)}
-            />
           </ul>
         </nav>
       </div>
