@@ -10,6 +10,7 @@ import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { SeverityBar } from "@/components/civic/SeverityBar";
 import { useServerFn } from "@tanstack/react-start";
 import { RequireAccess } from "@/components/auth/RequireAccess";
+import { friendlyAuthError } from "@/lib/authErrors";
 import { getAreaDashboard } from "@/lib/access.functions";
 import type { AreaRisk, ReportFeedItem } from "@/lib/waterwatch";
 import { DISCLAIMER, OG_IMAGE_URL, REPORT_TYPES, timeAgo, type RiskComponent } from "@/lib/waterwatch";
@@ -33,9 +34,15 @@ export const Route = createFileRoute("/dashboard/$slug")({
 
 function AreaDashboardPage() {
   return (
-    <RequireAccess roles={["admin", "org"]}>
-      {() => <AreaDashboard />}
-    </RequireAccess>
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader />
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-8">
+        <RequireAccess roles={["admin", "org"]}>
+          {() => <AreaDashboard />}
+        </RequireAccess>
+      </main>
+      <Footer />
+    </div>
   );
 }
 
@@ -61,26 +68,23 @@ function AreaDashboard() {
 
   if (!area) {
     return (
-      <div className="flex min-h-screen flex-col bg-background">
-        <SiteHeader />
-        <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-8">
-          <Link to="/dashboard" className="text-sm text-brand-700 underline">
-            ← Back to dashboard
-          </Link>
-          <p className="text-foreground">Area not found.</p>
-        </main>
-        <Footer />
-      </div>
+      <>
+        <Link to="/dashboard" className="text-sm text-brand-700 underline">
+          ← Back to dashboard
+        </Link>
+        <p className="text-foreground">
+          {scoped.isError
+            ? friendlyAuthError(scoped.error, "This area is outside your authorized scope.")
+            : "Area not found."}
+        </p>
+      </>
     );
-
   }
 
   const components = Object.values(area.components ?? {}) as RiskComponent[];
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <SiteHeader />
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+    <>
 
         <Link to="/dashboard" className="text-sm text-brand-700 underline transition-colors duration-200 hover:text-brand-800">
           ← Back to dashboard
