@@ -5,6 +5,7 @@ import {
   buttonVariants,
   Card,
   CardBody,
+  CardHeader,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
@@ -114,7 +115,7 @@ function Landing() {
                 </Link>
                 <Link
                   to="/map"
-                  className={buttonVariants({ size: "lg", variant: "outline" })}
+                  className={buttonVariants({ size: "lg", variant: "secondary" })}
                 >
                   Current Data
                 </Link>
@@ -132,14 +133,14 @@ function Landing() {
               ) : null}
             </div>
 
-            <div className="overflow-hidden rounded-lg motion-safe:animate-fade-in" style={{ animationDelay: "200ms" }}>
+            <div className="overflow-hidden rounded-lg motion-safe:animate-fade-in">
             <Card className="overflow-hidden">
               <CardBody className="relative overflow-hidden p-0">
                 <NeighborhoodMap areas={list} className="isolate h-64 w-full sm:h-80 md:h-96" />
 
                 {focus ? (
                   <Card className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-6 sm:left-6 sm:right-6 md:right-auto md:max-w-xs">
-                    <CardBody className="flex flex-col">
+                    <CardBody className="flex flex-col pt-5">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
                       </span>
@@ -173,14 +174,15 @@ function Landing() {
           </div>
           <div className="mt-8 grid gap-6 motion-safe:animate-stagger sm:grid-cols-2 md:grid-cols-4">
             {STEPS.map((step) => (
-              <Card key={step.step} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                <CardBody className="flex flex-col gap-3">
-                  <span className="font-mono text-sm text-brand-600">
-                    {step.step}
-                  </span>
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    {step.title}
-                  </h3>
+              <Card key={step.step} className="motion-safe:animate-fade-in-up">
+                <CardHeader
+                  description={
+                    <span className="font-mono text-sm text-brand-600">{step.step}</span>
+                  }
+                >
+                  {step.title}
+                </CardHeader>
+                <CardBody className="flex flex-col gap-2">
                   <p className="text-sm text-muted-foreground">{step.body}</p>
                 </CardBody>
               </Card>
@@ -192,11 +194,9 @@ function Landing() {
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
           <div className="grid gap-6 motion-safe:animate-stagger sm:grid-cols-2">
             {BENEFITS.map((b) => (
-              <Card key={b.title} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <Card key={b.title} className="motion-safe:animate-fade-in-up">
+                <CardHeader>{b.title}</CardHeader>
                 <CardBody className="flex flex-col gap-2">
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    {b.title}
-                  </h3>
                   <p className="text-sm text-muted-foreground">{b.body}</p>
                 </CardBody>
               </Card>
@@ -206,11 +206,11 @@ function Landing() {
 
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20 sm:pt-20 md:pt-24">
-          <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <Card>
+            <CardHeader className="text-center">
+              Learn what is happening near you?
+            </CardHeader>
             <CardBody className="flex flex-col items-center gap-6 text-center">
-              <h2 className="font-display text-3xl font-extrabold text-foreground">
-                Learn what is happening near you?
-              </h2>
               <Link to="/home" className={buttonVariants({ size: "lg" })}>
                 Check Your Neighborhood →
               </Link>

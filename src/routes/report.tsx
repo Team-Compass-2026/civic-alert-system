@@ -155,7 +155,7 @@ function ReportPage() {
         >
           {done ? (
             <Card>
-              <CardBody>
+              <CardBody className="pt-5">
                 <Alert
                   variant="success"
                   title="Report received. It will appear on the map."
