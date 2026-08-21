@@ -160,7 +160,7 @@ function Landing() {
                 ) : null}
               </CardBody>
             </Card>
-            </div>
+
           </div>
         </section>
 
