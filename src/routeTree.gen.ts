@@ -21,6 +21,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as ResetPasswordSentRouteImport } from './routes/reset-password.sent'
 import { Route as DashboardSlugRouteImport } from './routes/dashboard.$slug'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
@@ -85,6 +86,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordSentRoute = ResetPasswordSentRouteImport.update({
+  id: '/sent',
+  path: '/sent',
+  getParentRoute: () => ResetPasswordRoute,
+} as any)
 const DashboardSlugRoute = DashboardSlugRouteImport.update({
   id: '/dashboard/$slug',
   path: '/dashboard/$slug',
@@ -112,10 +118,11 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
-  '/reset-password': typeof ResetPasswordRoute
+  '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
+  '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -129,10 +136,11 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
-  '/reset-password': typeof ResetPasswordRoute
+  '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
+  '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -147,10 +155,11 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/profile': typeof ProfileRoute
   '/report': typeof ReportRoute
-  '/reset-password': typeof ResetPasswordRoute
+  '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
+  '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/dashboard/$slug'
+    | '/reset-password/sent'
     | '/dashboard/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/dashboard/$slug'
+    | '/reset-password/sent'
     | '/dashboard'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/dashboard/$slug'
+    | '/reset-password/sent'
     | '/dashboard/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -218,7 +230,7 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   ProfileRoute: typeof ProfileRoute
   ReportRoute: typeof ReportRoute
-  ResetPasswordRoute: typeof ResetPasswordRoute
+  ResetPasswordRoute: typeof ResetPasswordRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
   DashboardSlugRoute: typeof DashboardSlugRoute
@@ -313,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password/sent': {
+      id: '/reset-password/sent'
+      path: '/sent'
+      fullPath: '/reset-password/sent'
+      preLoaderRoute: typeof ResetPasswordSentRouteImport
+      parentRoute: typeof ResetPasswordRoute
+    }
     '/dashboard/$slug': {
       id: '/dashboard/$slug'
       path: '/dashboard/$slug'
@@ -337,6 +356,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ResetPasswordRouteChildren {
+  ResetPasswordSentRoute: typeof ResetPasswordSentRoute
+}
+
+const ResetPasswordRouteChildren: ResetPasswordRouteChildren = {
+  ResetPasswordSentRoute: ResetPasswordSentRoute,
+}
+
+const ResetPasswordRouteWithChildren = ResetPasswordRoute._addFileChildren(
+  ResetPasswordRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlertsRoute: AlertsRoute,
@@ -346,7 +377,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   ProfileRoute: ProfileRoute,
   ReportRoute: ReportRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
+  ResetPasswordRoute: ResetPasswordRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
   DashboardSlugRoute: DashboardSlugRoute,
