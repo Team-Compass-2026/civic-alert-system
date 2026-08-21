@@ -13,14 +13,14 @@ const NAV = [
 ] as const;
 
 const linkBase =
-  "focus-ring rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
+  "focus-ring px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
 const linkActive =
-  "focus-ring rounded-md px-3 py-2 text-sm font-medium bg-muted text-foreground";
+  "focus-ring px-3 py-2 text-sm font-medium bg-muted text-foreground";
 
 const mobileLinkBase =
-  "focus-ring block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
+  "focus-ring block px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
 const mobileLinkActive =
-  "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-muted text-foreground";
+  "focus-ring block px-3 py-2.5 text-sm font-medium bg-muted text-foreground";
 
 function MobileNavLink({
   to,
