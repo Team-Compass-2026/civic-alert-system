@@ -128,11 +128,14 @@ export default function NeighborhoodMapClient({
               },
             }}
           >
+            {!onPick ? (
             <Tooltip sticky>
               <span className="font-sans">
                 {area.name} · {area.level} {area.score}/100
               </span>
             </Tooltip>
+            ) : null}
+            {!onPick ? (
             <Popup>
               <div className="flex min-w-52 flex-col gap-1 font-sans">
                 <strong className="font-display">{area.name}</strong>
@@ -157,6 +160,7 @@ export default function NeighborhoodMapClient({
                 </Link>
               </div>
             </Popup>
+            ) : null}
           </Circle>
         );
       })}

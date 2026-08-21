@@ -40,11 +40,7 @@ function SupportPage() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      // support_messages isn't in the generated DB types yet (migration pending);
-      // cast past the typed relation until `supabase gen types` picks it up.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const fromUntyped = supabase.from as unknown as (table: string) => any;
-      const { error } = await fromUntyped("support_messages").insert({
+      const { error } = await supabase.from("support_messages").insert({
         name: name.trim(),
         email: email.trim(),
         message: message.trim(),

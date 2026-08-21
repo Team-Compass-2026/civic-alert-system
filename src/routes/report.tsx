@@ -377,6 +377,25 @@ function ReportPage() {
                 </Alert>
               ) : null}
 
+              <ul className="flex flex-col gap-1.5 text-xs">
+                <li
+                  className={cn(
+                    "flex items-center gap-1.5",
+                    type ? "font-medium text-brand-700" : "text-muted-foreground",
+                  )}
+                >
+                  {type ? "✓" : "○"} Select what you saw (step 1)
+                </li>
+                <li
+                  className={cn(
+                    "flex items-center gap-1.5",
+                    point ? "font-medium text-brand-700" : "text-muted-foreground",
+                  )}
+                >
+                  {point ? "✓" : "○"} Tap the map to pin the location (step 2)
+                </li>
+              </ul>
+
               <Button
                 type="submit"
                 size="lg"
