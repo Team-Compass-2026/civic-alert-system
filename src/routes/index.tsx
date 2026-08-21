@@ -5,6 +5,7 @@ import {
   buttonVariants,
   Card,
   CardBody,
+  CardHeader,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
