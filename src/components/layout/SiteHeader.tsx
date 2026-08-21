@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { buttonVariants, cn } from "@/design-system/design-idea-5cd787";
+import { buttonVariants, cn, IconButton } from "@/design-system/design-idea-5cd787";
 import { useAuth } from "@/hooks/useAuth";
 
 const NAV = [
