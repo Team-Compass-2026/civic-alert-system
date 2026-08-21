@@ -14,9 +14,10 @@ const DESC =
   "Sign in or create a WaterWatch account to get localized alerts for your Yangon neighborhood and file reports.";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: safeRedirectPath(search["redirect"]) ?? undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
+    const target = safeRedirectPath(search["redirect"]);
+    return target ? { redirect: target } : {};
+  },
 
   head: () => ({
     meta: [
