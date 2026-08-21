@@ -271,10 +271,7 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
             </section>
           </>
         )}
-      </main>
-
-      <Footer />
-    </div>
+    </>
   );
 }
 
