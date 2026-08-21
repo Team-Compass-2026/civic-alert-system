@@ -123,21 +123,27 @@ export type Database = {
         Row: {
           area_id: string | null
           created_at: string
+          display_name: string | null
           id: string
+          phone: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           area_id?: string | null
           created_at?: string
+          display_name?: string | null
           id?: string
+          phone?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           area_id?: string | null
           created_at?: string
+          display_name?: string | null
           id?: string
+          phone?: string | null
           updated_at?: string
           user_id?: string
         }

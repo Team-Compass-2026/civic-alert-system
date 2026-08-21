@@ -61,6 +61,17 @@ foreground to `#f8fafc`.
 - 12-column desktop grid for the org dashboard
 - 8px spacing system, generous on feeds (`space-y-6` / `gap-6`)
 
+## Map rendering
+
+- **Leaflet + react-leaflet + OpenStreetMap** (free, no API key)
+- SSR-safe: `NeighborhoodMap` wraps `NeighborhoodMapClient` via `ClientOnly` + `lazy`
+- Area circles: color from `--risk-{level}` CSS var, radius from `area.radius_m`
+- Report markers: color from `--brand-{level}` CSS var per report type
+- Alert markers: dashed ring in risk color, fill from `--card`
+- Center: Yangon `[16.84, 96.16]`, zoom 12
+- Pulse animation on area popup open (`ww-area-pulse` keyframe)
+- Tooltip on hover, popup on click with area details + verify link
+
 ## Interactions & copy
 
 - **Report a Problem** not Submit a Complaint

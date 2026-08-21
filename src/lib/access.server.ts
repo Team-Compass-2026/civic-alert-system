@@ -12,7 +12,7 @@ export type MyAccess = {
   canViewDashboard: boolean;
 };
 
-type Ctx = { supabase: SupabaseClient<any, any, any>; userId: string };
+type Ctx = { supabase: SupabaseClient; userId: string };
 
 /** Reads the caller's roles + home area as the signed-in user (RLS applies). */
 export async function loadAccess(context: Ctx): Promise<MyAccess> {

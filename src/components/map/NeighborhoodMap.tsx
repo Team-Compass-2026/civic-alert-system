@@ -18,7 +18,7 @@ export function NeighborhoodMap({
   ...props
 }: NeighborhoodMapProps & { className?: string }) {
   return (
-    <div className={cn("overflow-hidden rounded-lg", className)}>
+    <div className={cn("size-full overflow-hidden rounded-lg border border-border", className)}>
       <ClientOnly fallback={<MapSkeleton />}>
         <Suspense fallback={<MapSkeleton />}>
           <MapClient {...props} />

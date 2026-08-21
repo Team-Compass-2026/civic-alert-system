@@ -55,7 +55,7 @@ function FaqPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-md flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-8">
         <h1 className="font-display text-2xl font-bold text-foreground">FAQ</h1>
 
         <div className="mt-6 flex flex-col">

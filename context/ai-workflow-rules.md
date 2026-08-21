@@ -2,7 +2,7 @@
 
 ## Approach
 
-Spec-driven against the six-file context (`context/`) + org
+Spec-driven against the seven-file context (`context/`) + org
 `context/product-spec.md`. Do not invent report categories, townships, or
 scoring rules outside the curated product design.
 
@@ -30,6 +30,16 @@ dashboard.
 | Map / geospatial | `context/architecture.md` Leaflet + OSM |
 | UI / design | `context/ui-context.md` |
 | New report types / areas | `context/product-spec.md` (org repo) |
+| Server functions / auth | `context/architecture.md` Supabase patterns |
+| Database queries / N+1 | `context/architecture.md` N+1 awareness section |
+
+## Data fetching rules
+
+- Client queries: use `queryOptions` from `src/lib/queries.ts`
+- Server queries: use `createServerFn` with `requireSupabaseAuth` middleware
+- Never query per-item in a loop — use bulk queries or views
+- Parallelize independent queries with `Promise.all`
+- Prefer `select("col1, col2")` over `select("*")` for large datasets
 
 ## Verification (when building)
 

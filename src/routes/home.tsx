@@ -68,9 +68,9 @@ function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <div className="mx-auto flex w-full max-w-6xl flex-1">
-        <main className="flex-1 px-5 py-8 md:px-8">
-          <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <header className="flex flex-col gap-1">
               <h1 className="font-display text-3xl font-extrabold text-foreground">
                 Your Area
@@ -80,7 +80,7 @@ function HomePage() {
               </p>
             </header>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex w-full flex-col gap-2 sm:w-64">
               <label
                 htmlFor={slug}
                 className="text-sm font-medium text-foreground"
@@ -102,27 +102,30 @@ function HomePage() {
                 ))}
               </Select>
             </div>
+          </div>
 
             {areas.isLoading ? (
               <div className="flex justify-center py-12">
                 <Spinner />
               </div>
             ) : area ? (
-              <>
+              <div className="grid gap-6 lg:grid-cols-3">
                 {/* YOUR AREA CARD */}
-                <Card>
-                  <CardHeader
-                    title="WASH Risk"
-                    description={
-                      feed.data && feed.data.length > 0
-                        ? `Updated ${timeAgo(feed.data[0].created_at)}`
-                        : "Updated just now"
-                    }
-                    className="flex-row items-start justify-between gap-3"
-                  >
-                    <RiskBadge level={area.level} score={area.score} />
-                  </CardHeader>
-                  <CardBody className="flex flex-col gap-5">
+                <Card className="lg:col-span-2">
+                  <CardBody className="flex flex-col gap-5 pt-5">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="flex flex-col gap-1">
+                        <h2 className="font-display text-xl font-bold text-foreground">
+                          WASH Risk
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                          {feed.data && feed.data.length > 0
+                            ? `Updated ${timeAgo(feed.data[0].created_at)}`
+                            : "Updated just now"}
+                        </p>
+                      </div>
+                      <RiskBadge level={area.level} score={area.score} />
+                    </div>
 
                     <SeverityBar
                       score={area.score}
@@ -131,7 +134,7 @@ function HomePage() {
                       detail="Score combines verified reports, clustering and recency."
                     />
 
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid gap-3 sm:grid-cols-3">
                       <div className="flex flex-col gap-1">
                         <span className="text-xs text-muted-foreground">
                           Risk score
@@ -228,59 +231,61 @@ function HomePage() {
                     ) : null}
                   </CardBody>
                 </Card>
-              </>
+              </div>
             ) : null}
 
-            {/* RECENT REPORTS */}
-            <section className="flex flex-col gap-4">
-              <div className="flex items-center justify-between gap-3">
-                <h2 className="font-display text-xl font-bold text-foreground">
-                  Recent reports near you
-                </h2>
-                <Link
-                  to="/map"
-                  className="text-sm text-brand-600 hover:text-brand-700"
-                >
-                  View map →
-                </Link>
-              </div>
-              <AlertList empty="No reports here yet. Be the first to flag a problem.">
-                {areaReports.map((report) => (
-                  <ReportCard key={report.id} report={report} />
-                ))}
-              </AlertList>
-            </section>
-
-            {/* NEARBY AREAS */}
-            <section className="flex flex-col gap-4">
-              <h2 className="font-display text-xl font-bold text-foreground">
-                Nearby areas
-              </h2>
-              <Card>
-                <CardBody className="flex flex-col gap-3 p-5">
-                  {nearby.map((a, i) => (
-                    <div key={a.area_id} className="flex flex-col gap-3">
-                      {i > 0 ? <Separator /> : null}
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="flex flex-col">
-                          <span className="text-sm font-medium text-foreground">
-                            {a.name}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {a.township}
-                          </span>
-                        </div>
-                        <RiskBadge
-                          level={a.level}
-                          score={a.score}
-                          size="sm"
-                        />
-                      </div>
-                    </div>
+            <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
+              {/* RECENT REPORTS */}
+              <section className="flex flex-col gap-4 lg:col-span-2">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="font-display text-xl font-bold text-foreground">
+                    Recent reports near you
+                  </h2>
+                  <Link
+                    to="/map"
+                    className="text-sm text-brand-600 hover:text-brand-700"
+                  >
+                    View map →
+                  </Link>
+                </div>
+                <AlertList empty="No reports here yet. Be the first to flag a problem.">
+                  {areaReports.map((report) => (
+                    <ReportCard key={report.id} report={report} />
                   ))}
-                </CardBody>
-              </Card>
-            </section>
+                </AlertList>
+              </section>
+
+              {/* NEARBY AREAS */}
+              <section className="flex flex-col gap-4">
+                <h2 className="font-display text-xl font-bold text-foreground">
+                  Nearby areas
+                </h2>
+                <Card>
+                  <CardBody className="flex flex-col gap-3 p-5">
+                    {nearby.map((a, i) => (
+                      <div key={a.area_id} className="flex flex-col gap-3">
+                        {i > 0 ? <Separator /> : null}
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div className="flex flex-col">
+                            <span className="text-sm font-medium text-foreground">
+                              {a.name}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {a.township}
+                            </span>
+                          </div>
+                          <RiskBadge
+                            level={a.level}
+                            score={a.score}
+                            size="sm"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </CardBody>
+                </Card>
+              </section>
+            </div>
 
             {/* BOTTOM ACTIONS */}
             <div className="flex flex-wrap gap-3">
@@ -296,7 +301,6 @@ function HomePage() {
             </div>
           </div>
         </main>
-      </div>
 
       <Footer />
     </div>

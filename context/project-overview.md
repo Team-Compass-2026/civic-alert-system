@@ -15,6 +15,7 @@ platform, backed by Supabase (Auth + Postgres + RLS + Storage) instead of the
 main app's Next.js + Neon + Prisma stack.
 
 **Stack:** TanStack Start + React 19 + Vite 8 + Tailwind v4 + Supabase JS
+**Deploy:** Cloudflare Workers (wrangler.jsonc)
 
 ## The problem
 
@@ -51,3 +52,17 @@ attention.
   + org dashboard (`/dashboard`)
 - Out of scope: medical diagnosis, sensors/rainfall feeds, multi-city,
   partner-rewards marketplace, multi-language, export/API tiers
+
+## Data ready to use
+
+The Supabase database is seeded with:
+- **12 areas** across Yangon (Hlaing Tharyar, Thaketa, South Dagon, etc.)
+- **~134 reports** (unsafe_water, sewage, flooding, sanitation, illness_cluster, etc.)
+- **~200+ verifications** (confirm/dispute votes)
+- **~18 alerts** (HIGH, MODERATE, LOW across areas)
+
+Four pre-computed views serve data to the frontend:
+- `v_area_risk` — area scores with live report counts
+- `v_report_feed` — reports with area names and verification counts
+- `v_alert_feed` — alerts with area metadata
+- `v_signal_trends` — week-over-week report type trends

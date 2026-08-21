@@ -7,6 +7,7 @@ import {
   CircleMarker,
   Popup,
   Tooltip,
+  useMap,
   useMapEvents,
 } from "react-leaflet";
 import {
@@ -54,6 +55,24 @@ function PickHandler({ onPick }: { onPick: (p: [number, number]) => void }) {
   return null;
 }
 
+function RecenterButton() {
+  const map = useMap();
+  return (
+    <button
+      type="button"
+      onClick={() => map.flyTo(YANGON_CENTER, YANGON_ZOOM)}
+      className="absolute bottom-4 right-4 z-[1000] flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-foreground shadow-md border border-border hover:bg-muted transition-colors"
+      title="Recenter map"
+    >
+      <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+      </svg>
+      Center
+    </button>
+  );
+}
+
 export default function NeighborhoodMapClient({
   areas,
   reports = [],
@@ -76,13 +95,13 @@ export default function NeighborhoodMapClient({
       center={center}
       zoom={zoom}
       scrollWheelZoom={false}
-      className="size-full"
-      style={{ height: "100%", width: "100%" }}
+      className="h-full w-full"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
+      <RecenterButton />
 
       {onPick ? <PickHandler onPick={onPick} /> : null}
 

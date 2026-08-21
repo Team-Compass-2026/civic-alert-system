@@ -23,4 +23,12 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    // Vendored/generated UI kit: cva variants are exported alongside their
+    // components by design, so fast-refresh export rules don't apply here.
+    files: ["src/design-system/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

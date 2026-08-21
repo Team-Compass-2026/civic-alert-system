@@ -37,6 +37,9 @@ export function Footer() {
           <Link to="/faq" className="transition-colors duration-200 hover:text-foreground">
             FAQ
           </Link>
+          <Link to="/support" className="transition-colors duration-200 hover:text-foreground">
+            Support
+          </Link>
           <Link to="/dashboard" className="transition-colors duration-200 hover:text-foreground">
             For Organizations
           </Link>

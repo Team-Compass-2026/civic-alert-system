@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -26,6 +27,11 @@ import { Route as DashboardSlugRouteImport } from './routes/dashboard.$slug'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
   path: '/sign-up',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/support': typeof SupportRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/support': typeof SupportRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
+  '/support': typeof SupportRoute
   '/dashboard/$slug': typeof DashboardSlugRoute
   '/reset-password/sent': typeof ResetPasswordSentRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/support'
     | '/dashboard/$slug'
     | '/reset-password/sent'
     | '/dashboard/'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/support'
     | '/dashboard/$slug'
     | '/reset-password/sent'
     | '/dashboard'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/support'
     | '/dashboard/$slug'
     | '/reset-password/sent'
     | '/dashboard/'
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
+  SupportRoute: typeof SupportRoute
   DashboardSlugRoute: typeof DashboardSlugRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
@@ -241,6 +254,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-up': {
       id: '/sign-up'
       path: '/sign-up'
@@ -380,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
+  SupportRoute: SupportRoute,
   DashboardSlugRoute: DashboardSlugRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   Char91__componentChar93PreviewSplatRoute:

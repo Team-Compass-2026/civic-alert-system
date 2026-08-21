@@ -47,12 +47,15 @@ export function AlertDetailsDrawer({
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const center: [number, number] | null =
-    alert.lat !== null && alert.lng !== null
-      ? [alert.lat, alert.lng]
-      : area
-        ? [area.lat, area.lng]
-        : null;
+  const center = useMemo<[number, number] | null>(
+    () =>
+      alert.lat !== null && alert.lng !== null
+        ? [alert.lat, alert.lng]
+        : area
+          ? [area.lat, area.lng]
+          : null,
+    [alert.lat, alert.lng, area],
+  );
 
   const contributing = useMemo(() => {
     const scoped = reports.filter((r) =>

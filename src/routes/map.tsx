@@ -77,42 +77,36 @@ function MapPage() {
           onClose={() => setDetail(null)}
         />
       ) : null}
-      <main className="flex w-full flex-1 flex-col gap-6 pb-8">
-        <div className="mx-auto w-full max-w-6xl px-5 pt-6">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="flex flex-col gap-2">
-              <h1 className="font-display text-2xl font-bold text-foreground">
-                Current Data
-              </h1>
-              <p className="max-w-xl text-sm text-muted-foreground">
-                A live overview of Yangon. Tap an area to see why its risk score
-                changed. Tap a marker to see the report.
-              </p>
-            </div>
-            <Link
-              to="/report"
-              className={buttonVariants({ size: "md" })}
-            >
-              + Report a Problem
-            </Link>
-
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 pb-8 pt-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <h1 className="font-display text-2xl font-bold text-foreground">
+              Current Data
+            </h1>
+            <p className="max-w-xl text-sm text-muted-foreground">
+              A live overview of Yangon. Tap an area to see why its risk score
+              changed. Tap a marker to see the report.
+            </p>
           </div>
+          <Link
+            to="/report"
+            className={buttonVariants({ size: "md" })}
+          >
+            + Report a Problem
+          </Link>
         </div>
 
-        <div className="mx-auto w-full max-w-6xl px-5">
-          <Card className="h-64 w-full overflow-hidden sm:h-80 md:h-96">
-            <NeighborhoodMap
-              areas={areaList}
-              reports={feed.data ?? []}
-              alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
-              onSelectAlert={setDetail}
-              showAreaDetails
-              className="h-full w-full"
-            />
-          </Card>
+        <div className="h-64 w-full sm:h-80 md:h-[32rem]">
+          <NeighborhoodMap
+            areas={areaList}
+            reports={feed.data ?? []}
+            alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
+            onSelectAlert={setDetail}
+            showAreaDetails
+          />
         </div>
 
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5">
+        <div className="flex flex-col gap-6">
           <Card>
             <CardHeader>
               <div className="flex flex-col gap-1">

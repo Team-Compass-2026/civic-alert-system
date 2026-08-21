@@ -8,6 +8,8 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Input,
+  Label,
   Select,
   Switch,
   Spinner,
@@ -15,6 +17,7 @@ import {
   buttonVariants,
 } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
@@ -23,9 +26,14 @@ import { AlertCard } from "@/components/civic/AlertCard";
 import { AlertList } from "@/components/civic/AlertList";
 import { useAuth } from "@/hooks/useAuth";
 import { currentRedirectTarget, rememberRedirect } from "@/lib/redirect";
+import { friendlyAuthError } from "@/lib/authErrors";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
-import { getMyProfile, updateMyProfileArea } from "@/lib/profile.functions";
+import {
+  getMyProfile,
+  updateMyProfileArea,
+  updateMyProfileInfo,
+} from "@/lib/profile.functions";
 import {
   DEFAULT_PREFS,
   getMyReportIds,
@@ -99,6 +107,7 @@ function ProfilePage() {
   const queryClient = useQueryClient();
   const getMyProfileFn = useServerFn(getMyProfile);
   const updateMyProfileAreaFn = useServerFn(updateMyProfileArea);
+  const updateMyProfileInfoFn = useServerFn(updateMyProfileInfo);
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
   const alerts = useQuery(alertsQuery);
@@ -110,12 +119,28 @@ function ProfilePage() {
   const [prefs, setPrefs] = useState<AlertPrefs>(DEFAULT_PREFS);
   const [myIds, setMyIds] = useState<string[]>([]);
   const [language, setLanguage] = useState("en");
+  const [displayName, setDisplayName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const updateArea = useMutation({
     mutationFn: (vars: { areaId: string | null }) =>
       updateMyProfileAreaFn({ data: vars }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
+    },
+  });
+
+  const updateInfo = useMutation({
+    mutationFn: (vars: { displayName: string | null; phone: string | null }) =>
+      updateMyProfileInfoFn({ data: vars }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["my-profile"] });
+      toast.success("Profile details saved");
+    },
+    onError: (error) => {
+      toast.error("Could not save your details", {
+        description: friendlyAuthError(error),
+      });
     },
   });
 
@@ -126,6 +151,13 @@ function ProfilePage() {
     setPrefs(loaded);
     setMyIds(getMyReportIds());
   }, []);
+
+  useEffect(() => {
+    if (profile.data) {
+      setDisplayName(profile.data.display_name ?? "");
+      setPhone(profile.data.phone ?? "");
+    }
+  }, [profile.data]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -171,206 +203,275 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8">
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          Profile
-        </h1>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
+        <div className="flex flex-col gap-6">
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            Profile
+          </h1>
 
-        {auth.expired ? (
-          <Alert variant="danger" title="Your session expired">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm">
-                Sign in again to keep receiving alerts for your area.
-              </p>
-              <Link
-                to="/auth"
-                search={{ redirect: currentRedirectTarget() ?? undefined }}
-                onClick={() => rememberRedirect()}
-                className={cn(buttonVariants({ size: "sm" }))}
-              >
-                Sign in
-              </Link>
-            </div>
-          </Alert>
-        ) : null}
-
-        {auth.user ? (
-          <Card>
-            <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
-              <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-medium text-foreground">
-                  Signed in as {auth.user.email}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Home area: {myArea?.name ?? "Not set"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link to="/report" className={buttonVariants({ size: "sm" })}>
-                  Report a problem
-                </Link>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => void handleSignOut()}
-                >
-                  Sign out
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        ) : null}
-
-        <section className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="font-display text-base font-semibold text-foreground">
-              Alerts for {myArea?.name ?? "your area"}
-            </h2>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => void alerts.refetch()}
-              disabled={alerts.isFetching}
-            >
-              Refresh
-            </Button>
-          </div>
-
-          {alerts.isLoading || profile.isLoading ? (
-            <Card>
-              <CardBody className="flex items-center justify-center gap-2 p-5">
-                <Spinner />
-                <span className="text-sm text-muted-foreground">
-                  Loading alerts…
-                </span>
-              </CardBody>
-            </Card>
-          ) : alerts.isError ? (
-            <Alert variant="danger" title="Could not load alerts">
+          {auth.expired ? (
+            <Alert variant="danger" title="Your session expired">
               <div className="flex flex-col gap-3">
-                <p className="text-sm">{(alerts.error as Error).message}</p>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => void alerts.refetch()}
+                <p className="text-sm">
+                  Sign in again to keep receiving alerts for your area.
+                </p>
+                <Link
+                  to="/auth"
+                  search={{ redirect: currentRedirectTarget() ?? undefined }}
+                  onClick={() => rememberRedirect()}
+                  className={cn(buttonVariants({ size: "sm" }))}
                 >
-                  Try again
-                </Button>
+                  Sign in
+                </Link>
               </div>
             </Alert>
-          ) : myAreaAlerts.length > 0 ? (
-            <AlertList>
-              {myAreaAlerts.map((alert) => (
-                <AlertCard key={alert.id} alert={alert} />
-              ))}
-            </AlertList>
-          ) : (
-            <Card>
-              <CardBody className="p-5">
-                <p className="text-sm text-muted-foreground">
-                  No active alerts for your area right now.
-                </p>
-              </CardBody>
-            </Card>
-          )}
-        </section>
+          ) : null}
 
-        <Card>
-          <CardBody className="flex flex-col gap-4 p-5">
-            <div className="flex items-center gap-4">
-              <span
-                aria-hidden="true"
-                className="flex size-14 items-center justify-center rounded-pill bg-brand-50 text-2xl"
-              >
-                💧
-              </span>
-              <div className="flex flex-col gap-0.5">
-                <span className="font-display text-lg font-semibold text-foreground">
-                  WaterWatch Guardian
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Community reputation ·{" "}
-                  <span className="font-mono">{myReports.length}</span> reports ·{" "}
-                  <span className="font-mono">{confirmations}</span> confirmations
-                  received
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Chip>🛡️ Verified Reporter</Chip>
-              <Chip>
-                ⭐ <span className="font-mono">{confirmations}</span> confirmations
-              </Chip>
-              <Chip>
-                🤝 <span className="font-mono">15</span> community verifications
-              </Chip>
-            </div>
-          </CardBody>
-        </Card>
-
-        <section className="flex flex-col gap-4">
-          <h2 className="font-display text-base font-semibold text-foreground">
-            My reports
-          </h2>
-          <Card>
-            <CardBody className="flex flex-col divide-y divide-border p-5">
-              {myReports.map((report) => (
-                <div
-                  key={report.id}
-                  className="flex flex-col gap-1.5 py-3 first:pt-0 last:pb-0"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <ReportTypeIcon type={report.type} className="font-medium" />
-                    <StatusPill
-                      status={report.confirms >= 2 ? "resolved" : "open"}
-                    />
-                  </div>
-                  {report.description ? (
-                    <p className="text-sm text-muted-foreground">
-                      {report.description}
-                    </p>
-                  ) : null}
-                  <p className="text-xs text-muted-foreground">
-                    {report.area_name ?? "Unmapped area"} ·{" "}
-                    <span className="font-mono">{report.confirms}</span> confirms
-                    · <span className="font-mono">{timeAgo(report.created_at)}</span>
-                  </p>
-                </div>
-              ))}
-              {myReports.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  You haven't submitted a report from this device yet.
-                </p>
+          <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
+            {/* LEFT — account, area alerts, my reports */}
+            <div className="flex flex-col gap-6 lg:col-span-2">
+              {auth.user ? (
+                <Card>
+                  <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
+                    <div className="flex flex-col gap-0.5">
+                      {profile.data?.display_name ? (
+                        <>
+                          <span className="text-sm font-medium text-foreground">
+                            {profile.data.display_name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {auth.user.email}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-sm font-medium text-foreground">
+                          Signed in as {auth.user.email}
+                        </span>
+                      )}
+                      <span className="text-xs text-muted-foreground">
+                        Home area: {myArea?.name ?? "Not set"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Link to="/report" className={buttonVariants({ size: "sm" })}>
+                        Report a problem
+                      </Link>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void handleSignOut()}
+                      >
+                        Sign out
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
               ) : null}
-            </CardBody>
-          </Card>
-        </section>
 
-        <Card>
-          <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
-            <p className="text-sm text-foreground">
-              You have helped verify{" "}
-              <span className="font-mono">15</span> nearby reports.
-            </p>
-            <Link
-              to="/alerts"
-              className={cn(
-                buttonVariants({ size: "sm", variant: "outline" }),
-                "rounded-pill",
-              )}
-            >
-              Verify more
-            </Link>
-          </CardBody>
-        </Card>
+              <section className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-2">
+                  <h2 className="font-display text-base font-semibold text-foreground">
+                    Alerts for {myArea?.name ?? "your area"}
+                  </h2>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => void alerts.refetch()}
+                    disabled={alerts.isFetching}
+                  >
+                    Refresh
+                  </Button>
+                </div>
 
-        <Card>
-          <CardHeader>
-            <h2 className="font-display text-base font-semibold text-foreground">
-              Settings
-            </h2>
-          </CardHeader>
-          <CardBody className="flex flex-col divide-y divide-border p-5">
+                {alerts.isLoading || profile.isLoading ? (
+                  <Card>
+                    <CardBody className="flex items-center justify-center gap-2 p-5">
+                      <Spinner />
+                      <span className="text-sm text-muted-foreground">
+                        Loading alerts…
+                      </span>
+                    </CardBody>
+                  </Card>
+                ) : alerts.isError ? (
+                  <Alert variant="danger" title="Could not load alerts">
+                    <div className="flex flex-col gap-3">
+                      <p className="text-sm">{(alerts.error as Error).message}</p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void alerts.refetch()}
+                      >
+                        Try again
+                      </Button>
+                    </div>
+                  </Alert>
+                ) : myAreaAlerts.length > 0 ? (
+                  <AlertList>
+                    {myAreaAlerts.map((alert) => (
+                      <AlertCard key={alert.id} alert={alert} />
+                    ))}
+                  </AlertList>
+                ) : (
+                  <Card>
+                    <CardBody className="p-5">
+                      <p className="text-sm text-muted-foreground">
+                        No active alerts for your area right now.
+                      </p>
+                    </CardBody>
+                  </Card>
+                )}
+              </section>
+
+              <section className="flex flex-col gap-4">
+                <h2 className="font-display text-base font-semibold text-foreground">
+                  My reports
+                </h2>
+                <Card>
+                  <CardBody className="flex flex-col divide-y divide-border p-5">
+                    {myReports.map((report) => (
+                      <div
+                        key={report.id}
+                        className="flex flex-col gap-1.5 py-3 first:pt-0 last:pb-0"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <ReportTypeIcon type={report.type} className="font-medium" />
+                          <StatusPill
+                            status={report.confirms >= 2 ? "resolved" : "open"}
+                          />
+                        </div>
+                        {report.description ? (
+                          <p className="text-sm text-muted-foreground">
+                            {report.description}
+                          </p>
+                        ) : null}
+                        <p className="text-xs text-muted-foreground">
+                          {report.area_name ?? "Unmapped area"} ·{" "}
+                          <span className="font-mono">{report.confirms}</span> confirms
+                          · <span className="font-mono">{timeAgo(report.created_at)}</span>
+                        </p>
+                      </div>
+                    ))}
+                    {myReports.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        You haven't submitted a report from this device yet.
+                      </p>
+                    ) : null}
+                  </CardBody>
+                </Card>
+              </section>
+
+              <Card>
+                <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
+                  <p className="text-sm text-foreground">
+                    You have helped verify{" "}
+                    <span className="font-mono">15</span> nearby reports.
+                  </p>
+                  <Link
+                    to="/alerts"
+                    className={cn(
+                      buttonVariants({ size: "sm", variant: "outline" }),
+                      "rounded-pill",
+                    )}
+                  >
+                    Verify more
+                  </Link>
+                </CardBody>
+              </Card>
+            </div>
+
+            {/* RIGHT — details, reputation + settings */}
+            <div className="flex flex-col gap-6">
+              <Card>
+                <CardHeader>
+                  <h2 className="font-display text-base font-semibold text-foreground">
+                    Your details
+                  </h2>
+                </CardHeader>
+                <CardBody className="p-5 pt-0">
+                  <form
+                    className="flex flex-col gap-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      updateInfo.mutate({ displayName, phone });
+                    }}
+                  >
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="display-name">Display name</Label>
+                      <Input
+                        id="display-name"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder="How should we greet you?"
+                        maxLength={80}
+                        autoComplete="name"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="phone">Phone (optional)</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+95 …"
+                        maxLength={40}
+                        autoComplete="tel"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Saved to your private profile — never shown publicly.
+                    </p>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={updateInfo.isPending || profile.isLoading}
+                    >
+                      {updateInfo.isPending ? "Saving…" : "Save changes"}
+                    </Button>
+                  </form>
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardBody className="flex flex-col gap-4 p-5">
+                  <div className="flex items-center gap-4">
+                    <span
+                      aria-hidden="true"
+                      className="flex size-14 items-center justify-center rounded-pill bg-brand-50 text-2xl"
+                    >
+                      💧
+                    </span>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-display text-lg font-semibold text-foreground">
+                        WaterWatch Guardian
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        Community reputation ·{" "}
+                        <span className="font-mono">{myReports.length}</span> reports ·{" "}
+                        <span className="font-mono">{confirmations}</span> confirmations
+                        received
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Chip>🛡️ Verified Reporter</Chip>
+                    <Chip>
+                      ⭐ <span className="font-mono">{confirmations}</span> confirmations
+                    </Chip>
+                    <Chip>
+                      🤝 <span className="font-mono">15</span> community verifications
+                    </Chip>
+                  </div>
+                </CardBody>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <h2 className="font-display text-base font-semibold text-foreground">
+                    Settings
+                  </h2>
+                </CardHeader>
+                <CardBody className="flex flex-col divide-y divide-border p-5">
             <SettingRow
               label="Location"
               hint="Set your home area to get localized alerts"
@@ -445,20 +546,23 @@ function ProfilePage() {
             >
               <Switch checked={false} disabled aria-label="Partner rewards" />
             </SettingRow>
-          </CardBody>
-        </Card>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
 
-        <section className="flex flex-col gap-2 border-t border-border pt-6">
-          <h2 className="font-display text-sm font-semibold text-foreground">
-            About Team Compass
-          </h2>
-          <p className="text-xs text-muted-foreground">
-            WaterWatch is built by Team Compass 🧭 for DEEP Hackathon 2026 — a
-            community-first approach to water, sanitation and hygiene risk in
-            Yangon.
-          </p>
-          <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
-        </section>
+          <section className="flex flex-col gap-2 border-t border-border pt-6">
+            <h2 className="font-display text-sm font-semibold text-foreground">
+              About Team Compass
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              WaterWatch is built by Team Compass 🧭 for DEEP Hackathon 2026 — a
+              community-first approach to water, sanitation and hygiene risk in
+              Yangon.
+            </p>
+            <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
+          </section>
+        </div>
       </main>
 
       <Footer />

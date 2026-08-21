@@ -276,7 +276,7 @@ function AlertsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto w-full max-w-md flex-1 px-5 py-8">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-2xl font-bold text-foreground">
             Alerts
@@ -302,14 +302,16 @@ function AlertsPage() {
                 </span>
               </div>
               {homeAlerts.length > 0 ? (
-                homeAlerts.map((alert) => (
-                  <AlertFeedCard
-                    key={alert.id}
-                    alert={alert}
-                    area={areaOf(alert.area_id)}
-                    onOpenDetails={() => setDetail(alert)}
-                  />
-                ))
+                <div className="grid gap-4 md:grid-cols-2">
+                  {homeAlerts.map((alert) => (
+                    <AlertFeedCard
+                      key={alert.id}
+                      alert={alert}
+                      area={areaOf(alert.area_id)}
+                      onOpenDetails={() => setDetail(alert)}
+                    />
+                  ))}
+                </div>
               ) : (
                 <Card>
                   <CardBody className="flex flex-col gap-3 p-5">
@@ -337,12 +339,14 @@ function AlertsPage() {
               </h2>
 
               {verifyTarget ? (
-                <VerifyCard
-                  report={verifyTarget}
-                  answered={answers[verifyTarget.id]}
-                  pending={vote.isPending}
-                  onAnswer={(value) => answer(verifyTarget.id, value)}
-                />
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  <VerifyCard
+                    report={verifyTarget}
+                    answered={answers[verifyTarget.id]}
+                    pending={vote.isPending}
+                    onAnswer={(value) => answer(verifyTarget.id, value)}
+                  />
+                </div>
               ) : null}
 
               {townships.map((township) => (
@@ -350,14 +354,16 @@ function AlertsPage() {
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     {township}
                   </h3>
-                  {(byTownship[township] ?? []).map((alert) => (
-                    <AlertFeedCard
-                      key={alert.id}
-                      alert={alert}
-                      area={areaOf(alert.area_id)}
-                      onOpenDetails={() => setDetail(alert)}
-                    />
-                  ))}
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {(byTownship[township] ?? []).map((alert) => (
+                      <AlertFeedCard
+                        key={alert.id}
+                        alert={alert}
+                        area={areaOf(alert.area_id)}
+                        onOpenDetails={() => setDetail(alert)}
+                      />
+                    ))}
+                  </div>
                 </div>
               ))}
             </section>

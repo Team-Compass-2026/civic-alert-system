@@ -12,7 +12,7 @@ export const getMyProfile = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data: existing, error: fetchError } = await context.supabase
       .from("profiles")
-      .select("id, user_id, area_id")
+      .select("id, user_id, area_id, display_name, phone")
       .eq("user_id", context.userId)
       .single();
 
@@ -26,7 +26,7 @@ export const getMyProfile = createServerFn({ method: "GET" })
     const { data: created, error: insertError } = await context.supabase
       .from("profiles")
       .insert({ user_id: context.userId, area_id: null })
-      .select("id, user_id, area_id")
+      .select("id, user_id, area_id, display_name, phone")
       .single();
 
     if (insertError) throw insertError;
@@ -42,6 +42,38 @@ export const updateMyProfileArea = createServerFn({ method: "POST" })
     const { error } = await context.supabase
       .from("profiles")
       .update({ area_id: data.areaId, updated_at: new Date().toISOString() })
+      .eq("user_id", context.userId);
+
+    if (error) throw error;
+    return { ok: true };
+  });
+
+const trimmedNullable = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .transform((value) => (value.length > 0 ? value : null))
+    .nullable();
+
+export const updateMyProfileInfo = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        displayName: trimmedNullable(80),
+        phone: trimmedNullable(40),
+      })
+      .parse(data),
+  )
+  .handler(async ({ context, data }) => {
+    const { error } = await context.supabase
+      .from("profiles")
+      .update({
+        display_name: data.displayName,
+        phone: data.phone,
+        updated_at: new Date().toISOString(),
+      })
       .eq("user_id", context.userId);
 
     if (error) throw error;

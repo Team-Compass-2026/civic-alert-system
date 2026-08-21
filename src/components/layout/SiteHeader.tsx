@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { buttonVariants, cn, IconButton, Separator } from "@/design-system/design-idea-5cd787";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  buttonVariants,
+  cn,
+  IconButton,
+  Separator,
+} from "@/design-system/design-idea-5cd787";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
 const NAV = [
@@ -12,38 +19,41 @@ const NAV = [
   { to: "/dashboard", label: "For Organizations" },
 ] as const;
 
-const linkBase =
-  "focus-visible:focus-ring px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground";
-const linkActive =
-  "focus-visible:focus-ring px-3 py-2 text-sm font-medium text-foreground";
+/* Router concatenates className + activeProps.className +
+ * inactiveProps.className, so keep state-specific colors out of the base.
+ * Fuzzy matching keeps /dashboard highlighted on /dashboard/$slug too. */
+const tabBase =
+  "focus-visible:focus-ring rounded-pill px-3 py-2 text-sm transition-colors";
+const tabActive = "bg-muted font-medium text-foreground";
+const tabInactive =
+  "text-muted-foreground hover:bg-muted/60 hover:text-foreground";
 
-const mobileLinkBase =
-  "focus-visible:focus-ring block px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground";
-const mobileLinkActive =
-  "focus-visible:focus-ring block px-3 py-2.5 text-sm font-medium text-foreground";
+const mobileTabBase =
+  "focus-visible:focus-ring block rounded-md px-3 py-2.5 text-sm transition-colors";
+const mobileTabActive = "bg-muted font-medium text-foreground";
+const mobileTabInactive =
+  "text-muted-foreground hover:bg-muted/60 hover:text-foreground";
 
 function MobileNavLink({
   to,
   label,
   onNavigate,
-  activeClassName,
 }: {
   to: string;
   label: string;
   onNavigate: () => void;
-  activeClassName?: string;
 }) {
   return (
     <Link
       to={to}
       onClick={onNavigate}
-      className={mobileLinkBase}
-      activeProps={{ className: activeClassName ?? mobileLinkActive }}
+      className={mobileTabBase}
+      activeProps={{ className: mobileTabActive }}
+      inactiveProps={{ className: mobileTabInactive }}
     >
       {label}
     </Link>
   );
-
 }
 
 
@@ -52,6 +62,23 @@ export function SiteHeader() {
   const auth = useAuth();
   const isSignedIn = Boolean(auth.user);
   const [open, setOpen] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function handleSignOut() {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      await supabase.auth.signOut();
+      setOpen(false);
+      await navigate({ to: "/auth", replace: true });
+    } finally {
+      setSigningOut(false);
+    }
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -78,13 +105,14 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-2 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
           {NAV.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className={linkBase}
-              activeProps={{ className: linkActive }}
+              className={tabBase}
+              activeProps={{ className: tabActive }}
+              inactiveProps={{ className: tabInactive }}
             >
               {item.label}
             </Link>
@@ -94,12 +122,35 @@ export function SiteHeader() {
         <div className="flex items-center justify-end gap-2">
           <div className="hidden items-center gap-2 md:flex">
             {isSignedIn ? (
-              <Link
-                to="/profile"
-                className={buttonVariants({ size: "sm", variant: "outline" })}
-              >
-                Profile
-              </Link>
+              <>
+                <Link
+                  to="/profile"
+                  className={buttonVariants({ size: "sm", variant: "outline" })}
+                >
+                  Profile
+                </Link>
+                <IconButton
+                  label="Sign out"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void handleSignOut()}
+                  disabled={signingOut}
+                >
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"
+                    />
+                  </svg>
+                </IconButton>
+              </>
             ) : (
               <Link
                 to="/sign-in"
@@ -164,6 +215,21 @@ export function SiteHeader() {
                 )}
               </li>
             ))}
+            {isSignedIn && (
+              <>
+                <Separator className="my-2" />
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => void handleSignOut()}
+                    disabled={signingOut}
+                    className={cn(mobileTabBase, "text-left")}
+                  >
+                    {signingOut ? "Signing out…" : "Sign out"}
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
