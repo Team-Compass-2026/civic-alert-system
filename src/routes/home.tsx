@@ -11,7 +11,6 @@ import {
   Spinner,
 } from "@/design-system/design-idea-5cd787";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { SeverityBar } from "@/components/civic/SeverityBar";
@@ -69,7 +68,6 @@ function HomePage() {
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
       <div className="mx-auto flex w-full max-w-6xl flex-1">
-        <Sidebar />
         <main className="flex-1 px-5 py-8 md:px-8">
           <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
             <header className="flex flex-col gap-1">

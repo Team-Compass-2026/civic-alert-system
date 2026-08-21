@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardBody, CardHeader, Spinner } from "@/design-system/design-idea-5cd787";
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { RiskBadge } from "@/components/civic/RiskBadge";
 
@@ -40,7 +39,6 @@ function AreaDashboard() {
     return (
       <div className="flex min-h-screen flex-col bg-background">
         <SiteHeader />
-        <Sidebar />
         <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-8">
           <Link to="/dashboard" className="text-sm text-brand-700 underline">
             ← Back to dashboard
@@ -58,8 +56,6 @@ function AreaDashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <Sidebar />
-
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
 
         <Link to="/dashboard" className="text-sm text-brand-700 underline transition-colors duration-200 hover:text-brand-800">
