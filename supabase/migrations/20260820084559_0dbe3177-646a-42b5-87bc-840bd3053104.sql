@@ -143,11 +143,19 @@ GRANT SELECT ON public.v_report_feed TO anon, authenticated, service_role;
 
 ALTER TABLE public.reports REPLICA IDENTITY FULL;
 ALTER TABLE public.alerts REPLICA IDENTITY FULL;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.reports;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.alerts;
+DO $$
+BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE public.reports;
+  ALTER PUBLICATION supabase_realtime ADD TABLE public.alerts;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
+-- Storage lives in the storage schema, which survives public-schema resets,
+-- so drop-then-create keeps this re-runnable.
+DROP POLICY IF EXISTS "Report photos are readable" ON storage.objects;
 CREATE POLICY "Report photos are readable" ON storage.objects
   FOR SELECT TO anon, authenticated USING (bucket_id = 'report-photos');
+DROP POLICY IF EXISTS "Anyone can upload a report photo" ON storage.objects;
 CREATE POLICY "Anyone can upload a report photo" ON storage.objects
   FOR INSERT TO anon, authenticated WITH CHECK (bucket_id = 'report-photos');
 
