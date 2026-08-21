@@ -161,7 +161,7 @@ export function SiteHeader() {
                   onNavigate={() => setOpen(false)}
                 />
                 {i < arr.length - 1 && (
-                  <Separator className="my-3 bg-border" />
+                  <Separator className="my-2 bg-border" />
                 )}
               </li>
             ))}
