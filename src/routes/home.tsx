@@ -172,13 +172,13 @@ function HomePage() {
 
                 {/* WHY THIS SCORE */}
                 <Card>
-                  <CardBody className="flex flex-col gap-4">
+                  <CardBody className="flex flex-col gap-4 pt-5">
                     <button
                       type="button"
                       onClick={() => setShowWhy((v) => !v)}
                       aria-expanded={showWhy}
                       aria-controls={whyId}
-                      className="flex items-center justify-between gap-3 text-left focus-visible:rounded-md focus-visible:outline-none focus-visible:ring focus-visible:ring-ring"
+                      className="flex items-center justify-between gap-3 text-left rounded-md focus-visible:focus-ring"
                     >
                       <span className="font-display text-lg font-bold text-foreground">
                         Why this score?
