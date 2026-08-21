@@ -9,7 +9,6 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { useWaterwatchRealtime } from "@/hooks/useWaterwatchRealtime";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
@@ -65,8 +64,6 @@ function MapPage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <Sidebar />
-
       <main className="flex w-full flex-1 flex-col gap-6 pb-8">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6">
           <div className="flex flex-wrap items-start justify-between gap-4">

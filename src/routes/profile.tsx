@@ -17,7 +17,6 @@ import {
 import { cn } from "@/design-system/design-idea-5cd787/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Footer } from "@/components/layout/Footer";
 import { StatusPill } from "@/components/civic/StatusPill";
 import { AlertCard } from "@/components/civic/AlertCard";
@@ -171,8 +170,6 @@ function ProfilePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
-      <Sidebar />
-
       <main className="mx-auto flex w-full max-w-[30rem] flex-1 flex-col gap-8 px-5 py-8">
         <h1 className="font-display text-2xl font-bold text-foreground">
           Profile
