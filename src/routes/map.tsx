@@ -13,6 +13,9 @@ import { Footer } from "@/components/layout/Footer";
 
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
+import { useState } from "react";
+import { AlertDetailsDrawer } from "@/components/civic/AlertDetailsDrawer";
+import type { AlertItem } from "@/lib/waterwatch";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import {
   REPORT_TYPES,
@@ -61,10 +64,19 @@ function MapPage() {
   const alerts = useQuery(alertsQuery);
 
   const areaList = areas.data ?? [];
+  const [detail, setDetail] = useState<AlertItem | null>(null);
 
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      {detail ? (
+        <AlertDetailsDrawer
+          alert={detail}
+          area={areaList.find((a) => a.area_id === detail.area_id)}
+          reports={feed.data ?? []}
+          onClose={() => setDetail(null)}
+        />
+      ) : null}
       <main className="flex w-full flex-1 flex-col gap-6 pb-8">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -91,6 +103,7 @@ function MapPage() {
           areas={areaList}
           reports={feed.data ?? []}
           alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
+          onSelectAlert={setDetail}
           showAreaDetails
           className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
         />
