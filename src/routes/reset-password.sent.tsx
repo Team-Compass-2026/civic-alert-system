@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   Alert,
   Button,
@@ -52,6 +52,7 @@ const STEPS = [
 
 function ResetSentPage() {
   const { email } = Route.useSearch();
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
