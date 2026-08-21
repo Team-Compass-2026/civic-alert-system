@@ -13,14 +13,15 @@ const NAV = [
 ] as const;
 
 const linkBase =
-  "relative rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-200 hover:after:scale-x-100";
+  "focus-ring rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
 const linkActive =
-  "relative rounded-md px-3 py-2 text-sm font-medium text-foreground after:absolute after:inset-x-3 after:bottom-1 after:h-px after:bg-brand-600";
+  "focus-ring rounded-md px-3 py-2 text-sm font-medium bg-brand-50 text-brand-700";
 
 const mobileLinkBase =
   "focus-ring block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground";
 const mobileLinkActive =
-  "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-muted text-foreground";
+  "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-brand-50 text-brand-700";
+
 
 export function SiteHeader() {
   const auth = useAuth();
@@ -116,7 +117,7 @@ export function SiteHeader() {
       <div
         id="ww-mobile-nav"
         hidden={!open}
-        className={cn("border-t border-border bg-card md:hidden")}
+        className={cn("bg-card md:hidden")}
       >
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
           <ul className="flex flex-col gap-1">
