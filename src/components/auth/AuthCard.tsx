@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Alert,
   Button,
@@ -10,7 +11,11 @@ import {
   Select,
 } from "@/design-system/design-idea-5cd787";
 import { supabase } from "@/integrations/supabase/client";
+import { friendlyAuthError } from "@/lib/authErrors";
 import type { AreaRisk } from "@/lib/waterwatch";
+
+/** Password the login field starts with (empty by default). */
+const DEFAULT_PASSWORD = "";
 
 type Props = {
   areas: AreaRisk[];
@@ -26,7 +31,8 @@ type Props = {
 export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(DEFAULT_PASSWORD);
+  const [showPassword, setShowPassword] = useState(false);
   const [areaId, setAreaId] = useState<string>(areas[0]?.area_id ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,11 +54,19 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         },
       });
       if (err) {
-        setError(err.message);
+        const message = friendlyAuthError(err, "We couldn't create your account. Please try again.");
+        setError(message);
+        toast.error("Sign-up failed", { description: message });
       } else if (data.session) {
+        toast.success("Account created", {
+          description: "You're signed in — alerts are now localized to your area.",
+        });
         onAuth?.();
       } else {
         setNotice("Check your inbox to confirm your email, then sign in.");
+        toast.info("Almost there", {
+          description: "Confirm your email with the link we just sent, then sign in.",
+        });
       }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({
@@ -60,8 +74,11 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         password,
       });
       if (err) {
-        setError(err.message);
+        const message = friendlyAuthError(err, "We couldn't sign you in. Please try again.");
+        setError(message);
+        toast.error("Sign-in failed", { description: message });
       } else {
+        toast.success("Signed in");
         onAuth?.();
       }
     }
@@ -98,10 +115,20 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="ww-password">Password</Label>
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="ww-password">Password</Label>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowPassword((v) => !v)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </div>
             <Input
               id="ww-password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               autoComplete={
                 mode === "login" ? "current-password" : "new-password"
               }
