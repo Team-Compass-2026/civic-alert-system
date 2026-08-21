@@ -168,7 +168,7 @@ function HomePage() {
 
                 {/* WHY THIS SCORE */}
                 <Card>
-                  <CardBody className="flex flex-col gap-4 pt-5">
+                  <CardHeader>
                     <button
                       type="button"
                       onClick={() => setShowWhy((v) => !v)}
@@ -199,6 +199,8 @@ function HomePage() {
                         </svg>
                       </span>
                     </button>
+                  </CardHeader>
+                  <CardBody className="flex flex-col gap-4">
 
                     {showWhy ? (
                       <div id={whyId}>
