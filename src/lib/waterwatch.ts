@@ -64,7 +64,28 @@ export type AlertItem = {
   area_id: string | null;
   status: string;
   created_at: string;
+  lat: number | null;
+  lng: number | null;
+  area_slug: string | null;
+  area_name: string | null;
+  township: string | null;
 };
+
+/** Week-over-week signal counts per report type, from v_signal_trends. */
+export type SignalTrend = {
+  type: ReportType;
+  current_count: number;
+  previous_count: number;
+  trend_pct: number | null;
+};
+
+export const ALERT_STATUS_LABEL: Record<string, string> = {
+  active: "Active",
+  monitoring: "Monitoring",
+  resolved: "Resolved",
+  draft: "Draft",
+};
+
 
 export const REPORT_TYPES: Record<
   ReportType,

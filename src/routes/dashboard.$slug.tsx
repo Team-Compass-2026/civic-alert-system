@@ -12,8 +12,15 @@ import { useServerFn } from "@tanstack/react-start";
 import { RequireAccess } from "@/components/auth/RequireAccess";
 import { friendlyAuthError } from "@/lib/authErrors";
 import { getAreaDashboard } from "@/lib/access.functions";
-import type { AreaRisk, ReportFeedItem } from "@/lib/waterwatch";
-import { DISCLAIMER, OG_IMAGE_URL, REPORT_TYPES, timeAgo, type RiskComponent } from "@/lib/waterwatch";
+import type { AlertItem, AreaRisk, ReportFeedItem } from "@/lib/waterwatch";
+import {
+  ALERT_STATUS_LABEL,
+  DISCLAIMER,
+  OG_IMAGE_URL,
+  REPORT_TYPES,
+  timeAgo,
+  type RiskComponent,
+} from "@/lib/waterwatch";
 
 
 export const Route = createFileRoute("/dashboard/$slug")({
@@ -57,6 +64,7 @@ function AreaDashboard() {
 
   const area = scoped.data?.area as AreaRisk | undefined;
   const areaReports = (scoped.data?.reports ?? []) as unknown as ReportFeedItem[];
+  const areaAlerts = (scoped.data?.alerts ?? []) as unknown as AlertItem[];
 
   if (scoped.isLoading) {
     return (
@@ -122,6 +130,48 @@ function AreaDashboard() {
               <p className="text-sm text-muted-foreground">No component data available.</p>
             )}
           </div>
+        </section>
+
+        <section className="flex flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <h2 className="font-display text-base font-semibold text-foreground">
+                Alerts issued for {area.name}
+              </h2>
+            </CardHeader>
+            <CardBody>
+              {areaAlerts.length > 0 ? (
+                <ul className="flex flex-col divide-y divide-border">
+                  {areaAlerts.map((alert) => (
+                    <li
+                      key={alert.id}
+                      className="flex flex-wrap items-start justify-between gap-3 py-3 first:pt-0 last:pb-0"
+                    >
+                      <div className="flex flex-col gap-1">
+                        <span className="text-sm font-medium text-foreground">
+                          {alert.title}
+                        </span>
+                        <span className="text-sm text-muted-foreground">
+                          {alert.body}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs text-muted-foreground">
+                          {ALERT_STATUS_LABEL[alert.status] ?? alert.status} ·{" "}
+                          {timeAgo(alert.created_at)}
+                        </span>
+                        <RiskBadge level={alert.level} score={area.score} size="sm" />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  No alerts issued for this area yet.
+                </p>
+              )}
+            </CardBody>
+          </Card>
         </section>
 
         <section className="flex flex-col gap-4">

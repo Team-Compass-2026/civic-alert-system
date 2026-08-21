@@ -13,7 +13,7 @@ import { Footer } from "@/components/layout/Footer";
 
 import { NeighborhoodMap } from "@/components/map/NeighborhoodMap";
 import { RiskBadge } from "@/components/civic/RiskBadge";
-import { areasQuery, reportFeedQuery } from "@/lib/queries";
+import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import {
   REPORT_TYPES,
   REPORT_TYPE_CSS_VAR,
@@ -58,6 +58,7 @@ function MapPage() {
   useWaterwatchRealtime();
   const areas = useQuery(areasQuery);
   const feed = useQuery(reportFeedQuery);
+  const alerts = useQuery(alertsQuery);
 
   const areaList = areas.data ?? [];
 
@@ -89,6 +90,7 @@ function MapPage() {
         <NeighborhoodMap
           areas={areaList}
           reports={feed.data ?? []}
+          alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
           showAreaDetails
           className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
         />
@@ -166,6 +168,17 @@ function MapPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-medium text-foreground">
+                  Alerts
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  A ringed marker is an active WaterWatch alert. Its ring colour
+                  matches the alert level and the popup names the area, the
+                  level and the advice.
+                </p>
               </div>
 
               <div className="flex flex-col gap-2">

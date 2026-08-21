@@ -16,7 +16,7 @@ import { StatTile } from "@/components/civic/StatTile";
 
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
-import { reportFeedQuery } from "@/lib/queries";
+import { reportFeedQuery, signalTrendsQuery } from "@/lib/queries";
 import { useServerFn } from "@tanstack/react-start";
 import { RequireAccess } from "@/components/auth/RequireAccess";
 import { getScopedAreas } from "@/lib/access.functions";
@@ -27,7 +27,9 @@ import {
   TREND_ARROW,
   timeAgo,
   trendDirection,
+  riskLevelFromScore,
   type AreaRisk,
+  type ReportType,
 } from "@/lib/waterwatch";
 
 
@@ -36,14 +38,14 @@ const TITLE = "Yangon WASH Intelligence Dashboard — WaterWatch";
 const DESC =
   "Organization view of water, sanitation and flood signals across Yangon: prioritization, trends and recent reports.";
 
-const INDICATORS = [
-  { label: "Water reports", count: 247, delta: 38 },
-  { label: "Sanitation reports", count: 84, delta: 61 },
-  { label: "Illness signals", count: 129, delta: 72 },
-  { label: "Flood-related reports", count: 31, delta: 24 },
+/** Indicator rows, each backed by one or more report types from v_signal_trends. */
+const INDICATOR_GROUPS: { label: string; types: ReportType[] }[] = [
+  { label: "Water reports", types: ["unsafe_water", "broken_infrastructure"] },
+  { label: "Sanitation reports", types: ["sanitation", "sewage"] },
+  { label: "Illness signals", types: ["illness_cluster"] },
+  { label: "Flood-related reports", types: ["flooding"] },
 ];
 
-const overallRisk = { level: "HIGH" as const, score: 71 };
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({
@@ -98,13 +100,40 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
     queryFn: async () => (await getScopedAreasFn()) as unknown as AreaRisk[],
   });
   const feed = useQuery(reportFeedQuery);
+  const trends = useQuery(signalTrendsQuery);
+
+  const trendByType = new Map(
+    (trends.data ?? []).map((t) => [t.type, t] as const),
+  );
+  const indicators = INDICATOR_GROUPS.map((group) => {
+    let current = 0;
+    let previous = 0;
+    for (const type of group.types) {
+      const row = trendByType.get(type);
+      current += row?.current_count ?? 0;
+      previous += row?.previous_count ?? 0;
+    }
+    return {
+      label: group.label,
+      count: current,
+      delta:
+        previous === 0 ? 0 : Math.round(((current - previous) / previous) * 100),
+    };
+  });
 
   const scopedIds = new Set(
     (areas.data ?? []).map((a) => a.area_id).concat(allowedAreaIds),
   );
   const reports = (feed.data ?? []).filter((r) => scopedIds.has(r.area_id ?? ""));
   const ranked = [...(areas.data ?? [])].sort((a, b) => b.score - a.score);
-  const top3 = ranked.slice(0, 3);
+  const top3 = ranked.slice(0, 6);
+  const overallScore = ranked.length
+    ? Math.round(ranked.reduce((sum, a) => sum + a.score, 0) / ranked.length)
+    : 0;
+  const overallRisk = {
+    level: riskLevelFromScore(overallScore),
+    score: overallScore,
+  };
   const recent = reports.slice(0, 6);
 
 
@@ -136,7 +165,7 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
                 Indicators
               </h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {INDICATORS.map((item) => (
+                {indicators.map((item) => (
                   <StatTile
                     key={item.label}
                     label={item.label}

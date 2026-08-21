@@ -133,8 +133,7 @@ function Landing() {
               ) : null}
             </div>
 
-            <div className="overflow-hidden rounded-lg motion-safe:animate-fade-in">
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden motion-safe:animate-fade-in">
               <CardBody className="relative overflow-hidden p-0">
                 <NeighborhoodMap areas={list} className="isolate h-64 w-full sm:h-80 md:h-96" />
 
@@ -161,7 +160,7 @@ function Landing() {
                 ) : null}
               </CardBody>
             </Card>
-            </div>
+
           </div>
         </section>
 

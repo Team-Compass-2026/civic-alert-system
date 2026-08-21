@@ -88,7 +88,6 @@ function HomePage() {
               </label>
               <Select
                 id={slug}
-                className="w-full"
                 value={selectedSlug}
                 onChange={(e) => {
                   setSelectedSlug(e.target.value);
