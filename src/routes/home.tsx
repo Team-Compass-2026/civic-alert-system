@@ -291,7 +291,7 @@ function HomePage() {
               </Link>
               <Link
                 to="/map"
-                className={buttonVariants({ size: "lg", variant: "outline" })}
+                className={buttonVariants({ size: "lg", variant: "secondary" })}
               >
                 View Map
               </Link>
