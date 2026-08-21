@@ -183,7 +183,7 @@ function DashboardPage() {
                   </h2>
                 </CardHeader>
                 <CardBody className="overflow-x-auto p-5">
-                  <table className="w-full min-w-[40rem] text-left text-sm">
+                  <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground">
                         <th className="pb-3 font-medium">Type</th>
