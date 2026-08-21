@@ -237,3 +237,48 @@ export const TREND_TEXT: Record<TrendDirection, string> = {
   down: "text-risk-low",
   flat: "text-muted-foreground",
 };
+
+/** Great-circle distance in km between two [lat, lng] points. */
+export function distanceKm(
+  a: [number, number],
+  b: [number, number],
+): number {
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(b[0] - a[0]);
+  const dLng = toRad(b[1] - a[1]);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a[0])) * Math.cos(toRad(b[0])) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
+/** Format a coordinate pair for display (mono, 4 decimals). */
+export function formatCoords(lat: number, lng: number): string {
+  return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+}
+
+/** Baseline safety actions per risk level, shown when an alert has no advice. */
+export const RECOMMENDED_ACTIONS: Record<RiskLevel, string[]> = {
+  LOW: [
+    "Keep using your normal water source, but check colour and smell before drinking.",
+    "Report anything unusual so neighbors get an early warning.",
+  ],
+  MODERATE: [
+    "Boil drinking water for at least one minute, or use treated bottled water.",
+    "Store water in covered containers and wash hands with soap after contact.",
+    "Confirm or dispute nearby reports so the signal stays accurate.",
+  ],
+  HIGH: [
+    "Do not drink untreated tap water — boil vigorously or use chlorine tablets.",
+    "Avoid wading through standing or flood water; wash and dry skin if you do.",
+    "Watch for diarrhoea or vomiting at home and seek care early for children.",
+    "Share this alert with neighbors who are not on WaterWatch.",
+  ],
+  CRITICAL: [
+    "Treat all tap water as unsafe: boil, chlorinate, or use sealed bottled water only.",
+    "Keep children away from flooded or sewage-affected areas.",
+    "Seek medical care immediately for severe diarrhoea, dehydration or fever.",
+    "Follow township authority instructions and check back for updates.",
+  ],
+};
