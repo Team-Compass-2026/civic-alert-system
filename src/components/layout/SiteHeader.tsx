@@ -40,16 +40,14 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border bg-card">
       <div className="mx-auto grid w-full max-w-6xl grid-cols-[auto_minmax(0,1fr)] items-center gap-4 px-5 py-3 md:flex md:justify-between">
         <div className="flex min-w-0 items-center gap-2">
-          <button
-            type="button"
+          <IconButton
+            label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
             aria-controls="ww-mobile-nav"
-            className="focus-ring -ml-1 flex size-10 shrink-0 items-center justify-center rounded-md text-foreground hover:bg-muted md:hidden"
+            className="shrink-0 md:hidden"
           >
             <svg
-              className="size-5"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -62,7 +60,8 @@ export function SiteHeader() {
                 d={open ? "M6 6l12 12M18 6L6 18" : "M4 6h16M4 12h16M4 18h16"}
               />
             </svg>
-          </button>
+          </IconButton>
+
 
           <Link to="/" className="flex min-w-0 items-center gap-2">
             <img
