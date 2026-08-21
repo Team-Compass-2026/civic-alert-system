@@ -3,6 +3,7 @@ import type { Session, User } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { friendlyAuthError } from "@/lib/authErrors";
+import { rememberRedirect } from "@/lib/redirect";
 
 /**
  * Client-side Supabase auth state for the citizen account.
@@ -20,6 +21,7 @@ export function useAuth() {
     const { data, error } = await supabase.auth.getSession();
     if (error) {
       setExpired(true);
+      rememberRedirect();
       toast.error("Session problem", {
         description: friendlyAuthError(error, "We couldn't refresh your session. Please sign in again."),
       });
@@ -38,6 +40,8 @@ export function useAuth() {
       if (renewError || !renewed.session) {
         setSession(null);
         setExpired(true);
+        // Keep the page they were on so sign-in can return them to it.
+        rememberRedirect();
         toast.error("Your session expired", {
           description: "Please sign in again to keep getting alerts for your area.",
         });

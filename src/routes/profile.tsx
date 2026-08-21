@@ -22,6 +22,7 @@ import { StatusPill } from "@/components/civic/StatusPill";
 import { AlertCard } from "@/components/civic/AlertCard";
 import { AlertList } from "@/components/civic/AlertList";
 import { useAuth } from "@/hooks/useAuth";
+import { currentRedirectTarget, rememberRedirect } from "@/lib/redirect";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { getMyProfile, updateMyProfileArea } from "@/lib/profile.functions";
@@ -181,7 +182,12 @@ function ProfilePage() {
               <p className="text-sm">
                 Sign in again to keep receiving alerts for your area.
               </p>
-              <Link to="/auth" className={cn(buttonVariants({ size: "sm" }))}>
+              <Link
+                to="/auth"
+                search={{ redirect: currentRedirectTarget() ?? undefined }}
+                onClick={() => rememberRedirect()}
+                className={cn(buttonVariants({ size: "sm" }))}
+              >
                 Sign in
               </Link>
             </div>

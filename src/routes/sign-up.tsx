@@ -7,12 +7,18 @@ import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/hooks/useAuth";
 import { areasQuery } from "@/lib/queries";
 import { OG_IMAGE_URL } from "@/lib/waterwatch";
+import { resolveRedirect, safeRedirectPath } from "@/lib/redirect";
 
 const TITLE = "Create account — WaterWatch";
 const DESC =
   "Create a WaterWatch account to get localized alerts for your Yangon neighborhood and file reports.";
 
 export const Route = createFileRoute("/sign-up")({
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
+    const target = safeRedirectPath(search["redirect"]);
+    return target ? { redirect: target } : {};
+  },
+
   head: () => ({
     meta: [
       { title: TITLE },
@@ -33,11 +39,14 @@ function SignUpPage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const areas = useQuery(areasQuery);
+  const search = Route.useSearch();
+  const destination = () => resolveRedirect(search.redirect);
 
   useEffect(() => {
     if (!auth.loading && auth.user) {
-      navigate({ to: "/profile", replace: true });
+      navigate({ to: destination(), replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.loading, auth.user, navigate]);
 
   return (
@@ -48,7 +57,7 @@ function SignUpPage() {
         <AuthCard
           areas={areas.data ?? []}
           initialMode="signup"
-          onAuth={() => navigate({ to: "/profile", replace: true })}
+          onAuth={() => navigate({ to: destination(), replace: true })}
         />
       </main>
 
