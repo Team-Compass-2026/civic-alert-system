@@ -109,7 +109,7 @@ export function AlertDetailsDrawer({
               {timeAgo(alert.created_at)}
             </p>
           </div>
-          <IconButton aria-label="Close" variant="ghost" onClick={onClose}>
+          <IconButton label="Close alert details" variant="ghost" onClick={onClose}>
             <span aria-hidden="true">✕</span>
           </IconButton>
         </div>
