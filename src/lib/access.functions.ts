@@ -49,7 +49,15 @@ export const getAreaDashboard = createServerFn({ method: "POST" })
       .limit(60);
     if (reportError) throw reportError;
 
-    return { area, reports: reports ?? [] };
+    const { data: alerts, error: alertError } = await context.supabase
+      .from("v_alert_feed")
+      .select("*")
+      .eq("area_id", areaId)
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (alertError) throw alertError;
+
+    return { area, reports: reports ?? [], alerts: alerts ?? [] };
   });
 
 /** Areas the caller may see on the dashboard index, already scoped. */
