@@ -175,13 +175,14 @@ function Landing() {
           <div className="mt-8 grid gap-6 motion-safe:animate-stagger sm:grid-cols-2 md:grid-cols-4">
             {STEPS.map((step) => (
               <Card key={step.step} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                <CardBody className="flex flex-col gap-3 pt-5">
-                  <span className="font-mono text-sm text-brand-600">
-                    {step.step}
-                  </span>
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    {step.title}
-                  </h3>
+                <CardHeader
+                  description={
+                    <span className="font-mono text-sm text-brand-600">{step.step}</span>
+                  }
+                >
+                  {step.title}
+                </CardHeader>
+                <CardBody className="flex flex-col gap-2">
                   <p className="text-sm text-muted-foreground">{step.body}</p>
                 </CardBody>
               </Card>
