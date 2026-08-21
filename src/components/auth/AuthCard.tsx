@@ -1,16 +1,41 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Alert,
   Button,
   Card,
   CardBody,
+  IconButton,
   CardHeader,
   Input,
   Label,
   Select,
 } from "@/design-system/design-idea-5cd787";
 import { supabase } from "@/integrations/supabase/client";
+import { friendlyAuthError } from "@/lib/authErrors";
 import type { AreaRisk } from "@/lib/waterwatch";
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <path d="M3 3l18 18" strokeLinecap="round" />
+      <path d="M10.6 6.1A9.6 9.6 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3.3 3.9M6.4 8.2A17 17 0 0 0 2.5 12S6 18 12 18a9.8 9.8 0 0 0 3.6-.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Password the login field starts with (empty by default). */
+const DEFAULT_PASSWORD = "";
 
 type Props = {
   areas: AreaRisk[];
@@ -26,7 +51,8 @@ type Props = {
 export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
   const [mode, setMode] = useState<"login" | "signup">(initialMode);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(DEFAULT_PASSWORD);
+  const [showPassword, setShowPassword] = useState(false);
   const [areaId, setAreaId] = useState<string>(areas[0]?.area_id ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,11 +74,19 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         },
       });
       if (err) {
-        setError(err.message);
+        const message = friendlyAuthError(err, "We couldn't create your account. Please try again.");
+        setError(message);
+        toast.error("Sign-up failed", { description: message });
       } else if (data.session) {
+        toast.success("Account created", {
+          description: "You're signed in — alerts are now localized to your area.",
+        });
         onAuth?.();
       } else {
         setNotice("Check your inbox to confirm your email, then sign in.");
+        toast.info("Almost there", {
+          description: "Confirm your email with the link we just sent, then sign in.",
+        });
       }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({
@@ -60,8 +94,11 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         password,
       });
       if (err) {
-        setError(err.message);
+        const message = friendlyAuthError(err, "We couldn't sign you in. Please try again.");
+        setError(message);
+        toast.error("Sign-in failed", { description: message });
       } else {
+        toast.success("Signed in");
         onAuth?.();
       }
     }
@@ -99,19 +136,34 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="ww-password">Password</Label>
-            <Input
-              id="ww-password"
-              type="password"
-              autoComplete={
-                mode === "login" ? "current-password" : "new-password"
-              }
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
-            />
+            <div className="relative">
+              <Input
+                id="ww-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete={
+                  mode === "login" ? "current-password" : "new-password"
+                }
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                className="pr-11"
+              />
+              <IconButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute inset-y-0 right-1 my-auto"
+              >
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </IconButton>
+            </div>
           </div>
+
 
           {mode === "signup" ? (
             <div className="flex flex-col gap-1.5">

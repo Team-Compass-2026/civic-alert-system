@@ -212,6 +212,45 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          area_id: string | null
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          area_id?: string | null
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          area_id?: string | null
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_roles_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "v_area_risk"
+            referencedColumns: ["area_id"]
+          },
+        ]
+      }
       verifications: {
         Row: {
           anon_token: string
@@ -306,9 +345,17 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      role_area_ids: { Args: { _user_id: string }; Returns: string[] }
     }
     Enums: {
+      app_role: "admin" | "org" | "citizen"
       report_type:
         | "unsafe_water"
         | "sewage"
@@ -446,6 +493,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "org", "citizen"],
       report_type: [
         "unsafe_water",
         "sewage",

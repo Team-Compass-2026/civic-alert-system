@@ -16,7 +16,10 @@ import { StatTile } from "@/components/civic/StatTile";
 
 import { RiskBadge } from "@/components/civic/RiskBadge";
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
-import { areasQuery, reportFeedQuery } from "@/lib/queries";
+import { reportFeedQuery } from "@/lib/queries";
+import { useServerFn } from "@tanstack/react-start";
+import { RequireAccess } from "@/components/auth/RequireAccess";
+import { getScopedAreas } from "@/lib/access.functions";
 import {
   DISCLAIMER,
   OG_IMAGE_URL,
@@ -55,8 +58,23 @@ export const Route = createFileRoute("/dashboard/")({
       { name: "twitter:image", content: OG_IMAGE_URL },
     ],
   }),
+  ssr: false,
   component: DashboardPage,
 });
+
+function DashboardPage() {
+  return (
+    <div className="flex min-h-screen flex-col bg-background">
+      <SiteHeader />
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+        <RequireAccess roles={["admin", "org"]}>
+          {(access) => <DashboardContent allowedAreaIds={access.roleAreaIds} />}
+        </RequireAccess>
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 
 function priorityWhy(area: AreaRisk): string[] {
@@ -73,20 +91,25 @@ function priorityWhy(area: AreaRisk): string[] {
   ];
 }
 
-function DashboardPage() {
-  const areas = useQuery(areasQuery);
+function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
+  const getScopedAreasFn = useServerFn(getScopedAreas);
+  const areas = useQuery({
+    queryKey: ["scoped-areas"],
+    queryFn: async () => (await getScopedAreasFn()) as unknown as AreaRisk[],
+  });
   const feed = useQuery(reportFeedQuery);
 
-  const reports = feed.data ?? [];
+  const scopedIds = new Set(
+    (areas.data ?? []).map((a) => a.area_id).concat(allowedAreaIds),
+  );
+  const reports = (feed.data ?? []).filter((r) => scopedIds.has(r.area_id ?? ""));
   const ranked = [...(areas.data ?? [])].sort((a, b) => b.score - a.score);
   const top3 = ranked.slice(0, 3);
   const recent = reports.slice(0, 6);
 
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <SiteHeader />
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8">
+    <>
 
         <header className="flex flex-col gap-2 border-b border-border pb-6">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -135,9 +158,10 @@ function DashboardPage() {
                     key={area.area_id}
                     to="/dashboard/$slug"
                     params={{ slug: area.slug }}
-                    className="group rounded-lg border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-card"
+                    className="group block transition-all hover:-translate-y-1"
                   >
-                    <div className="flex flex-col gap-4">
+                    <Card className="h-full">
+                      <CardBody className="flex flex-col gap-4 pt-5">
                       <div className="flex items-start justify-between gap-2">
                         <span className="font-mono text-3xl font-semibold text-foreground">
                           {index + 1}
@@ -169,7 +193,8 @@ function DashboardPage() {
                       >
                         View area breakdown
                       </span>
-                    </div>
+                      </CardBody>
+                    </Card>
                   </Link>
                 ))}
               </div>
@@ -248,10 +273,7 @@ function DashboardPage() {
             </section>
           </>
         )}
-      </main>
-
-      <Footer />
-    </div>
+    </>
   );
 }
 

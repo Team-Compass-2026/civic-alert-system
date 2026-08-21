@@ -175,6 +175,19 @@ function ProfilePage() {
           Profile
         </h1>
 
+        {auth.expired ? (
+          <Alert variant="danger" title="Your session expired">
+            <div className="flex flex-col gap-3">
+              <p className="text-sm">
+                Sign in again to keep receiving alerts for your area.
+              </p>
+              <Link to="/auth" className={cn(buttonVariants({ size: "sm" }))}>
+                Sign in
+              </Link>
+            </div>
+          </Alert>
+        ) : null}
+
         {auth.user ? (
           <Card>
             <CardBody className="flex flex-wrap items-center justify-between gap-3 p-5">
