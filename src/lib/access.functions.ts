@@ -19,9 +19,10 @@ export type MyAccess = {
   canViewDashboard: boolean;
 };
 
-export const getMyAccess = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }): Promise<MyAccess> => {
+type Ctx = { supabase: any; userId: string };
+
+async function loadAccess(context: Ctx): Promise<MyAccess> {
+  {
     const { data: roleRows, error: roleError } = await context.supabase
       .from("user_roles")
       .select("role, area_id")
@@ -46,7 +47,12 @@ export const getMyAccess = createServerFn({ method: "GET" })
       profileAreaId: profile?.area_id ?? null,
       canViewDashboard: roles.includes("admin") || roles.includes("org"),
     };
-  });
+  }
+}
+
+export const getMyAccess = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<MyAccess> => loadAccess(context));
 
 /** Areas the caller is allowed to open, or `null` when unrestricted. */
 function allowedAreaIds(access: MyAccess): string[] | null {
@@ -65,7 +71,7 @@ export const getAreaDashboard = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ slug: z.string().min(1) }).parse(data))
   .handler(async ({ context, data }) => {
-    const access = await getMyAccess();
+    const access = await loadAccess(context);
     if (!access.canViewDashboard) {
       throw new Error("Forbidden: your account is not authorized for the organization dashboard.");
     }
@@ -99,7 +105,7 @@ export const getAreaDashboard = createServerFn({ method: "POST" })
 export const getScopedAreas = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const access = await getMyAccess();
+    const access = await loadAccess(context);
     if (!access.canViewDashboard) {
       throw new Error("Forbidden: your account is not authorized for the organization dashboard.");
     }
