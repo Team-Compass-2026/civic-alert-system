@@ -1,41 +1,23 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { toast } from "sonner";
 import {
   Alert,
   Button,
   Card,
   CardBody,
-  IconButton,
   CardHeader,
   Input,
   Label,
   Select,
 } from "@/design-system/design-idea-5cd787";
+import { PasswordField } from "@/components/auth/PasswordField";
+import { PasswordStrengthMeter } from "@/components/auth/PasswordStrengthMeter";
 import { supabase } from "@/integrations/supabase/client";
 import { friendlyAuthError } from "@/lib/authErrors";
+import { assessPassword, MIN_PASSWORD_LENGTH } from "@/lib/passwordStrength";
 import type { AreaRisk } from "@/lib/waterwatch";
 
-function EyeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function EyeOffIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M3 3l18 18" strokeLinecap="round" />
-      <path d="M10.6 6.1A9.6 9.6 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3.3 3.9M6.4 8.2A17 17 0 0 0 2.5 12S6 18 12 18a9.8 9.8 0 0 0 3.6-.7" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-/** Password the login field starts with (empty by default). */
-const DEFAULT_PASSWORD = "";
+type Mode = "login" | "signup" | "forgot";
 
 type Props = {
   areas: AreaRisk[];
@@ -44,29 +26,80 @@ type Props = {
   initialMode?: "login" | "signup";
 };
 
+const COPY: Record<Mode, { title: string; blurb: string }> = {
+  login: {
+    title: "Sign in",
+    blurb:
+      "Sign in to get alerts for your neighborhood and to file reports under your name.",
+  },
+  signup: {
+    title: "Create your account",
+    blurb:
+      "Pick your area and we'll localize alerts, reports and risk scores to it.",
+  },
+  forgot: {
+    title: "Reset your password",
+    blurb:
+      "Enter the email on your account and we'll send you a link to choose a new password.",
+  },
+};
+
 /**
- * Email + password login / signup for citizens. The chosen area is stored on
- * the account metadata so the signup trigger can create a profile row.
+ * Email + password login / signup / password-reset for citizens. The chosen
+ * area is stored on the account metadata so the signup trigger can create a
+ * profile row.
  */
 export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
-  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(DEFAULT_PASSWORD);
-  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const [areaId, setAreaId] = useState<string>(areas[0]?.area_id ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const strengthId = useId();
+
+  const strength = assessPassword(password);
+
+  function switchMode(next: Mode) {
+    setMode(next);
+    setError(null);
+    setNotice(null);
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
     setError(null);
     setNotice(null);
 
-    if (mode === "signup") {
+    if (mode === "signup" && !strength.acceptable) {
+      const message = `Please choose a stronger password — at least ${MIN_PASSWORD_LENGTH} characters, mixing letters with a number or symbol.`;
+      setError(message);
+      toast.error("Password too weak", { description: message });
+      return;
+    }
+
+    setBusy(true);
+
+    if (mode === "forgot") {
+      const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (err) {
+        const message = friendlyAuthError(err, "We couldn't send the reset email. Please try again.");
+        setError(message);
+        toast.error("Reset email failed", { description: message });
+      } else {
+        setNotice(
+          "If that email has a WaterWatch account, a reset link is on its way. The link expires in an hour.",
+        );
+        toast.success("Reset link sent", {
+          description: "Check your inbox for the link to choose a new password.",
+        });
+      }
+    } else if (mode === "signup") {
       const { data, error: err } = await supabase.auth.signUp({
-        email,
+        email: email.trim(),
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/profile`,
@@ -90,7 +123,7 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
       }
     } else {
       const { error: err } = await supabase.auth.signInWithPassword({
-        email,
+        email: email.trim(),
         password,
       });
       if (err) {
@@ -102,6 +135,7 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         onAuth?.();
       }
     }
+
     setBusy(false);
   }
 
@@ -109,12 +143,9 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
     <Card>
       <CardHeader>
         <h2 className="font-display text-base font-semibold text-foreground">
-          {mode === "login" ? "Sign in" : "Create your account"}
+          {COPY[mode].title}
         </h2>
-        <p className="text-sm text-muted-foreground">
-          Sign in to get alerts for your neighborhood and to file reports under
-          your name.
-        </p>
+        <p className="text-sm text-muted-foreground">{COPY[mode].blurb}</p>
       </CardHeader>
       <CardBody className="flex flex-col gap-4 p-5">
         {error ? <Alert variant="danger">{error}</Alert> : null}
@@ -134,36 +165,39 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="ww-password">Password</Label>
-            <div className="relative">
-              <Input
-                id="ww-password"
-                type={showPassword ? "text" : "password"}
-                autoComplete={
-                  mode === "login" ? "current-password" : "new-password"
-                }
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="At least 6 characters"
-                className="pr-11"
-              />
-              <IconButton
-                type="button"
-                size="sm"
-                variant="ghost"
-                label={showPassword ? "Hide password" : "Show password"}
-                aria-pressed={showPassword}
-                onClick={() => setShowPassword((v) => !v)}
-                className="absolute inset-y-0 right-1 my-auto"
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </IconButton>
-            </div>
-          </div>
-
+          {mode !== "forgot" ? (
+            <PasswordField
+              id="ww-password"
+              label="Password"
+              value={password}
+              onChange={setPassword}
+              required
+              minLength={mode === "signup" ? MIN_PASSWORD_LENGTH : 6}
+              autoComplete={mode === "login" ? "current-password" : "new-password"}
+              placeholder={
+                mode === "signup"
+                  ? `At least ${MIN_PASSWORD_LENGTH} characters`
+                  : "Your password"
+              }
+              describedBy={mode === "signup" ? strengthId : undefined}
+              labelAction={
+                mode === "login" ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => switchMode("forgot")}
+                  >
+                    Forgot password?
+                  </Button>
+                ) : null
+              }
+            >
+              {mode === "signup" ? (
+                <PasswordStrengthMeter id={strengthId} password={password} />
+              ) : null}
+            </PasswordField>
+          ) : null}
 
           {mode === "signup" ? (
             <div className="flex flex-col gap-1.5">
@@ -190,26 +224,29 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
               ? "Please wait…"
               : mode === "login"
                 ? "Sign in"
-                : "Create account"}
+                : mode === "signup"
+                  ? "Create account"
+                  : "Send reset link"}
           </Button>
         </form>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => {
-            setMode(mode === "login" ? "signup" : "login");
-            setError(null);
-            setNotice(null);
-          }}
-        >
-          {mode === "login"
-            ? "New here? Create an account"
-            : "Already have an account? Sign in"}
-        </Button>
+        {mode === "forgot" ? (
+          <Button type="button" variant="ghost" size="sm" onClick={() => switchMode("login")}>
+            Back to sign in
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => switchMode(mode === "login" ? "signup" : "login")}
+          >
+            {mode === "login"
+              ? "New here? Create an account"
+              : "Already have an account? Sign in"}
+          </Button>
+        )}
       </CardBody>
     </Card>
   );
 }
-
