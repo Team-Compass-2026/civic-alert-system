@@ -10,6 +10,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import {
+  ALERT_STATUS_LABEL,
   REPORT_TYPES,
   REPORT_TYPE_CSS_VAR,
   RISK_CSS_VAR,
@@ -19,6 +20,7 @@ import {
   timeAgo,
   trendDirection,
   trendLabel,
+  type AlertItem,
   type AreaRisk,
   type ReportFeedItem,
 } from "@/lib/waterwatch";
@@ -26,6 +28,7 @@ import {
 export type NeighborhoodMapProps = {
   areas: AreaRisk[];
   reports?: ReportFeedItem[];
+  alerts?: AlertItem[];
   center?: [number, number];
   zoom?: number;
   interactiveMarkers?: boolean;
@@ -34,6 +37,7 @@ export type NeighborhoodMapProps = {
   onSelectReport?: (report: ReportFeedItem) => void;
   showAreaDetails?: boolean;
 };
+
 
 function cssColor(name: string): string {
   if (typeof document === "undefined") return "";
