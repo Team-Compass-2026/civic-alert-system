@@ -36,14 +36,14 @@ const TITLE = "Yangon WASH Intelligence Dashboard — WaterWatch";
 const DESC =
   "Organization view of water, sanitation and flood signals across Yangon: prioritization, trends and recent reports.";
 
-const INDICATORS = [
-  { label: "Water reports", count: 247, delta: 38 },
-  { label: "Sanitation reports", count: 84, delta: 61 },
-  { label: "Illness signals", count: 129, delta: 72 },
-  { label: "Flood-related reports", count: 31, delta: 24 },
+/** Indicator rows, each backed by one or more report types from v_signal_trends. */
+const INDICATOR_GROUPS: { label: string; types: ReportType[] }[] = [
+  { label: "Water reports", types: ["unsafe_water", "broken_infrastructure"] },
+  { label: "Sanitation reports", types: ["sanitation", "sewage"] },
+  { label: "Illness signals", types: ["illness_cluster"] },
+  { label: "Flood-related reports", types: ["flooding"] },
 ];
 
-const overallRisk = { level: "HIGH" as const, score: 71 };
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({
