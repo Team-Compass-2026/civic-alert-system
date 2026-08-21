@@ -22,7 +22,9 @@ export type Database = {
           created_at: string
           id: string
           kind: string
+          lat: number | null
           level: Database["public"]["Enums"]["risk_level"]
+          lng: number | null
           status: string
           title: string
         }
@@ -33,7 +35,9 @@ export type Database = {
           created_at?: string
           id?: string
           kind?: string
+          lat?: number | null
           level: Database["public"]["Enums"]["risk_level"]
+          lng?: number | null
           status?: string
           title: string
         }
@@ -44,7 +48,9 @@ export type Database = {
           created_at?: string
           id?: string
           kind?: string
+          lat?: number | null
           level?: Database["public"]["Enums"]["risk_level"]
+          lng?: number | null
           status?: string
           title?: string
         }
@@ -292,6 +298,40 @@ export type Database = {
       }
     }
     Views: {
+      v_alert_feed: {
+        Row: {
+          advice: string | null
+          area_id: string | null
+          area_name: string | null
+          area_slug: string | null
+          body: string | null
+          created_at: string | null
+          id: string | null
+          kind: string | null
+          lat: number | null
+          level: Database["public"]["Enums"]["risk_level"] | null
+          lng: number | null
+          status: string | null
+          title: string | null
+          township: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "v_area_risk"
+            referencedColumns: ["area_id"]
+          },
+        ]
+      }
       v_area_risk: {
         Row: {
           area_id: string | null
@@ -342,6 +382,15 @@ export type Database = {
             referencedColumns: ["area_id"]
           },
         ]
+      }
+      v_signal_trends: {
+        Row: {
+          current_count: number | null
+          previous_count: number | null
+          trend_pct: number | null
+          type: Database["public"]["Enums"]["report_type"] | null
+        }
+        Relationships: []
       }
     }
     Functions: {
