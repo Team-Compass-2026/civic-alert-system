@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import {
   Alert,
@@ -58,6 +59,7 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const strengthId = useId();
+  const navigate = useNavigate();
 
   const strength = assessPassword(password);
 
@@ -90,12 +92,12 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
         setError(message);
         toast.error("Reset email failed", { description: message });
       } else {
-        setNotice(
-          "If that email has a WaterWatch account, a reset link is on its way. The link expires in an hour.",
-        );
         toast.success("Reset link sent", {
           description: "Check your inbox for the link to choose a new password.",
         });
+        setBusy(false);
+        navigate({ to: "/reset-password/sent", search: { email: email.trim() } });
+        return;
       }
     } else if (mode === "signup") {
       const { data, error: err } = await supabase.auth.signUp({
