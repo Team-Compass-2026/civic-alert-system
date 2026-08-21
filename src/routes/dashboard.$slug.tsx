@@ -174,10 +174,7 @@ function AreaDashboard() {
         </section>
 
         <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
-      </main>
-
-      <Footer />
-    </div>
+    </>
   );
 }
 
