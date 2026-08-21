@@ -102,7 +102,7 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
   const scopedIds = new Set(
     (areas.data ?? []).map((a) => a.area_id).concat(allowedAreaIds),
   );
-  const reports = (feed.data ?? []).filter((r) => scopedIds.has(r.area_id));
+  const reports = (feed.data ?? []).filter((r) => scopedIds.has(r.area_id ?? ""));
   const ranked = [...(areas.data ?? [])].sort((a, b) => b.score - a.score);
   const top3 = ranked.slice(0, 3);
   const recent = reports.slice(0, 6);

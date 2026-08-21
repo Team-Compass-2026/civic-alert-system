@@ -8,7 +8,10 @@ import { RiskBadge } from "@/components/civic/RiskBadge";
 
 import { ReportTypeIcon } from "@/components/civic/ReportTypeIcon";
 import { SeverityBar } from "@/components/civic/SeverityBar";
-import { areasQuery, reportFeedQuery } from "@/lib/queries";
+import { useServerFn } from "@tanstack/react-start";
+import { RequireAccess } from "@/components/auth/RequireAccess";
+import { getAreaDashboard } from "@/lib/access.functions";
+import type { AreaRisk, ReportFeedItem } from "@/lib/waterwatch";
 import { DISCLAIMER, OG_IMAGE_URL, REPORT_TYPES, timeAgo, type RiskComponent } from "@/lib/waterwatch";
 
 
@@ -24,16 +27,37 @@ export const Route = createFileRoute("/dashboard/$slug")({
     ],
   }),
 
-  component: AreaDashboard,
+  ssr: false,
+  component: AreaDashboardPage,
 });
+
+function AreaDashboardPage() {
+  return (
+    <RequireAccess roles={["admin", "org"]}>
+      {() => <AreaDashboard />}
+    </RequireAccess>
+  );
+}
 
 function AreaDashboard() {
   const { slug } = Route.useParams();
-  const areas = useQuery(areasQuery);
-  const feed = useQuery(reportFeedQuery);
+  const getAreaDashboardFn = useServerFn(getAreaDashboard);
+  const scoped = useQuery({
+    queryKey: ["area-dashboard", slug],
+    queryFn: () => getAreaDashboardFn({ data: { slug } }),
+    retry: false,
+  });
 
-  const area = (areas.data ?? []).find((a) => a.slug === slug);
-  const areaReports = (feed.data ?? []).filter((r) => r.area_id === area?.area_id);
+  const area = scoped.data?.area as AreaRisk | undefined;
+  const areaReports = (scoped.data?.reports ?? []) as unknown as ReportFeedItem[];
+
+  if (scoped.isLoading) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (!area) {
     return (
