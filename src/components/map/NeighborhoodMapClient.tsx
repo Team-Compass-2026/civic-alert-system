@@ -174,6 +174,51 @@ export default function NeighborhoodMapClient({
         );
       })}
 
+      {alerts.map((alert) => {
+        if (alert.lat === null || alert.lng === null) return null;
+        const color = cssColor(RISK_CSS_VAR[alert.level]);
+        return (
+          <CircleMarker
+            key={alert.id}
+            center={[alert.lat, alert.lng]}
+            radius={11}
+            pathOptions={{
+              color,
+              weight: 3,
+              fillColor: surface,
+              fillOpacity: 0.95,
+              dashArray: "4 3",
+            }}
+          >
+            <Tooltip>
+              <span className="font-sans">
+                Alert · {alert.level} — {alert.title}
+              </span>
+            </Tooltip>
+            <Popup>
+              <div className="flex min-w-52 flex-col gap-1 font-sans">
+                <strong className="font-display">{alert.title}</strong>
+                <span>
+                  {alert.level} alert ·{" "}
+                  {ALERT_STATUS_LABEL[alert.status] ?? alert.status}
+                </span>
+                <span>
+                  {alert.area_name ?? "Yangon"}
+                  {alert.township ? ` · ${alert.township}` : ""}
+                </span>
+                <span>{alert.body}</span>
+                {alert.advice ? <span>{alert.advice}</span> : null}
+                <span className="font-mono">{timeAgo(alert.created_at)}</span>
+                <Link to="/alerts" className="text-brand-700 underline">
+                  Open alerts
+                </Link>
+              </div>
+            </Popup>
+          </CircleMarker>
+        );
+      })}
+
+
       {pickedPoint ? (
         <CircleMarker
           center={pickedPoint}
