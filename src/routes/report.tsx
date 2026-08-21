@@ -261,12 +261,14 @@ function ReportPage() {
               <Card>
                 <CardBody className="flex flex-col gap-3 p-5">
                   <StepHeading step={2} title="Where is it?" />
-                  <NeighborhoodMap
-                    areas={areas.data ?? []}
-                    pickedPoint={point}
-                    onPick={setPoint}
-                    className="h-64 w-full border border-border lg:h-80"
-                  />
+                  <div onMouseDown={(e) => e.stopPropagation()}>
+                    <NeighborhoodMap
+                      areas={areas.data ?? []}
+                      pickedPoint={point}
+                      onPick={setPoint}
+                      className="h-64 w-full border border-border lg:h-80"
+                    />
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     Tap the map to set the location
                     {point ? (
