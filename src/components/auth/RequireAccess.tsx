@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { getMyAccess } from "@/lib/access.functions";
 import { friendlyAuthError } from "@/lib/authErrors";
+import { currentRedirectTarget, rememberRedirect } from "@/lib/redirect";
 import type { MyAccess } from "@/lib/access.server";
 
 type Props = {
@@ -72,7 +73,12 @@ export function RequireAccess({ roles, children }: Props) {
             : "This page is only available to signed-in WaterWatch accounts."
         }
         action={
-          <Link to="/auth" className={buttonVariants({ size: "sm" })}>
+          <Link
+            to="/auth"
+            search={{ redirect: currentRedirectTarget() ?? undefined }}
+            onClick={() => rememberRedirect()}
+            className={buttonVariants({ size: "sm" })}
+          >
             Sign in
           </Link>
         }
