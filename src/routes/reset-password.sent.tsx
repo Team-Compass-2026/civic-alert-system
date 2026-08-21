@@ -92,13 +92,11 @@ function ResetSentPage() {
               typed the same address you signed up with.
             </Alert>
 
-            <Button asChild>
-              <Link to="/sign-in">Back to sign in</Link>
+            <Button onClick={() => navigate({ to: "/sign-in" })}>
+              Back to sign in
             </Button>
-            <Button asChild variant="secondary">
-              <Link to="/sign-in" search={{}}>
-                Send another link
-              </Link>
+            <Button variant="secondary" onClick={() => navigate({ to: "/home" })}>
+              Go to your area
             </Button>
           </CardBody>
         </Card>
