@@ -140,7 +140,7 @@ function Landing() {
 
                 {focus ? (
                   <Card className="absolute bottom-4 left-4 right-4 z-10 sm:bottom-6 sm:left-6 sm:right-6 md:right-auto md:max-w-xs">
-                    <CardBody className="flex flex-col">
+                    <CardBody className="flex flex-col pt-5">
                       <span className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                         Your area · {focus.name}
                       </span>
