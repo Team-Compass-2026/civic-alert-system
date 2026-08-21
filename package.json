@@ -47,7 +47,8 @@
     "build:dev": "vite build --mode development",
     "dev": "vite dev",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "sideEffects": false,
   "type": "module"
