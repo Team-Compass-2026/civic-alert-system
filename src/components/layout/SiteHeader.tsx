@@ -148,30 +148,22 @@ export function SiteHeader() {
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
           <ul className="flex flex-col gap-1">
             {NAV.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className={mobileLinkBase}
-                  activeProps={{ className: mobileLinkActive }}
-                >
-                  {item.label}
-                </Link>
-              </li>
+              <MobileNavLink
+                key={item.to}
+                to={item.to}
+                label={item.label}
+                onNavigate={() => setOpen(false)}
+              />
             ))}
-            <li>
-              <Link
-                to={isSignedIn ? "/profile" : "/sign-in"}
-                onClick={() => setOpen(false)}
-                className={mobileLinkBase}
-                activeProps={{ className: mobileLinkActive }}
-              >
-                {isSignedIn ? "Profile" : "Sign in"}
-              </Link>
-            </li>
+            <MobileNavLink
+              to={isSignedIn ? "/profile" : "/sign-in"}
+              label={isSignedIn ? "Profile" : "Sign in"}
+              onNavigate={() => setOpen(false)}
+            />
           </ul>
         </nav>
       </div>
     </header>
   );
 }
+
