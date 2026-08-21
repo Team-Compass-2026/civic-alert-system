@@ -80,9 +80,11 @@ function AlertGlyph({ level }: { level: AlertItem["level"] }) {
 function AlertFeedCard({
   alert,
   area,
+  onOpenDetails,
 }: {
   alert: AlertItem;
   area?: AreaRisk | undefined;
+  onOpenDetails: () => void;
 }) {
   const s = RISK_STYLES[alert.level];
   return (
@@ -115,6 +117,9 @@ function AlertFeedCard({
         </div>
 
         <div className="flex flex-wrap gap-2">
+          <Button size="sm" className="rounded-pill" onClick={onOpenDetails}>
+            View details
+          </Button>
           <Link
             to="/map"
             className={cn(buttonVariants({ size: "sm", variant: "outline" }), "rounded-pill")}
@@ -123,7 +128,7 @@ function AlertFeedCard({
           </Link>
           <Link
             to="/report"
-            className={cn(buttonVariants({ size: "sm" }), "rounded-pill")}
+            className={cn(buttonVariants({ size: "sm", variant: "outline" }), "rounded-pill")}
           >
             Report a problem
           </Link>
