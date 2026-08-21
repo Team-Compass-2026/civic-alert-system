@@ -207,10 +207,10 @@ function Landing() {
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20 sm:pt-20 md:pt-24">
           <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+            <CardHeader className="text-center">
+              Learn what is happening near you?
+            </CardHeader>
             <CardBody className="flex flex-col items-center gap-6 text-center">
-              <h2 className="font-display text-3xl font-extrabold text-foreground">
-                Learn what is happening near you?
-              </h2>
               <Link to="/home" className={buttonVariants({ size: "lg" })}>
                 Check Your Neighborhood →
               </Link>
