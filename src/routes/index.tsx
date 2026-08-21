@@ -115,7 +115,7 @@ function Landing() {
                 </Link>
                 <Link
                   to="/map"
-                  className={buttonVariants({ size: "lg", variant: "outline" })}
+                  className={buttonVariants({ size: "lg", variant: "secondary" })}
                 >
                   Current Data
                 </Link>
