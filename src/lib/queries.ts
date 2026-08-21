@@ -1,6 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { AlertItem, AreaRisk, ReportFeedItem } from "@/lib/waterwatch";
+import type {
+  AlertItem,
+  AreaRisk,
+  ReportFeedItem,
+  SignalTrend,
+} from "@/lib/waterwatch";
+
 
 export const areasQuery = queryOptions({
   queryKey: ["areas"],
