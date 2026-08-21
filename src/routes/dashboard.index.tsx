@@ -158,9 +158,10 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
                     key={area.area_id}
                     to="/dashboard/$slug"
                     params={{ slug: area.slug }}
-                    className="group rounded-lg border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-card"
+                    className="group block transition-all hover:-translate-y-1"
                   >
-                    <div className="flex flex-col gap-4">
+                    <Card className="h-full">
+                      <CardBody className="flex flex-col gap-4 pt-5">
                       <div className="flex items-start justify-between gap-2">
                         <span className="font-mono text-3xl font-semibold text-foreground">
                           {index + 1}
@@ -192,7 +193,8 @@ function DashboardContent({ allowedAreaIds }: { allowedAreaIds: string[] }) {
                       >
                         View area breakdown
                       </span>
-                    </div>
+                      </CardBody>
+                    </Card>
                   </Link>
                 ))}
               </div>
