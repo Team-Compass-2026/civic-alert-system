@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import {
+  Badge,
   Button,
   Card,
   CardBody,
@@ -161,10 +162,10 @@ function DashboardPage() {
                         ))}
                       </ul>
                       <span
-                        className={cn(
-                          buttonVariants({ size: "sm", variant: "outline" }),
-                          "w-full rounded-pill transition-colors group-hover:bg-brand-50",
-                        )}
+                      className={cn(
+                        buttonVariants({ size: "sm", variant: "outline" }),
+                        "w-full",
+                      )}
                       >
                         View area breakdown
                       </span>
@@ -182,7 +183,7 @@ function DashboardPage() {
                   </h2>
                 </CardHeader>
                 <CardBody className="overflow-x-auto p-5">
-                  <table className="w-full min-w-[40rem] text-left text-sm">
+                  <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-border text-muted-foreground">
                         <th className="pb-3 font-medium">Type</th>
@@ -221,22 +222,12 @@ function DashboardPage() {
                     </tbody>
                   </table>
 
-                  <div className="mt-4 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                    <span className="rounded-pill border border-border px-3 py-1">
-                      Date range
-                    </span>
-                    <span className="rounded-pill border border-border px-3 py-1">
-                      Report type
-                    </span>
-                    <span className="rounded-pill border border-border px-3 py-1">
-                      Township
-                    </span>
-                    <span className="rounded-pill border border-border px-3 py-1">
-                      Verification status
-                    </span>
-                    <span className="rounded-pill bg-muted px-3 py-1">
-                      Filters enabled in live build
-                    </span>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Badge variant="outline">Date range</Badge>
+                    <Badge variant="outline">Report type</Badge>
+                    <Badge variant="outline">Township</Badge>
+                    <Badge variant="outline">Verification status</Badge>
+                    <Badge variant="neutral">Filters enabled in live build</Badge>
                   </div>
                 </CardBody>
               </Card>

@@ -22,6 +22,32 @@ const mobileLinkBase =
 const mobileLinkActive =
   "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-brand-50 text-brand-700";
 
+function MobileNavLink({
+  to,
+  label,
+  onNavigate,
+  activeClassName,
+}: {
+  to: string;
+  label: string;
+  onNavigate: () => void;
+  activeClassName?: string;
+}) {
+  return (
+    <li>
+      <Link
+        to={to}
+        onClick={onNavigate}
+        className={mobileLinkBase}
+        activeProps={{ className: activeClassName ?? mobileLinkActive }}
+      >
+        {label}
+      </Link>
+    </li>
+  );
+}
+
+
 
 export function SiteHeader() {
   const auth = useAuth();
@@ -122,30 +148,22 @@ export function SiteHeader() {
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
           <ul className="flex flex-col gap-1">
             {NAV.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className={mobileLinkBase}
-                  activeProps={{ className: mobileLinkActive }}
-                >
-                  {item.label}
-                </Link>
-              </li>
+              <MobileNavLink
+                key={item.to}
+                to={item.to}
+                label={item.label}
+                onNavigate={() => setOpen(false)}
+              />
             ))}
-            <li>
-              <Link
-                to={isSignedIn ? "/profile" : "/sign-in"}
-                onClick={() => setOpen(false)}
-                className={mobileLinkBase}
-                activeProps={{ className: mobileLinkActive }}
-              >
-                {isSignedIn ? "Profile" : "Sign in"}
-              </Link>
-            </li>
+            <MobileNavLink
+              to={isSignedIn ? "/profile" : "/sign-in"}
+              label={isSignedIn ? "Profile" : "Sign in"}
+              onNavigate={() => setOpen(false)}
+            />
           </ul>
         </nav>
       </div>
     </header>
   );
 }
+
