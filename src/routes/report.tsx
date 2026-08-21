@@ -134,6 +134,7 @@ function ReportPage() {
     onSuccess: async () => {
       setDone(true);
       resetForm();
+      window.scrollTo({ top: 0, behavior: "smooth" });
       await queryClient.invalidateQueries({ queryKey: ["report-feed"] });
       await queryClient.invalidateQueries({ queryKey: ["areas"] });
     },
@@ -172,8 +173,8 @@ function ReportPage() {
                 </Button>
               </CardFooter>
             </Card>
-          ) : null}
-
+          ) : (
+          <>
           <div className="flex flex-col gap-2">
             <h1 className="font-display text-2xl font-bold text-foreground">
               Report a Problem
@@ -261,14 +262,12 @@ function ReportPage() {
               <Card>
                 <CardBody className="flex flex-col gap-3 p-5">
                   <StepHeading step={2} title="Where is it?" />
-                  <div onMouseDown={(e) => e.stopPropagation()}>
-                    <NeighborhoodMap
-                      areas={areas.data ?? []}
-                      pickedPoint={point}
-                      onPick={setPoint}
-                      className="h-64 w-full border border-border lg:h-80"
-                    />
-                  </div>
+                  <NeighborhoodMap
+                    areas={areas.data ?? []}
+                    pickedPoint={point}
+                    onPick={setPoint}
+                    className="h-64 w-full border border-border lg:h-80"
+                  />
                   <p className="text-xs text-muted-foreground">
                     Tap the map to set the location
                     {point ? (
@@ -390,6 +389,8 @@ function ReportPage() {
               <p className="text-xs text-muted-foreground">{DISCLAIMER}</p>
             </div>
           </form>
+          )}
+          </>
           )}
         </div>
       </main>
