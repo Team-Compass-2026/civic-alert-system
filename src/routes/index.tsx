@@ -206,7 +206,7 @@ function Landing() {
 
         {/* FINAL CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pt-16 pb-20 sm:pt-20 md:pt-24">
-          <Card className="transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <Card>
             <CardHeader className="text-center">
               Learn what is happening near you?
             </CardHeader>
