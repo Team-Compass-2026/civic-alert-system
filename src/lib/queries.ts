@@ -37,10 +37,23 @@ export const alertsQuery = queryOptions({
   queryKey: ["alerts"],
   queryFn: async (): Promise<AlertItem[]> => {
     const { data, error } = await supabase
-      .from("alerts")
+      .from("v_alert_feed")
       .select("*")
       .order("created_at", { ascending: false });
     if (error) throw error;
     return (data ?? []) as unknown as AlertItem[];
   },
 });
+
+export const signalTrendsQuery = queryOptions({
+  queryKey: ["signal-trends"],
+  queryFn: async (): Promise<SignalTrend[]> => {
+    const { data, error } = await supabase
+      .from("v_signal_trends")
+      .select("*")
+      .order("current_count", { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as unknown as SignalTrend[];
+  },
+});
+
