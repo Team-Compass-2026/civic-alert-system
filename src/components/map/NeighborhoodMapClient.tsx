@@ -56,6 +56,8 @@ function PickHandler({ onPick }: { onPick: (p: [number, number]) => void }) {
 export default function NeighborhoodMapClient({
   areas,
   reports = [],
+  alerts = [],
+
   center = YANGON_CENTER,
   zoom = YANGON_ZOOM,
   pickedPoint = null,
