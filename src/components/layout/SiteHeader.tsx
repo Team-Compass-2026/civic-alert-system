@@ -64,7 +64,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-card">
+    <header className="sticky top-0 z-50 bg-card">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
         <Link to="/" className="flex min-w-0 items-center gap-2">
           <img
@@ -79,7 +79,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-2 md:flex" aria-label="Main">
           {NAV.map((item) => (
             <Link
               key={item.to}
@@ -146,7 +146,7 @@ export function SiteHeader() {
         className={cn("bg-card md:hidden")}
       >
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
-          <ul className="flex flex-col gap-1">
+          <ul className="flex flex-col gap-3">
             {NAV.map((item) => (
               <MobileNavLink
                 key={item.to}
