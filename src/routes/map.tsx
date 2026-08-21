@@ -106,7 +106,7 @@ function MapPage() {
             alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
             onSelectAlert={setDetail}
             showAreaDetails
-            className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
+            className="h-64 w-full border border-border sm:h-80 md:h-96"
           />
         </div>
 
