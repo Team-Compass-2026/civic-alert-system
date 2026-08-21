@@ -38,8 +38,55 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card">
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-[auto_minmax(0,1fr)] items-center gap-4 px-5 py-3 md:flex md:justify-between">
-        <div className="flex min-w-0 items-center gap-2">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3">
+        <Link to="/" className="flex min-w-0 items-center gap-2">
+          <img
+            src="/logo-transparent.png"
+            alt="WaterWatch"
+            className="h-8 w-auto shrink-0"
+            width={32}
+            height={32}
+          />
+          <span className="truncate font-display text-lg font-bold text-foreground">
+            WaterWatch
+          </span>
+        </Link>
+
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={linkBase}
+              activeProps={{ className: linkActive }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center justify-end gap-2">
+          <div className="hidden items-center gap-2 md:flex">
+            {isSignedIn ? (
+              <Link
+                to="/profile"
+                className={buttonVariants({ size: "sm", variant: "outline" })}
+              >
+                Profile
+              </Link>
+            ) : (
+              <Link
+                to="/sign-in"
+                className={buttonVariants({ size: "sm", variant: "outline" })}
+              >
+                Sign in
+              </Link>
+            )}
+            <Link to="/report" className={buttonVariants({ size: "sm" })}>
+              Report a Problem
+            </Link>
+          </div>
+
           <IconButton
             label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen((v) => !v)}
@@ -61,60 +108,9 @@ export function SiteHeader() {
               />
             </svg>
           </IconButton>
-
-
-          <Link to="/" className="flex min-w-0 items-center gap-2">
-            <img
-              src="/logo-transparent.png"
-              alt="WaterWatch"
-              className="h-8 w-auto shrink-0"
-              width={32}
-              height={32}
-            />
-            <span className="truncate font-display text-lg font-bold text-foreground">
-              WaterWatch
-            </span>
-          </Link>
-        </div>
-
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className={linkBase}
-              activeProps={{ className: linkActive }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center justify-end gap-2">
-          {isSignedIn ? (
-            <Link
-              to="/profile"
-              className={buttonVariants({ size: "sm", variant: "outline" })}
-            >
-              <span className="hidden sm:inline">Profile</span>
-              <span className="sm:hidden" aria-label="Profile">
-                <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </span>
-            </Link>
-          ) : (
-            <Link
-              to="/sign-in"
-              className={buttonVariants({ size: "sm", variant: "outline" })}
-            >
-              Sign in
-            </Link>
-          )}
-          <Link to="/report" className={buttonVariants({ size: "sm" })}>
-            <span className="hidden sm:inline">Report a Problem</span>
-            <span className="sm:hidden">Report</span>
-          </Link>
         </div>
       </div>
+
 
       {/* Mobile menu */}
       <div
