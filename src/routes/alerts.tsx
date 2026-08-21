@@ -18,6 +18,7 @@ import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { verifyReport } from "@/lib/actions";
 import { getPrefs, DEFAULT_PREFS } from "@/lib/device";
 import {
+  ALERT_STATUS_LABEL,
   DISCLAIMER,
   OG_IMAGE_URL,
   REPORT_TYPES,
@@ -90,6 +91,7 @@ function AlertFeedCard({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <RiskBadge level={alert.level} score={area?.score ?? floorScore(alert.level)} />
           <span className="font-mono text-xs text-muted-foreground">
+            {ALERT_STATUS_LABEL[alert.status] ?? alert.status} ·{" "}
             {timeAgo(alert.created_at)}
           </span>
         </div>
@@ -104,11 +106,12 @@ function AlertFeedCard({
           {alert.advice ? (
             <p className="text-sm text-foreground">{alert.advice}</p>
           ) : null}
-          {area ? (
-            <p className="text-xs text-muted-foreground">
-              {area.name} · {area.township}
-            </p>
-          ) : null}
+          <p className="text-xs text-muted-foreground">
+            {alert.area_name ?? area?.name ?? "Yangon"}
+            {alert.township ?? area?.township
+              ? ` · ${alert.township ?? area?.township}`
+              : ""}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -242,6 +245,16 @@ function AlertsPage() {
     ? allAlerts.filter((a) => a.area_id !== homeArea.area_id)
     : allAlerts;
 
+  const byTownship = otherAlerts.reduce<Record<string, AlertItem[]>>(
+    (acc, alert) => {
+      const key = alert.township ?? "Yangon";
+      (acc[key] ??= []).push(alert);
+      return acc;
+    },
+    {},
+  );
+  const townships = Object.keys(byTownship).sort();
+
   const verifyTarget = (feed.data ?? []).find(
     (r) => r.status !== "resolved" && r.confirms + r.disputes < 5,
   );
@@ -324,12 +337,19 @@ function AlertsPage() {
                 />
               ) : null}
 
-              {otherAlerts.map((alert) => (
-                <AlertFeedCard
-                  key={alert.id}
-                  alert={alert}
-                  area={areaOf(alert.area_id)}
-                />
+              {townships.map((township) => (
+                <div key={township} className="flex flex-col gap-4">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    {township}
+                  </h3>
+                  {(byTownship[township] ?? []).map((alert) => (
+                    <AlertFeedCard
+                      key={alert.id}
+                      alert={alert}
+                      area={areaOf(alert.area_id)}
+                    />
+                  ))}
+                </div>
               ))}
             </section>
           </div>
