@@ -14,6 +14,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 
 import { RiskBadge } from "@/components/civic/RiskBadge";
+import { AlertDetailsDrawer } from "@/components/civic/AlertDetailsDrawer";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { verifyReport } from "@/lib/actions";
 import { getPrefs, DEFAULT_PREFS } from "@/lib/device";
@@ -224,6 +225,7 @@ function AlertsPage() {
 
   const [homeSlug, setHomeSlug] = useState(DEFAULT_PREFS.areaSlug);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [detail, setDetail] = useState<AlertItem | null>(null);
 
   useEffect(() => {
     setHomeSlug(getPrefs().areaSlug);
@@ -305,6 +307,7 @@ function AlertsPage() {
                     key={alert.id}
                     alert={alert}
                     area={areaOf(alert.area_id)}
+                    onOpenDetails={() => setDetail(alert)}
                   />
                 ))
               ) : (
@@ -352,6 +355,7 @@ function AlertsPage() {
                       key={alert.id}
                       alert={alert}
                       area={areaOf(alert.area_id)}
+                      onOpenDetails={() => setDetail(alert)}
                     />
                   ))}
                 </div>
@@ -362,6 +366,17 @@ function AlertsPage() {
 
         <p className="mt-10 text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
+
+      {detail ? (
+        <AlertDetailsDrawer
+          alert={detail}
+          area={areaOf(detail.area_id)}
+          reports={feed.data ?? []}
+          verifying={vote.isPending}
+          onVerify={(id, value) => vote.mutate({ id, value })}
+          onClose={() => setDetail(null)}
+        />
+      ) : null}
 
       <Footer />
     </div>
