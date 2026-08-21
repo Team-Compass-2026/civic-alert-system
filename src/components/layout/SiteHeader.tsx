@@ -117,7 +117,7 @@ export function SiteHeader() {
       <div
         id="ww-mobile-nav"
         hidden={!open}
-        className={cn("border-t border-border bg-card md:hidden")}
+        className={cn("bg-card md:hidden")}
       >
         <nav aria-label="Mobile" className="mx-auto w-full max-w-6xl px-5 py-3">
           <ul className="flex flex-col gap-1">
