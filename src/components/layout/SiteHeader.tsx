@@ -22,6 +22,32 @@ const mobileLinkBase =
 const mobileLinkActive =
   "focus-ring block rounded-md px-3 py-2.5 text-sm font-medium bg-brand-50 text-brand-700";
 
+function MobileNavLink({
+  to,
+  label,
+  onNavigate,
+  activeClassName,
+}: {
+  to: string;
+  label: string;
+  onNavigate: () => void;
+  activeClassName?: string;
+}) {
+  return (
+    <li>
+      <Link
+        to={to}
+        onClick={onNavigate}
+        className={mobileLinkBase}
+        activeProps={{ className: activeClassName ?? mobileLinkActive }}
+      >
+        {label}
+      </Link>
+    </li>
+  );
+}
+
+
 
 export function SiteHeader() {
   const auth = useAuth();
