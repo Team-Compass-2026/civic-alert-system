@@ -34,17 +34,16 @@ function MobileNavLink({
   activeClassName?: string;
 }) {
   return (
-    <li>
-      <Link
-        to={to}
-        onClick={onNavigate}
-        className={mobileLinkBase}
-        activeProps={{ className: activeClassName ?? mobileLinkActive }}
-      >
-        {label}
-      </Link>
-    </li>
+    <Link
+      to={to}
+      onClick={onNavigate}
+      className={mobileLinkBase}
+      activeProps={{ className: activeClassName ?? mobileLinkActive }}
+    >
+      {label}
+    </Link>
   );
+
 }
 
 
