@@ -139,7 +139,7 @@ function AreaDashboard() {
                 Alerts issued for {area.name}
               </h2>
             </CardHeader>
-            <CardBody className="p-5">
+            <CardBody>
               {areaAlerts.length > 0 ? (
                 <ul className="flex flex-col divide-y divide-border">
                   {areaAlerts.map((alert) => (
