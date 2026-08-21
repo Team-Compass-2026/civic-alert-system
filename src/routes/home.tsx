@@ -110,20 +110,18 @@ function HomePage() {
               <>
                 {/* YOUR AREA CARD */}
                 <Card>
-                  <CardBody className="flex flex-col gap-5 pt-5">
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div className="flex flex-col gap-1">
-                        <h2 className="font-display text-xl font-bold text-foreground">
-                          WASH Risk
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          {feed.data && feed.data.length > 0
-                            ? `Updated ${timeAgo(feed.data[0].created_at)}`
-                            : "Updated just now"}
-                        </p>
-                      </div>
-                      <RiskBadge level={area.level} score={area.score} />
-                    </div>
+                  <CardHeader
+                    title="WASH Risk"
+                    description={
+                      feed.data && feed.data.length > 0
+                        ? `Updated ${timeAgo(feed.data[0].created_at)}`
+                        : "Updated just now"
+                    }
+                    className="flex-row items-start justify-between gap-3"
+                  >
+                    <RiskBadge level={area.level} score={area.score} />
+                  </CardHeader>
+                  <CardBody className="flex flex-col gap-5">
 
                     <SeverityBar
                       score={area.score}
