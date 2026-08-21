@@ -99,14 +99,16 @@ function MapPage() {
           </div>
         </div>
 
-        <NeighborhoodMap
-          areas={areaList}
-          reports={feed.data ?? []}
-          alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
-          onSelectAlert={setDetail}
-          showAreaDetails
-          className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
-        />
+        <div className="mx-auto w-full max-w-6xl px-5">
+          <NeighborhoodMap
+            areas={areaList}
+            reports={feed.data ?? []}
+            alerts={(alerts.data ?? []).filter((a) => a.status !== "resolved")}
+            onSelectAlert={setDetail}
+            showAreaDetails
+            className="h-64 w-full border border-border sm:h-80 md:h-[32rem]"
+          />
+        </div>
 
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5">
           <Card>
