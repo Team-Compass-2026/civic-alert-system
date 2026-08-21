@@ -115,30 +115,35 @@ export function AuthCard({ areas, onAuth, initialMode = "login" }: Props) {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <div className="flex items-center justify-between gap-2">
-              <Label htmlFor="ww-password">Password</Label>
-              <Button
+            <Label htmlFor="ww-password">Password</Label>
+            <div className="relative">
+              <Input
+                id="ww-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete={
+                  mode === "login" ? "current-password" : "new-password"
+                }
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                className="pr-11"
+              />
+              <IconButton
                 type="button"
-                variant="ghost"
                 size="sm"
+                variant="ghost"
+                label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
                 onClick={() => setShowPassword((v) => !v)}
+                className="absolute inset-y-0 right-1 my-auto"
               >
-                {showPassword ? "Hide" : "Show"}
-              </Button>
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+              </IconButton>
             </div>
-            <Input
-              id="ww-password"
-              type={showPassword ? "text" : "password"}
-              autoComplete={
-                mode === "login" ? "current-password" : "new-password"
-              }
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
-            />
           </div>
+
 
           {mode === "signup" ? (
             <div className="flex flex-col gap-1.5">
