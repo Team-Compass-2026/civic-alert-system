@@ -113,7 +113,7 @@ function HomePage() {
               <>
                 {/* YOUR AREA CARD */}
                 <Card>
-                  <CardBody className="flex flex-col gap-5">
+                  <CardBody className="flex flex-col gap-5 pt-5">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="flex flex-col gap-1">
                         <h2 className="font-display text-xl font-bold text-foreground">
