@@ -60,7 +60,7 @@ export async function verifyReport(
       anon_token: getAnonToken(),
       value,
     },
-    { onConflict: "report_id,anon_token" },
+    { onConflict: "report_id,anon_token", ignoreDuplicates: true },
   );
   if (error) throw error;
 }

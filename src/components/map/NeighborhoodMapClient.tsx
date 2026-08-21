@@ -35,6 +35,7 @@ export type NeighborhoodMapProps = {
   pickedPoint?: [number, number] | null;
   onPick?: (point: [number, number]) => void;
   onSelectReport?: (report: ReportFeedItem) => void;
+  onSelectAlert?: (alert: AlertItem) => void;
   showAreaDetails?: boolean;
 };
 
@@ -63,6 +64,7 @@ export default function NeighborhoodMapClient({
   pickedPoint = null,
   onPick,
   onSelectReport,
+  onSelectAlert,
   showAreaDetails = false,
 }: NeighborhoodMapProps) {
   const brand = useMemo(() => cssColor("--brand-600"), []);
@@ -209,9 +211,19 @@ export default function NeighborhoodMapClient({
                 <span>{alert.body}</span>
                 {alert.advice ? <span>{alert.advice}</span> : null}
                 <span className="font-mono">{timeAgo(alert.created_at)}</span>
-                <Link to="/alerts" className="text-brand-700 underline">
-                  Open alerts
-                </Link>
+                {onSelectAlert ? (
+                  <button
+                    type="button"
+                    className="self-start text-brand-700 underline"
+                    onClick={() => onSelectAlert(alert)}
+                  >
+                    View alert details
+                  </button>
+                ) : (
+                  <Link to="/alerts" className="text-brand-700 underline">
+                    Open alerts
+                  </Link>
+                )}
               </div>
             </Popup>
           </CircleMarker>

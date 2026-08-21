@@ -14,6 +14,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 
 import { RiskBadge } from "@/components/civic/RiskBadge";
+import { AlertDetailsDrawer } from "@/components/civic/AlertDetailsDrawer";
 import { alertsQuery, areasQuery, reportFeedQuery } from "@/lib/queries";
 import { verifyReport } from "@/lib/actions";
 import { getPrefs, DEFAULT_PREFS } from "@/lib/device";
@@ -80,9 +81,11 @@ function AlertGlyph({ level }: { level: AlertItem["level"] }) {
 function AlertFeedCard({
   alert,
   area,
+  onOpenDetails,
 }: {
   alert: AlertItem;
   area?: AreaRisk | undefined;
+  onOpenDetails: () => void;
 }) {
   const s = RISK_STYLES[alert.level];
   return (
@@ -115,6 +118,9 @@ function AlertFeedCard({
         </div>
 
         <div className="flex flex-wrap gap-2">
+          <Button size="sm" className="rounded-pill" onClick={onOpenDetails}>
+            View details
+          </Button>
           <Link
             to="/map"
             className={cn(buttonVariants({ size: "sm", variant: "outline" }), "rounded-pill")}
@@ -123,7 +129,7 @@ function AlertFeedCard({
           </Link>
           <Link
             to="/report"
-            className={cn(buttonVariants({ size: "sm" }), "rounded-pill")}
+            className={cn(buttonVariants({ size: "sm", variant: "outline" }), "rounded-pill")}
           >
             Report a problem
           </Link>
@@ -219,6 +225,7 @@ function AlertsPage() {
 
   const [homeSlug, setHomeSlug] = useState(DEFAULT_PREFS.areaSlug);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [detail, setDetail] = useState<AlertItem | null>(null);
 
   useEffect(() => {
     setHomeSlug(getPrefs().areaSlug);
@@ -300,6 +307,7 @@ function AlertsPage() {
                     key={alert.id}
                     alert={alert}
                     area={areaOf(alert.area_id)}
+                    onOpenDetails={() => setDetail(alert)}
                   />
                 ))
               ) : (
@@ -347,6 +355,7 @@ function AlertsPage() {
                       key={alert.id}
                       alert={alert}
                       area={areaOf(alert.area_id)}
+                      onOpenDetails={() => setDetail(alert)}
                     />
                   ))}
                 </div>
@@ -357,6 +366,17 @@ function AlertsPage() {
 
         <p className="mt-10 text-xs text-muted-foreground">{DISCLAIMER}</p>
       </main>
+
+      {detail ? (
+        <AlertDetailsDrawer
+          alert={detail}
+          area={areaOf(detail.area_id)}
+          reports={feed.data ?? []}
+          verifying={vote.isPending}
+          onVerify={(id, value) => vote.mutate({ id, value })}
+          onClose={() => setDetail(null)}
+        />
+      ) : null}
 
       <Footer />
     </div>
