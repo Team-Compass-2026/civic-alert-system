@@ -195,10 +195,8 @@ function Landing() {
           <div className="grid gap-6 motion-safe:animate-stagger sm:grid-cols-2">
             {BENEFITS.map((b) => (
               <Card key={b.title} className="motion-safe:animate-fade-in-up transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <CardHeader>{b.title}</CardHeader>
                 <CardBody className="flex flex-col gap-2">
-                  <h3 className="font-display text-lg font-bold text-foreground">
-                    {b.title}
-                  </h3>
                   <p className="text-sm text-muted-foreground">{b.body}</p>
                 </CardBody>
               </Card>
